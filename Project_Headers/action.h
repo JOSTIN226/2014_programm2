@@ -35,6 +35,18 @@ extern struct
 
 
 extern void control_car_action(void);
+void speed_up_bridge1();
+void puncture_ballon();
+void puncture_ballon_2();
+void turn_left_1();
+void turn_left_2();
+void speed_up_bridge2();
+void speed_down_bridge2();
+void push_box2();
+void avoid_box();
+void fly_bridge();
+void push_box1();
+
 extern void WiFi_control_car_1_action(WORD cmd);
 extern void WiFi_control_car_2_action(WORD cmd);
 extern void WiFi_control_car_3_action(WORD cmd);

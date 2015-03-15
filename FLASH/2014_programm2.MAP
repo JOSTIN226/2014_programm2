@@ -401,12 +401,12 @@ Memory map:
                .sdata2 40000354 00000000 00000800 00003800 00003800          0
                 .sbss2 40000354 00000000 00000800 00003800 00003800          0
                   .bss 40000354 00000000 00000800 00003800 00003800          0
-      .PPC.EMB.apuinfo 00004854 00000000 00005060 00008054 00008054          0
+      .PPC.EMB.apuinfo 000046d8 00000000 00004ee0 00007ed8 00007ed8          0
          .debug_abbrev          00000129 00000800
-           .debug_info          000014e7 00000929
-           .debug_line          0000213d 00001e10
-            .debug_loc          00000366 00003f4d
-       .debug_pubnames          00000355 000042b3
+           .debug_info          00001447 00000929
+           .debug_line          00002061 00001d70
+            .debug_loc          00000366 00003dd1
+       .debug_pubnames          00000355 00004137
 
 
 Linker generated symbols:

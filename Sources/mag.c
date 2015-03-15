@@ -16,6 +16,7 @@ void init_ADC(void)
 {
 	ADC.MCR.R = 0x20000100;     //Conversion times for 80MHz ADClock  连续模式
 	ADC.NCMR[1].R = 0x000000FF; //Select ANS0 ANS1 ANS2 ANS3 inputs for conversion 
+								//channel 32~39 sampling enable
 	ADC.CTR[1].R = 0x00008606;  //Conversion times for 32MHz ADClock？？ 
 	ADC.MCR.B.NSTART=1;       //Trigger normal conversions for ADC0
 	SIU.PCR[24].R = 0x2100;     //MPC56xxB: Initialize PB[8] as ANS0 CDR32

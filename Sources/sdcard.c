@@ -11,22 +11,22 @@ static BYTE SD_send_cmd(BYTE cmd, DWORD var);
 
 void init_DSPI_1(void)
 {
-	DSPI_1.MCR.R = 0x803f0001;     /* Configure DSPI_0 as master */
+	DSPI_1.MCR.R = 0x803f0001;     /* Configure DSPI_1 as master，空闲时为高，HALT MODE */
 	DSPI_1.CTAR[0].R = 0x3E0A7729;	//未使用 用于发送8bits 调整极性为1，相位为1，调整波特率为低速31.25kbit/s
-	DSPI_1.CTAR[1].R = 0x38087726;  //TF 极性为0，相位为0，baud rate=625k/s
-	DSPI_1.CTAR[2].R = 0x3E0A7724;  //L3G4200D 极性为1，相位为1，baud rate=1m/s
-	DSPI_1.CTAR[3].R = 0x380A7720;	//OLED 极性为0，相位为0，baud rate=8m/s
+	DSPI_1.CTAR[1].R = 0x38087726;  //TF 发送8bits 极性为0，相位为0，baud rate=625k/s
+	DSPI_1.CTAR[2].R = 0x3E0A7724;  //L3G4200D 发送8bits 极性为1，相位为1，baud rate=1m/s
+	DSPI_1.CTAR[3].R = 0x380A7720;	//OLED 发送8bits 极性为0，相位为0，baud rate=8m/s
 	DSPI_1.MCR.B.HALT = 0x0;	     /* Exit HALT mode: go from STOPPED to RUNNING state*/
 	SIU.PCR[34].R = 0x0604;	//PC2 SCK_1
 	//SIU.PSMI[7].R = 0;	//SCK_1 PCR[34]
-	SIU.PCR[35].R = 0x0503;	//PC3 CS0_1
+	SIU.PCR[35].R = 0x0503;	//PC3 CS0_1 TF
 	//SIU.PSMI[9].R = 0;	//CS0_1 PCR[35]
 	SIU.PCR[36].R = 0x0104;	//PC4 SIN_1
 	//SIU.PSMI[8].R = 0;	//SIN_1 PCR[36]
-	SIU.PCR[62].R = 0x0604;	//PD14 CS1_1
+	SIU.PCR[62].R = 0x0604;	//PD14 CS1_1 OLED
 	SIU.PCR[63].R = 0x0604;	//PD15 CS2_1
 	SIU.PCR[67].R = 0x0A04;	//PE3 SOUT_1
-	SIU.PCR[74].R = 0x0A04;	//PE10 CS3_1
+	SIU.PCR[74].R = 0x0A04;	//PE10 CS3_1 L3G
 	SIU.PCR[75].R = 0x0A04;	//PE11 CS4_1
 	DSPI_1.RSER.B.TCFRE = 0;	//关闭传输完成中断
 }
@@ -44,7 +44,7 @@ static BYTE DSPI_read_write_byte(BYTE byte_write)
 	WORD tmp_rx;
 	int i = 0;
 	
-	tmp_tx |= 0x98010000;
+	tmp_tx |= 0x98010000;//CS1
 	tmp_tx |= (DWORD)byte_write;
 	DSPI_1.PUSHR.R = tmp_tx;
 	while(!DSPI_1.SR.B.TCF) { }
@@ -71,7 +71,7 @@ static void DSPI_send_8_clocks(void)
 
 /*-----------------------------------------------------------------------*/
 /* 初始化TF卡                                                                         */
-/* 正常返回0                                                                          */
+/* 正常返回0                                                               */
 /* 不成功卡着一直试                                                                */
 /*-----------------------------------------------------------------------*/
 SWORD SD_init(void)
@@ -86,15 +86,15 @@ static BYTE SD_send_cmd(BYTE cmd, DWORD var)
 {
 	BYTE rev, retry;
 	
-	DSPI_send_8_clocks();
+	DSPI_send_8_clocks(); //TF卡规定的头
 	DSPI_read_write_byte(cmd | 0x40);	//分别写入命令;第1、2位=01
 	DSPI_read_write_byte((BYTE)(var>>24));	//将字节地址写入到cmd字节序列
 	DSPI_read_write_byte((BYTE)(var>>16));
 	DSPI_read_write_byte((BYTE)(var>>8));
 	DSPI_read_write_byte((BYTE)(var));
-	DSPI_read_write_byte(0x95);
+	DSPI_read_write_byte(0x95);//TF卡规定的尾
 	retry = 0;
-	while((rev = DSPI_read_write_byte(0xFF)) == 0xFF)	//等待响应
+	while((rev = DSPI_read_write_byte(0xFF)) == 0xFF)	//等待响应【？】
 	{
 		if(retry++>100)
 		{
@@ -120,7 +120,7 @@ static BYTE SD_reset(void)
 	//发送CMD0，正常跳出表示成功进入idle状态
 	for(retry=0; rev!=0x01; retry++)
 	{
-		rev = SD_send_cmd(0, 0);	//发idle命令
+		rev = SD_send_cmd(0, 0);	//发idle命令【？】
 		if(retry>100)
 		{
 			return 1;

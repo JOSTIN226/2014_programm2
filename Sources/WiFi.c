@@ -62,6 +62,9 @@ void execute_remote_cmd(const BYTE *data)
 		case WIFI_CMD_SET_MOTOR_TARGET :
 		set_speed_target(*((SWORD *)(&(data[2]))));
 		break;
+		case WIFI_CMD_STOP_SPEED :
+		set_speed_target((SWORD)0);
+		break;
 		case WIFI_CMD_SET_MOTOR_KP :
 		set_speed_KP(*((SWORD *)(&(data[2]))));
 		break;

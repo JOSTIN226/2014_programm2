@@ -15,6 +15,7 @@ extern void FieldInputCapture(void);
 extern void RowInputCapture(void);
 void Video_Image(void);
 extern void Display_Video(void);
+extern void TF_Image(void);
 
 //*************************************************************************
 //*			**********************图像发送函数*************************   *
@@ -31,6 +32,7 @@ void Send_CCD_Blackline(void);
 //*************************************************************************
 extern byte fieldover;                //一场采样结束标志符 
 extern volatile byte g_pix[ROWS][COLUMNS]; 
+extern volatile byte pic[ROWS][COLUMNS];
 extern byte	pix[ROWS][COLUMNS];
 
 #endif

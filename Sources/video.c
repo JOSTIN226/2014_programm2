@@ -13,6 +13,7 @@ int kkk=0;
 int kkk2=0;
 //采样二维数组    
 volatile byte g_pix[ROWS][COLUMNS]; 
+volatile byte pic[ROWS][COLUMNS]; 
 byte pix[ROWS][COLUMNS];
 
 word selectRows[ROWS]=
@@ -181,6 +182,18 @@ void Video_Image(void)
 			for(i=7;i>=0;i--)
 				pix[y][x]=pix[y][x]*2+g_pix[y*8+i][x];
 		}	
+}
+void TF_Image(void)
+{
+	int i,j;
+	for(i=0;i<ROWS;i++)
+		for(j=0;j<COLUMNS;j++)
+		{
+			if(g_pix[i][j]==0)
+				pic[i][j]=0x00;
+			else
+				pic[i][j]=0xFF;
+		}
 }
 void Display_Video(void)
 {

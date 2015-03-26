@@ -285,38 +285,37 @@ void init_all_and_POST(void)
 	enable_irq();
 	
 	/* 初始化显示屏 */
-//	initLCD();
-//	//LCD_DISPLAY();
-//	LCD_Fill(0xFF);	/* 亮屏 */
-//	delay_ms(50);
-//	LCD_Fill(0x00);	/* 黑屏 */
-//	delay_ms(50);
+	initLCD();
+	//LCD_DISPLAY();
+	LCD_Fill(0xFF);	/* 亮屏 */
+	delay_ms(50);
+	LCD_Fill(0x00);	/* 黑屏 */
+	delay_ms(50);
 	
-//	/* 初始化TF卡 */
-//
-//	LCD_P8x16Str(0,0, (BYTE*)"TF..");
-//	if (!SD_init())
-//	{
-//		/* 挂载TF卡文件系统 */
-//		if (FR_OK == f_mount(&fatfs1, path, 1))
-//		{
-//			/* 文件读写测试 */
-//			if (!test_file_system())
-//			{
-//				g_devices_init_status.TFCard_is_OK = 1;
-//			}
-//		}
-//	}
-//	if (g_devices_init_status.TFCard_is_OK)
-//	{
-//		LCD_P8x16Str(0,0, (BYTE*)"TF..OK");
-//	}
-//	else
-//	{
-//		LCD_P8x16Str(0,0, (BYTE*)"TF..NOK");
-//		suicide();
-//	}
-//#endif
+	/* 初始化TF卡 */
+
+	LCD_P8x16Str(0,0, (BYTE*)"TF..");
+	if (!SD_init())
+	{
+		/* 挂载TF卡文件系统 */
+		if (FR_OK == f_mount(&fatfs1, path, 1))
+		{
+			/* 文件读写测试 */
+			if (!test_file_system())
+			{
+				g_devices_init_status.TFCard_is_OK = 1;
+			}
+		}
+	}
+	if (g_devices_init_status.TFCard_is_OK)
+	{
+		LCD_P8x16Str(0,0, (BYTE*)"TF..OK");
+	}
+	else
+	{
+		LCD_P8x16Str(0,0, (BYTE*)"TF..NOK");
+		suicide();
+	}
 //	
 //	/* 读取设备号 */
 //#if 0
@@ -468,10 +467,10 @@ void init_all_and_POST(void)
 /* 在系统初始化出错时一直卡住                                                 */
 /* 阻止系统在外设不正确的情况下启动                                        */
 /*-----------------------------------------------------------------------*/
-//void suicide(void)
-//{
-//	while (1) { }
-//}
+void suicide(void)
+{
+	while (1) { }
+}
 
 
 

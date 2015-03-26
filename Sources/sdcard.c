@@ -7,7 +7,15 @@ static void DSPI_send_8_clocks(void);
 static BYTE DSPI_read_write_byte(BYTE byte_write);
 static BYTE SD_reset(void);
 static BYTE SD_send_cmd(BYTE cmd, DWORD var);
-
+byte text[2][4]={0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77};
+byte (*p)[4]=text;
+volatile byte (*camera)[COLUMNS]=pic;
+byte RowCol1[3]={0xAA,0xBB,0xFF};
+byte RowCol2[3]={0xFF,0xBB,0xAA};
+byte Camera1[3]={0x55,0xAA,0xFF};
+byte Camera2[3]={0xFF,0xAA,0x55};
+byte row=ROWS;
+byte column=COLUMNS;
 
 void init_DSPI_1(void)
 {
@@ -499,7 +507,6 @@ SWORD test_file_system()
 	}
 }
 
-
 /*-----------------------------------------------------------------------*/
 /* 写入摄像头图像数据到TF卡                                                       */
 /* 正常返回0                                                                          */
@@ -509,7 +516,8 @@ SWORD write_camera_data_to_TF()
 	static FIL Cfil1, Cfil2;
 	TCHAR *tchar = "CAMERA";
 	UINT wr;
-	
+	int i=0;
+	TF_Image();
 	if (FR_OK == f_open(&Cfil1, tchar, FA_CREATE_ALWAYS))
 	{
 		if (FR_OK == f_close(&Cfil1))
@@ -528,8 +536,24 @@ SWORD write_camera_data_to_TF()
 
 	if (FR_OK == f_open(&Cfil2, tchar, FA_WRITE))
 	{
-		if (FR_OK == f_write(&Cfil2, (const void *)&g_pix, sizeof(g_pix), &wr))
+		//写入行列
+		f_write(&Cfil2, (const void *)&RowCol1, sizeof(RowCol1), &wr);
+		f_lseek(&Cfil2,f_size(&Cfil2));
+		f_write(&Cfil2, (const void *)&row, sizeof(row), &wr);
+		f_lseek(&Cfil2,f_size(&Cfil2));
+		f_write(&Cfil2, (const void *)&column, sizeof(column), &wr);
+		f_lseek(&Cfil2,f_size(&Cfil2));
+		f_write(&Cfil2, (const void *)&RowCol2, sizeof(RowCol2), &wr);
+		f_lseek(&Cfil2,f_size(&Cfil2));
+		//写入摄像头数据
+		f_write(&Cfil2, (const void *)&Camera1, sizeof(Camera1), &wr);
+		f_lseek(&Cfil2,f_size(&Cfil2));
+		for(i=0;i<ROWS;i++)
 		{
+			f_write(&Cfil2, (const void *)&(camera[i]), sizeof(camera[i]), &wr);
+			f_lseek(&Cfil2,f_size(&Cfil2));
+		}
+		f_write(&Cfil2, (const void *)&Camera2, sizeof(Camera2), &wr);
 			if (FR_OK == f_close(&Cfil2))
 			{
 				return 0;
@@ -538,11 +562,8 @@ SWORD write_camera_data_to_TF()
 			{
 				return 5;
 			}
-		}
-		else
-		{
-			return 4;
-		}
+		
+
 	}
 	else
 	{

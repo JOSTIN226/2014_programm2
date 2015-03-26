@@ -12,9 +12,10 @@ void main(void)
 	//reset_rev_data();
 	//g_f_enable_mag_steer_control = 1;
 	//set_speed_target(0);
-	delay_ms(1000);//等待蓝牙配对
-
-	SetupCCD();
+	//delay_ms(1000);//等待蓝牙配对
+	//write_camera_data_to_TF();
+	test_file_system();
+	//SetupCCD();
 	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 	/*等待开始*/
 //	
@@ -63,10 +64,10 @@ void main(void)
 		if(fieldover)
 		{
 			fieldover=0;
-			//Display_Video();
-			Send_CCD_Video();
-			D3=~D3;
-			//write_camera_data_to_TF();
+			Display_Video();
+			//Send_CCD_Video();
+			//D3=~D3;
+			write_camera_data_to_TF();
 			
 			EMIOS_0.CH[3].CSR.B.FLAG = 1;
 			EMIOS_0.CH[3].CCR.B.FEN=1;

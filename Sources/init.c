@@ -29,7 +29,7 @@ void init_modes_and_clock(void)
   
 	/* 开peri0、1、2 */
 	/* 外设时钟总线 可用于分频 */
-	CGM.SC_DC[0].R = 0x84;	/* LIN */
+	CGM.SC_DC[0].R = 0x80;	/* LIN */
 	CGM.SC_DC[1].R = 0x80;	/* FLEXCAN,DSPI */
     CGM.SC_DC[2].R = 0x80;	/* eMIOS,CTU,ADC */
 }
@@ -52,16 +52,17 @@ void disable_watchdog(void)
 /*-----------------------------------------------------------------------*/
 void init_led(void)
 {
- 	SIU.PCR[12].R = 0x0203;	/* PA12 */
-  	SIU.PCR[13].R = 0x0203;
- 	SIU.PCR[14].R = 0x0203; 
-	SIU.PCR[15].R = 0x0203;	/* PA15 */
+ 	SIU.PCR[40].R = 0x0203;	/* PC8  */
+  	SIU.PCR[45].R = 0x0203; /* PC13 */
+ 	SIU.PCR[44].R = 0x0203; /* PC12 */
+	SIU.PCR[71].R = 0x0203;	/* PE7  */
  	
-	SIU.GPDO[12].R = 1;	/* 1=熄灭 */
-	SIU.GPDO[13].R = 1;
-	SIU.GPDO[14].R = 1;
-	SIU.GPDO[15].R = 1;
+	SIU.GPDO[40].R = 1;	/* 1=熄灭 */
+	SIU.GPDO[45].R = 1;
+	SIU.GPDO[44].R = 1;
+	SIU.GPDO[71].R = 1;
 }
+
 
 
 /*-----------------------------------------------------------------------*/
@@ -135,6 +136,32 @@ void initEMIOS_0MotorAndSteer(void)
 	SIU.PCR[44].R = 0x0600;
 }
 
+/*----------------------------------------------------------------------*/
+/*视频信号场行中断初始                                             	 */
+/*----------------------------------------------------------------------*/
+void initEMIOS_0Image(void) 
+{ 
+	//PA3场中断捕捉上升沿及下降沿
+	EMIOS_0.CH[3].CCR.B.MODE = 0x02; // Mode is SAIC, continuous 
+	EMIOS_0.CH[3].CCR.B.BSL = 0x01; /* Use counter bus B (default) */
+	EMIOS_0.CH[3].CCR.B.EDSEL = 1;  //Both edges
+//	EMIOS_0.CH[3].CCR.B.EDPOL=1; //Edge Select falling edge
+//	EMIOS_0.CH[3].CCR.B.FEN=1;  //interupt enbale
+	SIU.PCR[3].R = 0x0102;  // Initialize pad for eMIOS channel Initialize pad for input 
+	INTC_InstallINTCInterruptHandler(FieldInputCapture,142,1);  
+	
+	//PA7行中断捕捉上升沿
+	EMIOS_0.CH[7].CCR.B.MODE = 0x02; // Mode is SAIC, continuous 
+	EMIOS_0.CH[7].CCR.B.BSL = 0x01; /* Use counter bus B (default) */
+	EMIOS_0.CH[7].CCR.B.EDSEL = 0;
+	EMIOS_0.CH[7].CCR.B.EDPOL=1; //Edge Select rising edge
+//	EMIOS_0.CH[7].CCR.B.FEN=1;  //interupt enbale
+	SIU.PCR[7].R = 0x0102;  // Initialize pad for eMIOS channel Initialize pad for input 
+	INTC_InstallINTCInterruptHandler(RowInputCapture,144,3); 
+	
+	//C10口二值化入口
+	SIU.PCR[42].R = 0x0102;  // C9口二值化入口
+}
 
 /*-----------------------------------------------------------------------*/
 /* 使能外部中断                                                          */
@@ -229,12 +256,13 @@ void init_all_and_POST(void)
 	disable_watchdog();
 	init_modes_and_clock();
 	initEMIOS_0MotorAndSteer();
-	init_pit();
+	initEMIOS_0Image();
+	//init_pit();
 	init_led();
-	init_serial_port_0();
+	//init_serial_port_0();
 	init_serial_port_1();
-	init_serial_port_2();
-	init_ADC();
+	//init_serial_port_2();
+	//init_ADC();
 	//init_serial_port_3();
 	//init_supersonic_receive_0();
 	//init_supersonic_receive_1();
@@ -244,7 +272,7 @@ void init_all_and_POST(void)
 	//init_supersonic_trigger_1();
 	//init_supersonic_trigger_2();
 	//init_supersonic_trigger_3();
-	init_optical_encoder();
+	//init_optical_encoder();
 	//init_DSPI_2();
 	//init_I2C();
 	
@@ -257,188 +285,193 @@ void init_all_and_POST(void)
 	enable_irq();
 	
 	/* 初始化显示屏 */
-	initLCD();
-	//LCD_DISPLAY();
-	LCD_Fill(0xFF);	/* 亮屏 */
-	delay_ms(50);
-	LCD_Fill(0x00);	/* 黑屏 */
-	delay_ms(50);
+//	initLCD();
+//	//LCD_DISPLAY();
+//	LCD_Fill(0xFF);	/* 亮屏 */
+//	delay_ms(50);
+//	LCD_Fill(0x00);	/* 黑屏 */
+//	delay_ms(50);
 	
-	/* 初始化TF卡 */
-	LCD_P8x16Str(0,0, (BYTE*)"TF..");
-	if (!SD_init())
-	{
-		/* 挂载TF卡文件系统 */
-		if (FR_OK == f_mount(&fatfs1, path, 1))
-		{
-			/* 文件读写测试 */
-			if (!test_file_system())
-			{
-				g_devices_init_status.TFCard_is_OK = 1;
-			}
-		}
-	}
-	if (g_devices_init_status.TFCard_is_OK)
-	{
-		LCD_P8x16Str(0,0, (BYTE*)"TF..OK");
-	}
-	else
-	{
-		LCD_P8x16Str(0,0, (BYTE*)"TF..NOK");
-		suicide();
-	}
-	
-	
-	/* 读取设备号 */
-	LCD_P8x16Str(0, 4, (BYTE*)"DeviceNo=");
-	if (!read_device_no_from_TF())
-	{
-		if (WIFI_ADDRESS_WITHOUT_INIT != g_device_NO)
-		{
-			LCD_PrintoutInt(72, 4, g_device_NO);
-		}
-		else
-		{
-			suicide();
-		}
-	}
-	else
-	{
-		suicide();
-	}
-	
-	
-	/* 初始化陀螺仪 */
-	LCD_P8x16Str(0,2, (BYTE*)"L3G..");
-	switch (g_device_NO)
-	{
-		case WIFI_ADDRESS_CAR_1 :
-		case WIFI_ADDRESS_CAR_2 :
-		case WIFI_ADDRESS_CAR_3 :
-		case WIFI_ADDRESS_CAR_4 :
-		while (1)
-		{
-			BYTE rev = 0x00;
-			
-			ReadReg(WHO_AM_I, &rev);
-			if (I_AM_L3G4200D == rev)
-			{
-				g_devices_init_status.L3G4200D_is_OK = 1;
-				SetODR(  ODR_100Hz_BW_12_5 );
-				SetInt1Filters( LPF2 );
-				SetAxis(X_ENABLE | Y_ENABLE | Z_ENABLE);
-				SetMode(NORMAL);
-				break;
-			}
-		}
-		break;
-#if 0
-		case WIFI_ADDRESS_CAR_2 :
-		case WIFI_ADDRESS_CAR_4 :
-		for (i=0; i<5; i++)
-		{
-			BYTE rev = 0x00;
-			
-			ReadReg(WHO_AM_I, &rev);
-			if (I_AM_L3G4200D == rev)
-			{
-				g_devices_init_status.L3G4200D_is_OK = 1;
-				SetODR(ODR_100Hz_BW_12_5);
-				SetAxis(X_ENABLE | Y_ENABLE | Z_ENABLE);
-				SetMode(NORMAL);
-				break;
-			}
-		}
-		break;
-#endif
-	}
-	if (g_devices_init_status.L3G4200D_is_OK)
-	{
-		LCD_P8x16Str(0,2, (BYTE*)"L3G..OK");
-	}
-	else
-	{
-		LCD_P8x16Str(0,2, (BYTE*)"L3G..NOK");
-	}
-	
-#if 1
-	/* 开启RFID读卡器主动模式 */
-	if (!init_RFID_modul_type())
-	{
-		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 1;
-		LCD_P8x16Str(0, 6, (BYTE*)"RFID..OK");
-	}
-	else
-	{
-		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 0;
-		LCD_P8x16Str(0, 6, (BYTE*)"RFID..NOK");
-		suicide();
-	}
-	
-	/* 换屏 */
-	LCD_Fill(0x00);
-	
-	/* 读取舵机参数 */
-	LCD_P8x16Str(0, 0, (BYTE*)"StH.L=");
-	if (read_steer_helm_data_from_TF())
-	{
-		suicide();
-	}
-	update_steer_helm_basement_to_steer_helm();
-	LCD_PrintoutInt(48, 0, data_steer_helm_basement.left_limit);
-	set_steer_helm_basement(data_steer_helm_basement.left_limit);
-	delay_ms(500);
-	LCD_P8x16Str(0, 2, (BYTE*)"StH.R=");
-	LCD_PrintoutInt(48, 2, data_steer_helm_basement.right_limit);
-	set_steer_helm_basement(data_steer_helm_basement.right_limit);
-	delay_ms(500);
-	LCD_P8x16Str(0, 4, (BYTE*)"StH.C=");
-	LCD_PrintoutInt(48, 4, data_steer_helm_basement.center);
-	set_steer_helm_basement(data_steer_helm_basement.center);
-
-	set_pos_target();
-#endif
-
-	/* 换屏 */
-	LCD_Fill(0x00);
-
-	/* 速度闭环测试 */
-	
-	g_f_enable_speed_control = 1;
-	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");
-	set_speed_target(0);
-	delay_ms(2000);
-
-	/* 换屏 */
-	LCD_Fill(0x00);
-
-#if 0
-	/* 测试电感 */
-	LCD_P8x16Str(0, 0, (BYTE*)"I.L=");
-	LCD_P8x16Str(0, 2, (BYTE*)"I.R=");
-	for (i = 0; i < 5; i++)
-	{
-		mag_read();
-		LCD_PrintoutInt(32, 0, mag_left);
-		LCD_PrintoutInt(32, 2, mag_right);
-		delay_ms(500);
-	}
-#endif
-
-	/* 换屏 */
-	LCD_Fill(0x00);
+//	/* 初始化TF卡 */
+//
+//	LCD_P8x16Str(0,0, (BYTE*)"TF..");
+//	if (!SD_init())
+//	{
+//		/* 挂载TF卡文件系统 */
+//		if (FR_OK == f_mount(&fatfs1, path, 1))
+//		{
+//			/* 文件读写测试 */
+//			if (!test_file_system())
+//			{
+//				g_devices_init_status.TFCard_is_OK = 1;
+//			}
+//		}
+//	}
+//	if (g_devices_init_status.TFCard_is_OK)
+//	{
+//		LCD_P8x16Str(0,0, (BYTE*)"TF..OK");
+//	}
+//	else
+//	{
+//		LCD_P8x16Str(0,0, (BYTE*)"TF..NOK");
+//		suicide();
+//	}
+//#endif
+//	
+//	/* 读取设备号 */
+//#if 0
+//	LCD_P8x16Str(0, 4, (BYTE*)"DeviceNo=");
+//	if (!read_device_no_from_TF())
+//	{
+//		if (WIFI_ADDRESS_WITHOUT_INIT != g_device_NO)
+//		{
+//			LCD_PrintoutInt(72, 4, g_device_NO);
+//		}
+//		else
+//		{
+//			suicide();
+//		}
+//	}
+//	else
+//	{
+//		suicide();
+//	}
+//
+//	
+//	/* 初始化陀螺仪 */
+//
+//	LCD_P8x16Str(0,2, (BYTE*)"L3G..");
+//	switch (g_device_NO)
+//	{
+//		case WIFI_ADDRESS_CAR_1 :
+//		case WIFI_ADDRESS_CAR_2 :
+//		case WIFI_ADDRESS_CAR_3 :
+//		case WIFI_ADDRESS_CAR_4 :
+//		while (1)
+//		{
+//			BYTE rev = 0x00;
+//			
+//			ReadReg(WHO_AM_I, &rev);
+//			if (I_AM_L3G4200D == rev)
+//			{
+//				g_devices_init_status.L3G4200D_is_OK = 1;
+//				SetODR(  ODR_100Hz_BW_12_5 );
+//				SetInt1Filters( LPF2 );
+//				SetAxis(X_ENABLE | Y_ENABLE | Z_ENABLE);
+//				SetMode(NORMAL);
+//				break;
+//			}
+//		}
+//		break;
+//
+//		case WIFI_ADDRESS_CAR_2 :
+//		case WIFI_ADDRESS_CAR_4 :
+//		for (i=0; i<5; i++)
+//		{
+//			BYTE rev = 0x00;
+//			
+//			ReadReg(WHO_AM_I, &rev);
+//			if (I_AM_L3G4200D == rev)
+//			{
+//				g_devices_init_status.L3G4200D_is_OK = 1;
+//				SetODR(ODR_100Hz_BW_12_5);
+//				SetAxis(X_ENABLE | Y_ENABLE | Z_ENABLE);
+//				SetMode(NORMAL);
+//				break;
+//			}
+//		}
+//		break;
+//
+//	}
+//	if (g_devices_init_status.L3G4200D_is_OK)
+//	{
+//		LCD_P8x16Str(0,2, (BYTE*)"L3G..OK");
+//	}
+//	else
+//	{
+//		LCD_P8x16Str(0,2, (BYTE*)"L3G..NOK");
+//	}
+//	
+//
+//	/* 开启RFID读卡器主动模式 */
+//	if (!init_RFID_modul_type())
+//	{
+//		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 1;
+//		LCD_P8x16Str(0, 6, (BYTE*)"RFID..OK");
+//	}
+//	else
+//	{
+//		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 0;
+//		LCD_P8x16Str(0, 6, (BYTE*)"RFID..NOK");
+//		suicide();
+//	}
+//	
+//	/* 换屏 */
+//	LCD_Fill(0x00);
+//	
+//	/* 读取舵机参数 */
+//	LCD_P8x16Str(0, 0, (BYTE*)"StH.L=");
+//	if (read_steer_helm_data_from_TF())
+//	{
+//		suicide();
+//	}
+//	update_steer_helm_basement_to_steer_helm();
+//	LCD_PrintoutInt(48, 0, data_steer_helm_basement.left_limit);
+//	set_steer_helm_basement(data_steer_helm_basement.left_limit);
+//	delay_ms(500);
+//	LCD_P8x16Str(0, 2, (BYTE*)"StH.R=");
+//	LCD_PrintoutInt(48, 2, data_steer_helm_basement.right_limit);
+//	set_steer_helm_basement(data_steer_helm_basement.right_limit);
+//	delay_ms(500);
+//	LCD_P8x16Str(0, 4, (BYTE*)"StH.C=");
+//	LCD_PrintoutInt(48, 4, data_steer_helm_basement.center);
+//	set_steer_helm_basement(data_steer_helm_basement.center);
+//
+//	set_pos_target();
+//
+//
+////	/* 换屏 */
+////	LCD_Fill(0x00);
+//
+//	/* 速度闭环测试 */
+//	
+//	g_f_enable_speed_control = 1;
+//	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");
+//	set_speed_target(0);
+//	delay_ms(2000);
+//
+//	/* 换屏 */
+//	LCD_Fill(0x00);
+//
+//
+//	/* 测试电感 */
+//	LCD_P8x16Str(0, 0, (BYTE*)"I.L=");
+//	LCD_P8x16Str(0, 2, (BYTE*)"I.R=");
+//	for (i = 0; i < 5; i++)
+//	{
+//		mag_read();
+//		LCD_PrintoutInt(32, 0, mag_left);
+//		LCD_PrintoutInt(32, 2, mag_right);
+//		delay_ms(500);
+//	}
+//
+//
+//	/* 换屏 */
+//	LCD_Fill(0x00);
+//
+//
 }
-
+//
 
 /*-----------------------------------------------------------------------*/
 /* 自杀                                                                                  */
 /* 在系统初始化出错时一直卡住                                                 */
 /* 阻止系统在外设不正确的情况下启动                                        */
 /*-----------------------------------------------------------------------*/
-void suicide(void)
-{
-	while (1) { }
-}
+//void suicide(void)
+//{
+//	while (1) { }
+//}
 
 
 

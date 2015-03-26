@@ -16,6 +16,7 @@ C_SRCS_QUOTED += \
 "../Sources/control.c" \
 "../Sources/diskio.c" \
 "../Sources/drifting.c" \
+"../Sources/ff.c" \
 "../Sources/init.c" \
 "../Sources/ivor_branch_table.c" \
 "../Sources/lcd.c" \
@@ -24,6 +25,7 @@ C_SRCS_QUOTED += \
 "../Sources/sdcard.c" \
 "../Sources/supersonic.c" \
 "../Sources/time.c" \
+"../Sources/video.c" \
 
 C_SRCS += \
 ../Sources/Exceptions.c \
@@ -36,6 +38,7 @@ C_SRCS += \
 ../Sources/control.c \
 ../Sources/diskio.c \
 ../Sources/drifting.c \
+../Sources/ff.c \
 ../Sources/init.c \
 ../Sources/ivor_branch_table.c \
 ../Sources/lcd.c \
@@ -44,6 +47,7 @@ C_SRCS += \
 ../Sources/sdcard.c \
 ../Sources/supersonic.c \
 ../Sources/time.c \
+../Sources/video.c \
 
 OBJS += \
 ./Sources/Exceptions_c.obj \
@@ -56,6 +60,7 @@ OBJS += \
 ./Sources/control_c.obj \
 ./Sources/diskio_c.obj \
 ./Sources/drifting_c.obj \
+./Sources/ff_c.obj \
 ./Sources/init_c.obj \
 ./Sources/ivor_branch_table_c.obj \
 ./Sources/lcd_c.obj \
@@ -64,6 +69,7 @@ OBJS += \
 ./Sources/sdcard_c.obj \
 ./Sources/supersonic_c.obj \
 ./Sources/time_c.obj \
+./Sources/video_c.obj \
 
 OBJS_QUOTED += \
 "./Sources/Exceptions_c.obj" \
@@ -76,6 +82,7 @@ OBJS_QUOTED += \
 "./Sources/control_c.obj" \
 "./Sources/diskio_c.obj" \
 "./Sources/drifting_c.obj" \
+"./Sources/ff_c.obj" \
 "./Sources/init_c.obj" \
 "./Sources/ivor_branch_table_c.obj" \
 "./Sources/lcd_c.obj" \
@@ -84,6 +91,7 @@ OBJS_QUOTED += \
 "./Sources/sdcard_c.obj" \
 "./Sources/supersonic_c.obj" \
 "./Sources/time_c.obj" \
+"./Sources/video_c.obj" \
 
 C_DEPS += \
 ./Sources/Exceptions_c.d \
@@ -96,6 +104,7 @@ C_DEPS += \
 ./Sources/control_c.d \
 ./Sources/diskio_c.d \
 ./Sources/drifting_c.d \
+./Sources/ff_c.d \
 ./Sources/init_c.d \
 ./Sources/ivor_branch_table_c.d \
 ./Sources/lcd_c.d \
@@ -104,6 +113,7 @@ C_DEPS += \
 ./Sources/sdcard_c.d \
 ./Sources/supersonic_c.d \
 ./Sources/time_c.d \
+./Sources/video_c.d \
 
 OBJS_OS_FORMAT += \
 ./Sources/Exceptions_c.obj \
@@ -116,6 +126,7 @@ OBJS_OS_FORMAT += \
 ./Sources/control_c.obj \
 ./Sources/diskio_c.obj \
 ./Sources/drifting_c.obj \
+./Sources/ff_c.obj \
 ./Sources/init_c.obj \
 ./Sources/ivor_branch_table_c.obj \
 ./Sources/lcd_c.obj \
@@ -124,6 +135,7 @@ OBJS_OS_FORMAT += \
 ./Sources/sdcard_c.obj \
 ./Sources/supersonic_c.obj \
 ./Sources/time_c.obj \
+./Sources/video_c.obj \
 
 C_DEPS_QUOTED += \
 "./Sources/Exceptions_c.d" \
@@ -136,6 +148,7 @@ C_DEPS_QUOTED += \
 "./Sources/control_c.d" \
 "./Sources/diskio_c.d" \
 "./Sources/drifting_c.d" \
+"./Sources/ff_c.d" \
 "./Sources/init_c.d" \
 "./Sources/ivor_branch_table_c.d" \
 "./Sources/lcd_c.d" \
@@ -144,6 +157,7 @@ C_DEPS_QUOTED += \
 "./Sources/sdcard_c.d" \
 "./Sources/supersonic_c.d" \
 "./Sources/time_c.d" \
+"./Sources/video_c.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -232,9 +246,17 @@ Sources/drifting_c.obj: ../Sources/drifting.c
 	@echo 'Finished building: $<'
 	@echo ' '
 
-Sources/init_c.obj: ../Sources/init.c
+Sources/ff_c.obj: ../Sources/ff.c
 	@echo 'Building file: $<'
 	@echo 'Executing target #11 $<'
+	@echo 'Invoking: PowerPC Compiler'
+	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/ff.args" -o "Sources/ff_c.obj" "$<" -MD -gccdep
+	@echo 'Finished building: $<'
+	@echo ' '
+
+Sources/init_c.obj: ../Sources/init.c
+	@echo 'Building file: $<'
+	@echo 'Executing target #12 $<'
 	@echo 'Invoking: PowerPC Compiler'
 	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/init.args" -o "Sources/init_c.obj" "$<" -MD -gccdep
 	@echo 'Finished building: $<'
@@ -242,7 +264,7 @@ Sources/init_c.obj: ../Sources/init.c
 
 Sources/ivor_branch_table_c.obj: ../Sources/ivor_branch_table.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #12 $<'
+	@echo 'Executing target #13 $<'
 	@echo 'Invoking: PowerPC Compiler'
 	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/ivor_branch_table.args" -o "Sources/ivor_branch_table_c.obj" "$<" -MD -gccdep
 	@echo 'Finished building: $<'
@@ -250,7 +272,7 @@ Sources/ivor_branch_table_c.obj: ../Sources/ivor_branch_table.c
 
 Sources/lcd_c.obj: ../Sources/lcd.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #13 $<'
+	@echo 'Executing target #14 $<'
 	@echo 'Invoking: PowerPC Compiler'
 	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/lcd.args" -o "Sources/lcd_c.obj" "$<" -MD -gccdep
 	@echo 'Finished building: $<'
@@ -258,7 +280,7 @@ Sources/lcd_c.obj: ../Sources/lcd.c
 
 Sources/mag_c.obj: ../Sources/mag.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #14 $<'
+	@echo 'Executing target #15 $<'
 	@echo 'Invoking: PowerPC Compiler'
 	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/mag.args" -o "Sources/mag_c.obj" "$<" -MD -gccdep
 	@echo 'Finished building: $<'
@@ -266,7 +288,7 @@ Sources/mag_c.obj: ../Sources/mag.c
 
 Sources/main_c.obj: ../Sources/main.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #15 $<'
+	@echo 'Executing target #16 $<'
 	@echo 'Invoking: PowerPC Compiler'
 	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/main.args" -o "Sources/main_c.obj" "$<" -MD -gccdep
 	@echo 'Finished building: $<'
@@ -274,7 +296,7 @@ Sources/main_c.obj: ../Sources/main.c
 
 Sources/sdcard_c.obj: ../Sources/sdcard.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #16 $<'
+	@echo 'Executing target #17 $<'
 	@echo 'Invoking: PowerPC Compiler'
 	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/sdcard.args" -o "Sources/sdcard_c.obj" "$<" -MD -gccdep
 	@echo 'Finished building: $<'
@@ -282,7 +304,7 @@ Sources/sdcard_c.obj: ../Sources/sdcard.c
 
 Sources/supersonic_c.obj: ../Sources/supersonic.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #17 $<'
+	@echo 'Executing target #18 $<'
 	@echo 'Invoking: PowerPC Compiler'
 	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/supersonic.args" -o "Sources/supersonic_c.obj" "$<" -MD -gccdep
 	@echo 'Finished building: $<'
@@ -290,9 +312,17 @@ Sources/supersonic_c.obj: ../Sources/supersonic.c
 
 Sources/time_c.obj: ../Sources/time.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #18 $<'
+	@echo 'Executing target #19 $<'
 	@echo 'Invoking: PowerPC Compiler'
 	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/time.args" -o "Sources/time_c.obj" "$<" -MD -gccdep
+	@echo 'Finished building: $<'
+	@echo ' '
+
+Sources/video_c.obj: ../Sources/video.c
+	@echo 'Building file: $<'
+	@echo 'Executing target #20 $<'
+	@echo 'Invoking: PowerPC Compiler'
+	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/video.args" -o "Sources/video_c.obj" "$<" -MD -gccdep
 	@echo 'Finished building: $<'
 	@echo ' '
 

@@ -15,6 +15,8 @@ extern void clear_sd_buffer(BYTE buffer[][SD_SECTOR_SIZE]);
 extern SWORD read_steer_helm_data_from_TF(void);
 extern SWORD write_steer_helm_data_to_TF(void);
 extern SWORD test_file_system(void);
+extern SWORD write_camera_data_to_TF();
+
 int read_device_no_from_TF();
 
 

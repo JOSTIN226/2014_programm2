@@ -38,7 +38,6 @@ typedef unsigned char byte;
 typedef unsigned short word;
 #endif
 #endif
-
 #include "MPC5604B_M27V.h"
 
 #include "ff.h"	/* 定义了FATFS，后面要用 */
@@ -56,13 +55,15 @@ typedef unsigned short word;
 #include "drifting.h"
 #include "action.h"
 #include "IntcInterrupts.h"
+#include "video.h"
+
 
 ///****************LED****************///
-#if 0
-#define D0 SIU.GPDO[12].B.PDO
-#define D1 SIU.GPDO[13].B.PDO
-#define D2 SIU.GPDO[14].B.PDO
-#define D3 SIU.GPDO[15].B.PDO
+#if 1
+#define D1 SIU.GPDO[40].B.PDO
+#define D2 SIU.GPDO[45].B.PDO
+#define D3 SIU.GPDO[44].B.PDO
+#define D4 SIU.GPDO[71].B.PDO
 #endif
 
 

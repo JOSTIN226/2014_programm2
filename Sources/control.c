@@ -450,10 +450,11 @@ DWORD diff_time_basis_PIT(const DWORD new_time, const DWORD old_time)
 	
 	return diff;
 }
+#if 0
 int abs(int data)
 {
 	if (data<0)
 		data=0-data;
 	return data;
 }
-
+#endif

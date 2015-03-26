@@ -30,4 +30,5 @@ Sources/time_c.obj: C:\Users\JOSTIN\Documents\GitHub\2014_programm2\Sources\time
 	C:\Users\JOSTIN\Documents\GitHub\2014_programm2\Project_Headers\mag.h \
 	C:\Users\JOSTIN\Documents\GitHub\2014_programm2\Project_Headers\drifting.h \
 	C:\Users\JOSTIN\Documents\GitHub\2014_programm2\Project_Headers\action.h \
-	C:\Users\JOSTIN\Documents\GitHub\2014_programm2\Project_Headers\IntcInterrupts.h 
+	C:\Users\JOSTIN\Documents\GitHub\2014_programm2\Project_Headers\IntcInterrupts.h \
+	C:\Users\JOSTIN\Documents\GitHub\2014_programm2\Project_Headers\video.h 

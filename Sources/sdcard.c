@@ -498,3 +498,55 @@ SWORD test_file_system()
 		return 7;
 	}
 }
+
+
+/*-----------------------------------------------------------------------*/
+/* 写入摄像头图像数据到TF卡                                                       */
+/* 正常返回0                                                                          */
+/*-----------------------------------------------------------------------*/
+SWORD write_camera_data_to_TF()
+{
+	static FIL Cfil1, Cfil2;
+	TCHAR *tchar = "CAMERA";
+	UINT wr;
+	
+	if (FR_OK == f_open(&Cfil1, tchar, FA_CREATE_ALWAYS))
+	{
+		if (FR_OK == f_close(&Cfil1))
+		{
+			
+		}
+		else
+		{
+			return 2;
+		}
+	}
+	else
+	{
+		return 1;
+	}
+
+	if (FR_OK == f_open(&Cfil2, tchar, FA_WRITE))
+	{
+		if (FR_OK == f_write(&Cfil2, (const void *)&g_pix, sizeof(g_pix), &wr))
+		{
+			if (FR_OK == f_close(&Cfil2))
+			{
+				return 0;
+			}
+			else
+			{
+				return 5;
+			}
+		}
+		else
+		{
+			return 4;
+		}
+	}
+	else
+	{
+		return 3;
+	}
+}
+

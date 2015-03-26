@@ -34,6 +34,7 @@ extern struct
 extern void init_modes_and_clock(void);
 extern void disable_watchdog(void);
 extern void initEMIOS_0MotorAndSteer(void);
+extern void initEMIOS_0Image(void);
 extern void init_led(void);
 extern void init_pit(void);
 extern void init_encoder(void);

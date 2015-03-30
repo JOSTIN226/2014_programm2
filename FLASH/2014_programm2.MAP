@@ -29,7 +29,7 @@ Link map of __startup
     3] main (func,global) found in main_c.obj 
      4] fieldover (object,global) found in video_c.obj 
      4] init_all_and_POST (func,global) found in init_c.obj 
-      5] @319 (object,local) found in init_c.obj 
+      5] @310 (object,local) found in init_c.obj 
       5] disable_watchdog (func,global) found in init_c.obj 
       5] init_modes_and_clock (func,global) found in init_c.obj 
       5] initEMIOS_0MotorAndSteer (func,global) found in init_c.obj 
@@ -57,92 +57,11 @@ Link map of __startup
        6] LCD_Fill (func,global) found in lcd_c.obj 
         7] LCD_WrDat (func,global) found in lcd_c.obj 
        6] LCD_Set_Pos (func,global) found in lcd_c.obj 
-      5] @320 (object,local) found in init_c.obj 
-      5] LCD_P8x16Str (func,global) found in lcd_c.obj 
-       6] F8X16 (object,global) found in lcd_c.obj 
-      5] SD_init (func,global) found in sdcard_c.obj 
-       6] SD_reset (func,local) found in sdcard_c.obj 
-        7] DSPI_send_8_clocks (func,local) found in sdcard_c.obj 
-        7] SD_send_cmd (func,local) found in sdcard_c.obj 
-         8] DSPI_read_write_byte (func,local) found in sdcard_c.obj 
-       6] SD_SPI_to_4M (func,local) found in sdcard_c.obj 
-      5] fatfs1 (object,global) found in init_c.obj 
-      5] f_mount (func,global) found in ff_c.obj 
-       6] get_ldnumber (func,local) found in ff_c.obj 
-        7] @LOCAL@get_ldnumber__FPPCc@str (object,local) found in ff_c.obj 
-         8] @839 (object,local) found in ff_c.obj 
-         8] @840 (object,local) found in ff_c.obj 
-         8] @841 (object,local) found in ff_c.obj 
-         8] @842 (object,local) found in ff_c.obj 
-         8] @843 (object,local) found in ff_c.obj 
-         8] @844 (object,local) found in ff_c.obj 
-         8] @845 (object,local) found in ff_c.obj 
-         8] @846 (object,local) found in ff_c.obj 
-       6] FatFs (object,local) found in ff_c.obj 
-       6] find_volume (func,local) found in ff_c.obj 
-        7] disk_status (func,global) found in diskio_c.obj 
-        7] disk_initialize (func,global) found in diskio_c.obj 
-        7] check_fs (func,local) found in ff_c.obj 
-         8] move_window (func,local) found in ff_c.obj 
-          9] sync_window (func,local) found in ff_c.obj 
-           10] disk_write (func,global) found in diskio_c.obj 
-            11] SD_write_block (func,global) found in sdcard_c.obj 
-            11] SD_write_multiple_block (func,global) found in sdcard_c.obj 
-          9] disk_read (func,global) found in diskio_c.obj 
-           10] SD_read_block (func,global) found in sdcard_c.obj 
-           10] SD_read_multiple_block (func,global) found in sdcard_c.obj 
-        7] Fsid (object,local) found in ff_c.obj 
-      5] test_file_system (func,global) found in sdcard_c.obj 
-       6] @531 (object,local) found in sdcard_c.obj 
-       6] f_open (func,global) found in ff_c.obj 
-        7] follow_path (func,local) found in ff_c.obj 
-         8] dir_sdi (func,local) found in ff_c.obj 
-          9] get_fat (func,global) found in ff_c.obj 
-          9] clust2sect (func,global) found in ff_c.obj 
-         8] create_name (func,local) found in ff_c.obj 
-          9] mem_set (func,local) found in ff_c.obj 
-          9] @776 (object,local) found in ff_c.obj 
-          9] chk_chr (func,local) found in ff_c.obj 
-         8] dir_find (func,local) found in ff_c.obj 
-          9] mem_cmp (func,local) found in ff_c.obj 
-          9] dir_next (func,local) found in ff_c.obj 
-           10] create_chain (func,local) found in ff_c.obj 
-            11] put_fat (func,global) found in ff_c.obj 
-         8] ld_clust (func,local) found in ff_c.obj 
-        7] dir_register (func,local) found in ff_c.obj 
-         8] dir_alloc (func,local) found in ff_c.obj 
-         8] mem_cpy (func,local) found in ff_c.obj 
-        7] get_fattime (func,global) found in diskio_c.obj 
-        7] st_clust (func,local) found in ff_c.obj 
-        7] remove_chain (func,local) found in ff_c.obj 
-       6] f_close (func,global) found in ff_c.obj 
-        7] f_sync (func,global) found in ff_c.obj 
-         8] validate (func,local) found in ff_c.obj 
-         8] sync_fs (func,local) found in ff_c.obj 
-          9] disk_ioctl (func,global) found in diskio_c.obj 
-       6] f_write (func,global) found in ff_c.obj 
-       6] f_read (func,global) found in ff_c.obj 
-      5] g_devices_init_status (object,global) found in init_c.obj 
-      5] @321 (object,local) found in init_c.obj 
-      5] @322 (object,local) found in init_c.obj 
-      5] suicide (func,global) found in init_c.obj 
+     4] SetupCCD (func,global) found in video_c.obj 
+      5] serial_port_1_TX (func,global) found in UART_c.obj 
      4] Display_Video (func,global) found in video_c.obj 
       5] Video_Image (func,global) found in video_c.obj 
        6] pix (object,global) found in video_c.obj 
-     4] write_camera_data_to_TF (func,global) found in sdcard_c.obj 
-      5] @556 (object,local) found in sdcard_c.obj 
-      5] TF_Image (func,global) found in video_c.obj 
-       6] pic (object,global) found in video_c.obj 
-      5] @LOCAL@write_camera_data_to_TF__Fv@Cfil1 (object,local) found in sdcard_c.obj 
-      5] @LOCAL@write_camera_data_to_TF__Fv@Cfil2@0 (object,local) found in sdcard_c.obj 
-      5] RowCol1 (object,global) found in sdcard_c.obj 
-      5] f_lseek (func,global) found in ff_c.obj 
-      5] row (object,global) found in sdcard_c.obj 
-      5] column (object,global) found in sdcard_c.obj 
-      5] RowCol2 (object,global) found in sdcard_c.obj 
-      5] Camera1 (object,global) found in sdcard_c.obj 
-      5] camera (object,global) found in sdcard_c.obj 
-      5] Camera2 (object,global) found in sdcard_c.obj 
     3] exit (func,global) found in libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
     3] >>> UNREFERENCED DUPLICATE exit
     3] >>> (func,weak) found in __ppc_eabi_init_c.obj 
@@ -174,11 +93,7 @@ Link map of __startup
     3] .ivor_branch_table (section,local) found in ivor_branch_table_c.obj 
     3] .ivor_branch_table.24 (notype,local) found in ivor_branch_table_c.obj 
     3] .text (section,local) found in init_c.obj 
-    3] .text.340 (notype,local) found in init_c.obj 
-    3] .text (section,local) found in ff_c.obj 
-    3] .text.2315 (notype,local) found in ff_c.obj 
-    3] .text (section,local) found in diskio_c.obj 
-    3] .text.309 (notype,local) found in diskio_c.obj 
+    3] .text.328 (notype,local) found in init_c.obj 
     3] .text (section,local) found in UART_c.obj 
     3] .text.385 (notype,local) found in UART_c.obj 
     3] .text (section,local) found in libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
@@ -280,142 +195,78 @@ Link map of __startup
   00000052 000050 00003052 00000792  2 INIT_Derivative 	MPC5604B_HWInit_c.obj 
   UNUSED   000002 ........ ........    INIT_ExternalBusAndMemory MPC5604B_HWInit_c.obj 
   000000a2 000000 000030a2 000007e2  1 .text.12 	MPC5604B_HWInit_c.obj 
-  000000a2 002328 000030a2 000007e2  1 .text 	video_c.obj 
+  000000a2 002318 000030a2 000007e2  1 .text 	video_c.obj 
   000000a2 000064 000030a2 000007e2  2 FieldInputCapture 	video_c.obj 
   00000106 00216a 00003106 00000846  2 RowInputCapture 	video_c.obj 
   00002270 00008e 00005270 000029b0  2 Video_Image 	video_c.obj 
-  000022fe 000068 000052fe 00002a3e  2 TF_Image 	video_c.obj 
-  00002366 000064 00005366 00002aa6  2 Display_Video 	video_c.obj 
+  UNUSED   000068 ........ ........    TF_Image video_c.obj 
+  000022fe 000064 000052fe 00002a3e  2 Display_Video 	video_c.obj 
   UNUSED   00009c ........ ........    Send_CCD_Video video_c.obj 
-  UNUSED   000058 ........ ........    SetupCCD video_c.obj 
-  000023ca 000000 000053ca 00002b0a  1 .text.334 	video_c.obj 
-  000023ca 00087e 000053ca 00002b0a  1 .text 	sdcard_c.obj 
-  000023ca 0000d4 000053ca 00002b0a  2 init_DSPI_1 	sdcard_c.obj 
-  0000249e 000012 0000549e 00002bde  2 SD_SPI_to_4M 	sdcard_c.obj 
-  000024b0 00005a 000054b0 00002bf0  2 DSPI_read_write_byte 	sdcard_c.obj 
-  0000250a 00004c 0000550a 00002c4a  2 DSPI_send_8_clocks 	sdcard_c.obj 
-  00002556 000020 00005556 00002c96  2 SD_init 	sdcard_c.obj 
-  00002576 00008a 00005576 00002cb6  2 SD_send_cmd 	sdcard_c.obj 
-  00002600 000094 00005600 00002d40  2 SD_reset 	sdcard_c.obj 
-  00002694 000082 00005694 00002dd4  2 SD_read_block 	sdcard_c.obj 
-  00002716 0000a8 00005716 00002e56  2 SD_read_multiple_block 	sdcard_c.obj 
-  000027be 0000ba 000057be 00002efe  2 SD_write_block 	sdcard_c.obj 
-  00002878 0000ea 00005878 00002fb8  2 SD_write_multiple_block 	sdcard_c.obj 
+  00002362 000058 00005362 00002aa2  2 SetupCCD 	video_c.obj 
+  000023ba 000000 000053ba 00002afa  1 .text.334 	video_c.obj 
+  000023ba 0000d4 000053ba 00002afa  1 .text 	sdcard_c.obj 
+  000023ba 0000d4 000053ba 00002afa  2 init_DSPI_1 	sdcard_c.obj 
+  UNUSED   000012 ........ ........    SD_SPI_to_4M sdcard_c.obj 
+  UNUSED   00005a ........ ........    DSPI_read_write_byte sdcard_c.obj 
+  UNUSED   00004c ........ ........    DSPI_send_8_clocks sdcard_c.obj 
+  UNUSED   000020 ........ ........    SD_init sdcard_c.obj 
+  UNUSED   00008a ........ ........    SD_send_cmd sdcard_c.obj 
+  UNUSED   000094 ........ ........    SD_reset sdcard_c.obj 
+  UNUSED   000082 ........ ........    SD_read_block sdcard_c.obj 
+  UNUSED   0000a8 ........ ........    SD_read_multiple_block sdcard_c.obj 
+  UNUSED   0000ba ........ ........    SD_write_block sdcard_c.obj 
+  UNUSED   0000ea ........ ........    SD_write_multiple_block sdcard_c.obj 
   UNUSED   000034 ........ ........    clear_sd_buffer sdcard_c.obj 
   UNUSED   000076 ........ ........    read_steer_helm_data_from_TF sdcard_c.obj 
   UNUSED   0000a4 ........ ........    write_steer_helm_data_to_TF sdcard_c.obj 
   UNUSED   000076 ........ ........    read_device_no_from_TF sdcard_c.obj 
-  00002962 00010e 00005962 000030a2  2 test_file_system 	sdcard_c.obj 
-  00002a70 0001d8 00005a70 000031b0  2 write_camera_data_to_TF 	sdcard_c.obj 
-  00002c48 000000 00005c48 00003388  1 .text.591 	sdcard_c.obj 
-  00002c48 00006a 00005c48 00003388  1 .text 	main_c.obj 
-  00002c48 00006a 00005c48 00003388  2 main 	main_c.obj 
-  00002cb2 000000 00005cb2 000033f2  1 .text.239 	main_c.obj 
-  00002cb2 00037c 00005cb2 000033f2  1 .text 	lcd_c.obj 
-  00002cb2 00015a 00005cb2 000033f2  2 initLCD 	lcd_c.obj 
+  UNUSED   00010e ........ ........    test_file_system sdcard_c.obj 
+  UNUSED   0001d8 ........ ........    write_camera_data_to_TF sdcard_c.obj 
+  0000248e 000000 0000548e 00002bce  1 .text.591 	sdcard_c.obj 
+  0000248e 000066 0000548e 00002bce  1 .text 	main_c.obj 
+  0000248e 000066 0000548e 00002bce  2 main 	main_c.obj 
+  000024f4 000000 000054f4 00002c34  1 .text.239 	main_c.obj 
+  000024f4 0002ae 000054f4 00002c34  1 .text 	lcd_c.obj 
+  000024f4 00015a 000054f4 00002c34  2 initLCD 	lcd_c.obj 
   UNUSED   00002c ........ ........    LCD_DISPLAY lcd_c.obj 
-  00002e0c 00005a 00005e0c 0000354c  2 LCD_WrDat 	lcd_c.obj 
-  00002e66 00005a 00005e66 000035a6  2 LCD_WrCmd 	lcd_c.obj 
-  00002ec0 000046 00005ec0 00003600  2 LCD_Set_Pos 	lcd_c.obj 
-  00002f06 00005a 00005f06 00003646  2 LCD_Fill 	lcd_c.obj 
+  0000264e 00005a 0000564e 00002d8e  2 LCD_WrDat 	lcd_c.obj 
+  000026a8 00005a 000056a8 00002de8  2 LCD_WrCmd 	lcd_c.obj 
+  00002702 000046 00005702 00002e42  2 LCD_Set_Pos 	lcd_c.obj 
+  00002748 00005a 00005748 00002e88  2 LCD_Fill 	lcd_c.obj 
   UNUSED   00005a ........ ........    LCD_CLS lcd_c.obj 
   UNUSED   000084 ........ ........    LCD_PutPixel lcd_c.obj 
   UNUSED   0000d4 ........ ........    LCD_Rectangle lcd_c.obj 
   UNUSED   000092 ........ ........    LCD_P6x8Str lcd_c.obj 
-  00002f60 0000ce 00005f60 000036a0  2 LCD_P8x16Str 	lcd_c.obj 
+  UNUSED   0000ce ........ ........    LCD_P8x16Str lcd_c.obj 
   UNUSED   000182 ........ ........    LCD_P14x16Str lcd_c.obj 
   UNUSED   0000a2 ........ ........    LCD_Printbyte lcd_c.obj 
   UNUSED   0001a8 ........ ........    LCD_PrintoutInt lcd_c.obj 
   UNUSED   0001be ........ ........    LCD_PrintoutFloat lcd_c.obj 
-  0000302e 000000 0000602e 0000376e  1 .text.535 	lcd_c.obj 
-  0000302e 0005c0 0000602e 0000376e  1 .text 	init_c.obj 
-  0000302e 0000a0 0000602e 0000376e  2 init_modes_and_clock 	init_c.obj 
-  000030ce 000032 000060ce 0000380e  2 disable_watchdog 	init_c.obj 
-  00003100 00005a 00006100 00003840  2 init_led 	init_c.obj 
+  000027a2 000000 000057a2 00002ee2  1 .text.535 	lcd_c.obj 
+  000027a2 00053a 000057a2 00002ee2  1 .text 	init_c.obj 
+  000027a2 0000a0 000057a2 00002ee2  2 init_modes_and_clock 	init_c.obj 
+  00002842 000032 00005842 00002f82  2 disable_watchdog 	init_c.obj 
+  00002874 00005a 00005874 00002fb4  2 init_led 	init_c.obj 
   UNUSED   000046 ........ ........    init_pit init_c.obj 
-  0000315a 000264 0000615a 0000389a  2 initEMIOS_0MotorAndSteer 	init_c.obj 
-  000033be 0000de 000063be 00003afe  2 initEMIOS_0Image 	init_c.obj 
-  0000349c 000018 0000649c 00003bdc  2 enable_irq 	init_c.obj 
+  000028ce 000264 000058ce 0000300e  2 initEMIOS_0MotorAndSteer 	init_c.obj 
+  00002b32 0000de 00005b32 00003272  2 initEMIOS_0Image 	init_c.obj 
+  00002c10 000018 00005c10 00003350  2 enable_irq 	init_c.obj 
   UNUSED   000026 ........ ........    is_big_endian init_c.obj 
   UNUSED   00008e ........ ........    init_optical_encoder init_c.obj 
-  000034b4 000030 000064b4 00003bf4  2 delay_us 	init_c.obj 
-  000034e4 00002a 000064e4 00003c24  2 delay_ms 	init_c.obj 
-  0000350e 0000dc 0000650e 00003c4e  2 init_all_and_POST 	init_c.obj 
-  000035ea 000004 000065ea 00003d2a  2 suicide 	init_c.obj 
-  000035ee 000000 000065ee 00003d2e  1 .text.340 	init_c.obj 
-  000035ee 00205c 000065ee 00003d2e  1 .text 	ff_c.obj 
-  000035ee 00002a 000065ee 00003d2e  2 mem_cpy 	ff_c.obj 
-  00003618 000022 00006618 00003d58  2 mem_set 	ff_c.obj 
-  0000363a 00003c 0000663a 00003d7a  2 mem_cmp 	ff_c.obj 
-  00003676 000014 00006676 00003db6  2 chk_chr 	ff_c.obj 
-  0000368a 000076 0000668a 00003dca  2 sync_window 	ff_c.obj 
-  00003700 000052 00006700 00003e40  2 move_window 	ff_c.obj 
-  00003752 000104 00006752 00003e92  2 sync_fs 	ff_c.obj 
-  00003856 00001c 00006856 00003f96  2 clust2sect 	ff_c.obj 
-  00003872 00016c 00006872 00003fb2  2 get_fat 	ff_c.obj 
-  000039de 0001d6 000069de 0000411e  2 put_fat 	ff_c.obj 
-  00003bb4 000092 00006bb4 000042f4  2 remove_chain 	ff_c.obj 
-  00003c46 000100 00006c46 00004386  2 create_chain 	ff_c.obj 
-  00003d46 0000e6 00006d46 00004486  2 dir_sdi 	ff_c.obj 
-  00003e2c 000192 00006e2c 0000456c  2 dir_next 	ff_c.obj 
-  00003fbe 00008a 00006fbe 000046fe  2 dir_alloc 	ff_c.obj 
-  00004048 00003a 00007048 00004788  2 ld_clust 	ff_c.obj 
-  00004082 00002e 00007082 000047c2  2 st_clust 	ff_c.obj 
-  000040b0 00008a 000070b0 000047f0  2 dir_find 	ff_c.obj 
-  UNUSED   0000ac ........ ........    dir_read ff_c.obj 
-  0000413a 000060 0000713a 0000487a  2 dir_register 	ff_c.obj 
-  UNUSED   00005a ........ ........    dir_remove ff_c.obj 
-  UNUSED   0000b0 ........ ........    get_fileinfo ff_c.obj 
-  0000419a 00020c 0000719a 000048da  2 create_name 	ff_c.obj 
-  000043a6 0000cc 000073a6 00004ae6  2 follow_path 	ff_c.obj 
-  00004472 0000f2 00007472 00004bb2  2 get_ldnumber 	ff_c.obj 
-  00004564 0000ba 00007564 00004ca4  2 check_fs 	ff_c.obj 
-  0000461e 000554 0000761e 00004d5e  2 find_volume 	ff_c.obj 
-  00004b72 000058 00007b72 000052b2  2 validate 	ff_c.obj 
-  00004bca 000090 00007bca 0000530a  2 f_mount 	ff_c.obj 
-  00004c5a 000204 00007c5a 0000539a  2 f_open 	ff_c.obj 
-  00004e5e 00024e 00007e5e 0000559e  2 f_read 	ff_c.obj 
-  000050ac 00027c 000080ac 000057ec  2 f_write 	ff_c.obj 
-  00005328 000108 00008328 00005a68  2 f_sync 	ff_c.obj 
-  00005430 000040 00008430 00005b70  2 f_close 	ff_c.obj 
-  00005470 0001da 00008470 00005bb0  2 f_lseek 	ff_c.obj 
-  UNUSED   0000b2 ........ ........    f_opendir ff_c.obj 
-  UNUSED   000030 ........ ........    f_closedir ff_c.obj 
-  UNUSED   00008c ........ ........    f_readdir ff_c.obj 
-  UNUSED   00007a ........ ........    f_stat ff_c.obj 
-  UNUSED   000126 ........ ........    f_getfree ff_c.obj 
-  UNUSED   00010e ........ ........    f_truncate ff_c.obj 
-  UNUSED   000124 ........ ........    f_unlink ff_c.obj 
-  UNUSED   000210 ........ ........    f_mkdir ff_c.obj 
-  UNUSED   0000a2 ........ ........    f_chmod ff_c.obj 
-  UNUSED   0000aa ........ ........    f_utime ff_c.obj 
-  UNUSED   0001d0 ........ ........    f_rename ff_c.obj 
-  UNUSED   000124 ........ ........    f_getlabel ff_c.obj 
-  UNUSED   000364 ........ ........    f_setlabel ff_c.obj 
-  UNUSED   000a30 ........ ........    f_mkfs ff_c.obj 
-  UNUSED   000076 ........ ........    f_gets ff_c.obj 
-  UNUSED   000082 ........ ........    putc_bfd ff_c.obj 
-  UNUSED   000066 ........ ........    f_putc ff_c.obj 
-  UNUSED   00007e ........ ........    f_puts ff_c.obj 
-  UNUSED   00042a ........ ........    f_printf ff_c.obj 
-  0000564a 000000 0000864a 00005d8a  1 .text.2315 	ff_c.obj 
-  0000564a 0000f4 0000864a 00005d8a  1 .text 	diskio_c.obj 
-  0000564a 000006 0000864a 00005d8a  2 disk_initialize 	diskio_c.obj 
-  00005650 000006 00008650 00005d90  2 disk_status 	diskio_c.obj 
-  00005656 00006c 00008656 00005d96  2 disk_read 	diskio_c.obj 
-  000056c2 00006c 000086c2 00005e02  2 disk_write 	diskio_c.obj 
-  0000572e 00000a 0000872e 00005e6e  2 disk_ioctl 	diskio_c.obj 
-  00005738 000006 00008738 00005e78  2 get_fattime 	diskio_c.obj 
-  0000573e 000000 0000873e 00005e7e  1 .text.309 	diskio_c.obj 
-  0000573e 000102 0000873e 00005e7e  1 .text 	UART_c.obj 
+  00002c28 000030 00005c28 00003368  2 delay_us 	init_c.obj 
+  00002c58 00002a 00005c58 00003398  2 delay_ms 	init_c.obj 
+  00002c82 00005a 00005c82 000033c2  2 init_all_and_POST 	init_c.obj 
+  UNUSED   000004 ........ ........    suicide init_c.obj 
+  00002cdc 000000 00005cdc 0000341c  1 .text.328 	init_c.obj 
+  00002cdc 00013a 00005cdc 0000341c  1 .text 	UART_c.obj 
   UNUSED   0000a6 ........ ........    init_serial_port_0 UART_c.obj 
   UNUSED   000046 ........ ........    serial_port_0_TX UART_c.obj 
   UNUSED   000036 ........ ........    serial_port_0_TX_array UART_c.obj 
   UNUSED   00004e ........ ........    intc_serial_port_0_RX UART_c.obj 
-  0000573e 0000bc 0000873e 00005e7e  2 init_serial_port_1 	UART_c.obj 
-  UNUSED   00003a ........ ........    serial_port_1_TX UART_c.obj 
+  00002cdc 0000ba 00005cdc 0000341c  2 init_serial_port_1 	UART_c.obj 
+  00002d96 00003a 00005d96 000034d6  2 serial_port_1_TX 	UART_c.obj 
   UNUSED   000036 ........ ........    serial_port_1_TX_array UART_c.obj 
-  000057fa 000046 000087fa 00005f3a  2 intc_serial_port_1_RX 	UART_c.obj 
+  00002dd0 000046 00005dd0 00003510  2 intc_serial_port_1_RX 	UART_c.obj 
   UNUSED   0000ba ........ ........    init_serial_port_2 UART_c.obj 
   UNUSED   00003a ........ ........    serial_port_2_TX UART_c.obj 
   UNUSED   000036 ........ ........    serial_port_2_TX_array UART_c.obj 
@@ -424,25 +275,25 @@ Link map of __startup
   UNUSED   00003a ........ ........    serial_port_3_TX UART_c.obj 
   UNUSED   000036 ........ ........    serial_port_3_TX_array UART_c.obj 
   UNUSED   00003c ........ ........    intc_serial_port_3_RX UART_c.obj 
-  00005840 000000 00008840 00005f80  1 .text.385 	UART_c.obj 
-  00005840 00004e 00008840 00005f80  1 .text 	IntcInterrupts_c.obj 
-  00005840 00002c 00008840 00005f80  2 INTC_InstallINTCInterruptHandler 	IntcInterrupts_c.obj 
-  0000586c 000022 0000886c 00005fac  2 INTC_InitINTCInterrupts 	IntcInterrupts_c.obj 
-  0000588e 00000e 0000888e 00005fce  1 .text 	Exceptions_c.obj 
-  0000588e 00000e 0000888e 00005fce  2 EXCEP_InitExceptionHandlers 	Exceptions_c.obj 
-  0000589c 000040 0000889c 00005fdc  1 .text 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  00002e16 000000 00005e16 00003556  1 .text.385 	UART_c.obj 
+  00002e16 00004e 00005e16 00003556  1 .text 	IntcInterrupts_c.obj 
+  00002e16 00002c 00005e16 00003556  2 INTC_InstallINTCInterruptHandler 	IntcInterrupts_c.obj 
+  00002e42 000022 00005e42 00003582  2 INTC_InitINTCInterrupts 	IntcInterrupts_c.obj 
+  00002e64 00000e 00005e64 000035a4  1 .text 	Exceptions_c.obj 
+  00002e64 00000e 00005e64 000035a4  2 EXCEP_InitExceptionHandlers 	Exceptions_c.obj 
+  00002e72 000040 00005e72 000035b2  1 .text 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
   UNUSED   00002c ........ ........    abort libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
   UNUSED   000004 ........ ........    atexit libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  0000589c 000040 0000889c 00005fdc  2 exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  00002e72 000040 00005e72 000035b2  2 exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
   UNUSED   00002a ........ ........    __atexit libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
   UNUSED   000056 ........ ........    __exit libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  000058dc 000000 000088dc 0000601c  1 .text.86 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  000058dc 000032 000088dc 0000601c  1 .text 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
+  00002eb2 000000 00005eb2 000035f2  1 .text.86 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  00002eb2 000032 00005eb2 000035f2  1 .text 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
   UNUSED   000010 ........ ........    __register_global_object librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
-  000058dc 000032 000088dc 0000601c  2 __destroy_global_chain 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
+  00002eb2 000032 00005eb2 000035f2  2 __destroy_global_chain 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
   UNUSED   00003a ........ ........    __register_atexit librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
-  0000590e 000000 0000890e 0000604e  1 .text.104 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
-  0000590e 000008 0000890e 0000604e  1 .text 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
+  00002ee4 000000 00005ee4 00003624  1 .text.104 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
+  00002ee4 000008 00005ee4 00003624  1 .text 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   00004a ........ ........    __save_gpr librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    _savegpr_14 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    _save32gpr_14 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
@@ -517,7 +368,7 @@ Link map of __startup
   UNUSED   000000 ........ ........    _rest32gpr_30 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    _restgpr_31 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    _rest32gpr_31 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
-  0000590e 000008 0000890e 0000604e  2 __restore_frame_and_exit 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
+  00002ee4 000008 00005ee4 00003624  2 __restore_frame_and_exit 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    __finish_restore_frame_and_exit2 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   00000a ........ ........    __restore_gpr_31_exit librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    __finish_restore_frame_and_exit librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
@@ -565,25 +416,15 @@ Link map of __startup
   UNUSED   00001a ........ ........    __shl2i librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   00001a ........ ........    __shr2u librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   00001c ........ ........    __shr2i librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
-  00005916 000000 00008916 00006056  1 .text.205 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
+  00002eec 000000 00005eec 0000362c  1 .text.205 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
 
 
 .rodata section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 00000c 00008918 00006058  1 .rodata 	__ppc_eabi_init_c.obj 
-  00000000 00000c 00008918 00006058  4 @22 	__ppc_eabi_init_c.obj 
-  0000000c 000004 00008928 00006068  8 *fill*
-  00000010 0005f0 00008928 00006068  1 .rodata 	lcd_c.obj 
-  UNUSED   000228 ........ ........    F6x8 lcd_c.obj 
-  UNUSED   000055 ........ ........    F14x16_Idx lcd_c.obj 
-  UNUSED   000310 ........ ........    F14x16 lcd_c.obj 
-  00000010 0005f0 00008928 00006068  8 F8X16 	lcd_c.obj 
-  00000600 000020 00008f18 00006658  1 .rodata 	ff_c.obj 
-  00000600 000020 00008f18 00006658  8 @LOCAL@get_ldnumber__FPPCc@str 	ff_c.obj 
-  UNUSED   000016 ........ ........    @LOCAL@f_mkfs__FPCcUcUs@vst ff_c.obj 
-  UNUSED   000016 ........ ........    @LOCAL@f_mkfs__FPCcUcUs@cst@0 ff_c.obj 
+  00000000 00000c 00005ef0 00003630  1 .rodata 	__ppc_eabi_init_c.obj 
+  00000000 00000c 00005ef0 00003630  4 @22 	__ppc_eabi_init_c.obj 
 
 
 .ctors section layout
@@ -614,91 +455,54 @@ extabindex section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 000348 40000000 00006800  1 .__uninitialized_intc_handlertable 	IntcInterrupts_c.obj 
-  00000000 000348 40000000 00006800  8 INTCInterruptsHandlerTable 	IntcInterrupts_c.obj 
+  00000000 000348 40000000 00003800  1 .__uninitialized_intc_handlertable 	IntcInterrupts_c.obj 
+  00000000 000348 40000000 00003800  8 INTCInterruptsHandlerTable 	IntcInterrupts_c.obj 
 
 
 .data section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 000118 40000348 00006800  1 .data 	video_c.obj 
-  00000000 000118 40000348 00006800  8 selectRows 	video_c.obj 
-  00000118 00000f 40000460 00006918  1 .data 	ff_c.obj 
-  00000118 00000f 40000460 00006918  4 @776 	ff_c.obj 
-  UNUSED   000010 ........ ........    @1777 ff_c.obj 
-  UNUSED   00000c ........ ........    @1943 ff_c.obj 
-  UNUSED   000014 ........ ........    @1944 ff_c.obj 
-  UNUSED   000014 ........ ........    @1945 ff_c.obj 
-  UNUSED   00005c ........ ........    @2147 ff_c.obj 
+  00000000 000118 40000348 00003800  1 .data 	video_c.obj 
+  00000000 000118 40000348 00003800  8 selectRows 	video_c.obj 
 
 
 .sdata section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 000001 40000470 00006928  1 .sdata 	video_c.obj 
-  00000000 000001 40000470 00006928  1 RowSAIC_DelayTime 	video_c.obj 
-  00000001 000007 40000478 00006930  8 *fill*
-  00000008 000027 40000478 00006930  1 .sdata 	sdcard_c.obj 
-  UNUSED   000008 ........ ........    text sdcard_c.obj 
-  UNUSED   000004 ........ ........    p sdcard_c.obj 
-  00000008 000004 40000478 00006930  4 camera 	sdcard_c.obj 
-  0000000c 000003 4000047c 00006934  4 RowCol1 	sdcard_c.obj 
-  00000010 000003 40000480 00006938  4 RowCol2 	sdcard_c.obj 
-  00000014 000003 40000484 0000693c  4 Camera1 	sdcard_c.obj 
-  00000018 000003 40000488 00006940  4 Camera2 	sdcard_c.obj 
-  0000001b 000001 4000048b 00006943  1 row 	sdcard_c.obj 
-  0000001c 000001 4000048c 00006944  1 column 	sdcard_c.obj 
-  UNUSED   000007 ........ ........    @451 sdcard_c.obj 
-  UNUSED   000007 ........ ........    @491 sdcard_c.obj 
-  00000020 000005 40000490 00006948  4 @531 	sdcard_c.obj 
-  00000028 000007 40000498 00006950  4 @556 	sdcard_c.obj 
-  0000002f 000001 400004a0 00006958  8 *fill*
-  00000030 000020 400004a0 00006958  1 .sdata 	init_c.obj 
-  00000030 000003 400004a0 00006958  4 @319 	init_c.obj 
-  00000034 000005 400004a4 0000695c  4 @320 	init_c.obj 
-  0000003c 000007 400004ac 00006964  4 @321 	init_c.obj 
-  00000048 000008 400004b8 00006970  8 @322 	init_c.obj 
-  00000050 00002d 400004c0 00006978  1 .sdata 	ff_c.obj 
-  00000050 000004 400004c0 00006978  4 @839 	ff_c.obj 
-  00000054 000005 400004c4 0000697c  4 @840 	ff_c.obj 
-  0000005c 000003 400004cc 00006984  4 @841 	ff_c.obj 
-  00000060 000004 400004d0 00006988  4 @842 	ff_c.obj 
-  00000064 000004 400004d4 0000698c  4 @843 	ff_c.obj 
-  00000068 000005 400004d8 00006990  4 @844 	ff_c.obj 
-  00000070 000005 400004e0 00006998  4 @845 	ff_c.obj 
-  00000078 000005 400004e8 000069a0  4 @846 	ff_c.obj 
+  00000000 000001 40000460 00003918  1 .sdata 	video_c.obj 
+  00000000 000001 40000460 00003918  1 RowSAIC_DelayTime 	video_c.obj 
+  00000001 000007 40000468 00003920  8 *fill*
+  00000008 000003 40000468 00003920  1 .sdata 	init_c.obj 
+  00000008 000003 40000468 00003920  4 @310 	init_c.obj 
 
 
 .sbss section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 000007 400004f0 000069a8  1 .sbss 	video_c.obj 
-  00000000 000004 400004f0 000069a8  4 crow 	video_c.obj 
-  00000004 000001 400004f4 000069ac  1 prow 	video_c.obj 
-  00000005 000001 400004f5 000069ad  1 pcolumn 	video_c.obj 
-  00000006 000001 400004f6 000069ae  1 fieldover 	video_c.obj 
+  00000000 000007 40000470 00003928  1 .sbss 	video_c.obj 
+  00000000 000004 40000470 00003928  4 crow 	video_c.obj 
+  00000004 000001 40000474 0000392c  1 prow 	video_c.obj 
+  00000005 000001 40000475 0000392d  1 pcolumn 	video_c.obj 
+  00000006 000001 40000476 0000392e  1 fieldover 	video_c.obj 
   UNUSED   000004 ........ ........    kkk video_c.obj 
   UNUSED   000004 ........ ........    kkk2 video_c.obj 
-  00000007 000001 400004f8 000069b0  8 *fill*
-  00000008 000008 400004f8 000069b0  1 .sbss 	ff_c.obj 
-  00000008 000002 400004f8 000069b0  2 Fsid 	ff_c.obj 
-  0000000c 000004 400004fc 000069b4  4 FatFs 	ff_c.obj 
-  00000010 000005 40000500 000069b8  1 .sbss 	UART_c.obj 
+  00000007 000001 40000478 00003930  8 *fill*
+  00000008 000005 40000478 00003930  1 .sbss 	UART_c.obj 
   UNUSED   000004 ........ ........    g_serial_port_0_f UART_c.obj 
-  00000010 000004 40000500 000069b8  4 g_serial_port_1_f 	UART_c.obj 
-  00000014 000001 40000504 000069bc  1 g_serial_port_1_data 	UART_c.obj 
+  00000008 000004 40000478 00003930  4 g_serial_port_1_f 	UART_c.obj 
+  0000000c 000001 4000047c 00003934  1 g_serial_port_1_data 	UART_c.obj 
   UNUSED   000001 ........ ........    g_serial_port_0_data UART_c.obj 
-  00000015 000003 40000508 000069c0  8 *fill*
-  00000018 000008 40000508 000069c0  1 .sbss 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  0000000d 000003 40000480 00003938  8 *fill*
+  00000010 000008 40000480 00003938  1 .sbss 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
   UNUSED   000004 ........ ........    __atexit_curr_func_C libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  00000018 000004 40000508 000069c0  4 __stdio_exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  0000001c 000004 4000050c 000069c4  4 __console_exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  00000020 000004 40000510 000069c8  1 .sbss 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
+  00000010 000004 40000480 00003938  4 __stdio_exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  00000014 000004 40000484 0000393c  4 __console_exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  00000018 000004 40000488 00003940  1 .sbss 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
   UNUSED   000004 ........ ........    atexit_curr_func librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
-  00000020 000004 40000510 000069c8  4 __global_destructor_chain 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
+  00000018 000004 40000488 00003940  4 __global_destructor_chain 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
 
 
 .sdata2 section layout
@@ -717,17 +521,10 @@ extabindex section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 00441a 40000518 000069a8  1 .bss 	video_c.obj 
-  00000000 0016b2 40000518 000069a8  4 pix 	video_c.obj 
-  000016b4 0016b2 40001bcc 0000805c  4 pic 	video_c.obj 
-  00002d68 0016b2 40003280 00009710  4 g_pix 	video_c.obj 
-  0000441a 000006 40004938 0000adc8  8 *fill*
-  00004420 000448 40004938 0000adc8  1 .bss 	sdcard_c.obj 
-  00004420 000224 40004938 0000adc8  4 @LOCAL@write_camera_data_to_TF__Fv@Cfil1 	sdcard_c.obj 
-  00004644 000224 40004b5c 0000afec  4 @LOCAL@write_camera_data_to_TF__Fv@Cfil2@0 	sdcard_c.obj 
-  00004868 000248 40004d80 0000b210  1 .bss 	init_c.obj 
-  00004868 000018 40004d80 0000b210  8 g_devices_init_status 	init_c.obj 
-  00004880 000230 40004d98 0000b228  8 fatfs1 	init_c.obj 
+  00000000 002d66 40000490 00003928  1 .bss 	video_c.obj 
+  00000000 0016b2 40000490 00003928  4 pix 	video_c.obj 
+  UNUSED   0016b2 ........ ........    pic video_c.obj 
+  000016b4 0016b2 40001b44 00004fdc  4 g_pix 	video_c.obj 
 
 
 Memory map:
@@ -739,25 +536,25 @@ Memory map:
     .ivor_branch_table 00001000 000000f4 00000590 00001000 00001000         38
   .intc_hw_branch_table 000010f4 00000000 00000800 000010f4 000010f4          0
   .__exception_handlers 00001100 000000a4 00000690 00001100 00001100         51
-             .text_vle 00003000 00005918 00000740 00003000 00003000         60
-               .rodata 00008918 00000620 00006058 00008918 00008918       1201
-                .ctors 00008f38 00000000 00006678 00008f38 00008f38          0
-                .dtors 00008f38 00000000 00006678 00008f38 00008f38          0
-                 extab 00008f38 00000000 00006678 00008f38 00008f38          0
-            extabindex 00008f38 00000000 00006678 00008f38 00008f38          0
-  .__uninitialized_intc_handlertable 40000000 00000348 00006800 00009000 00009000          0
-                 .data 40000348 00000128 00006800 00009000 00009000       1280
-                .sdata 40000470 00000080 00006928 00009128 00009128       1295
-                 .sbss 400004f0 00000024 000069a8 000091a8 000091a8          0
-               .sdata2 40000514 00000000 000069a8 000091a8 000091a8          0
-                .sbss2 40000514 00000000 000069a8 000091a8 000091a8          0
-                  .bss 40000518 00004ab0 000069a8 000091a8 000091a8          0
-      .PPC.EMB.apuinfo 0000d3c4 00000000 00013d70 0001656c 0001656c          0
-         .debug_abbrev          00000159 000069a8
-           .debug_info          000045f3 00006b01
-           .debug_line          000053be 0000b0f4
-            .debug_loc          000016da 000104b2
-       .debug_pubnames          00000828 00011b8c
+             .text_vle 00003000 00002eec 00000740 00003000 00003000         60
+               .rodata 00005ef0 0000000c 00003630 00005ef0 00005ef0        661
+                .ctors 00005efc 00000000 0000363c 00005efc 00005efc          0
+                .dtors 00005efc 00000000 0000363c 00005efc 00005efc          0
+                 extab 00005efc 00000000 0000363c 00005efc 00005efc          0
+            extabindex 00005efc 00000000 0000363c 00005efc 00005efc          0
+  .__uninitialized_intc_handlertable 40000000 00000348 00003800 00006000 00006000          0
+                 .data 40000348 00000118 00003800 00006000 00006000        662
+                .sdata 40000460 0000000c 00003918 00006118 00006118        676
+                 .sbss 40000470 0000001c 00003928 00006128 00006128          0
+               .sdata2 4000048c 00000000 00003928 00006128 00006128          0
+                .sbss2 4000048c 00000000 00003928 00006128 00006128          0
+                  .bss 40000490 00002d68 00003928 00006128 00006128          0
+      .PPC.EMB.apuinfo 00007978 00000000 0000b2a0 0000daa0 0000daa0          0
+         .debug_abbrev          00000145 00003928
+           .debug_info          00001fb8 00003a6d
+           .debug_line          00003c87 00005a25
+            .debug_loc          000005a9 000096ac
+       .debug_pubnames          00000606 00009c55
 
 
 Linker generated symbols:
@@ -787,49 +584,49 @@ _f___exception_handlers_rom 00001100
                   _e_text 00003000
               _f_text_vle 00003000
           _f_text_vle_rom 00003000
-              _e_text_vle 00008918
-                _f_rodata 00008918
-            _f_rodata_rom 00008918
-                _e_rodata 00008f38
-                 _f_ctors 00008f38
-             _f_ctors_rom 00008f38
-                 _e_ctors 00008f38
-                 _f_dtors 00008f38
-             _f_dtors_rom 00008f38
-                 _e_dtors 00008f38
-                  _fextab 00008f38
-              _fextab_rom 00008f38
-                  _eextab 00008f38
-             _fextabindex 00008f38
-         _fextabindex_rom 00008f38
-             _eextabindex 00008f38
+              _e_text_vle 00005eec
+                _f_rodata 00005ef0
+            _f_rodata_rom 00005ef0
+                _e_rodata 00005efc
+                 _f_ctors 00005efc
+             _f_ctors_rom 00005efc
+                 _e_ctors 00005efc
+                 _f_dtors 00005efc
+             _f_dtors_rom 00005efc
+                 _e_dtors 00005efc
+                  _fextab 00005efc
+              _fextab_rom 00005efc
+                  _eextab 00005efc
+             _fextabindex 00005efc
+         _fextabindex_rom 00005efc
+             _eextabindex 00005efc
 _f___uninitialized_intc_handlertable 40000000
 _e___uninitialized_intc_handlertable 40000348
                   _f_data 40000348
-              _f_data_rom 00009000
-                  _e_data 40000470
-                 _f_sdata 40000470
-             _f_sdata_rom 00009128
-                 _e_sdata 400004f0
-                  _f_sbss 400004f0
-                  _e_sbss 40000514
-                _f_sdata2 40000514
-            _f_sdata2_rom 000091a8
-                _e_sdata2 40000514
-                 _f_sbss2 40000514
-                 _e_sbss2 40000514
-                   _f_bss 40000518
-                   _e_bss 40004fc8
+              _f_data_rom 00006000
+                  _e_data 40000460
+                 _f_sdata 40000460
+             _f_sdata_rom 00006118
+                 _e_sdata 4000046c
+                  _f_sbss 40000470
+                  _e_sbss 4000048c
+                _f_sdata2 4000048c
+            _f_sdata2_rom 00006128
+                _e_sdata2 4000048c
+                 _f_sbss2 4000048c
+                 _e_sbss2 4000048c
+                   _f_bss 40000490
+                   _e_bss 400031f8
               _stack_addr 40008000
                _stack_end 40007000
                _heap_addr 40006000
                 _heap_end 40007000
-             _nbfunctions 00000064
+             _nbfunctions 00000031
            SIZEOF_HEADERS 000002e0
-               _SDA_BASE_ 40008470
-              _SDA2_BASE_ 40008514
-           _ABS_SDA_BASE_ 40008470
-          _ABS_SDA2_BASE_ 40008514
+               _SDA_BASE_ 40008460
+              _SDA2_BASE_ 4000848c
+           _ABS_SDA_BASE_ 40008460
+          _ABS_SDA2_BASE_ 4000848c
                  _SP_INIT 40008000
              __HEAP_START 40006000
               __mem_limit 40007000

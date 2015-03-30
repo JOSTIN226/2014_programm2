@@ -223,7 +223,7 @@ void Send_CCD_Video(void)
 	for(j = 0;j < COLUMNS;j ++)
 	{
 	   if(g_pix[i][j]==1)
-		   serial_port_1_TX(0xff);
+		   serial_port_1_TX(0xFF);
 	   else
 		   serial_port_1_TX(0x00);
 	}

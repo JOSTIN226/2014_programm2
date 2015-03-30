@@ -294,28 +294,28 @@ void init_all_and_POST(void)
 	
 	/* 初始化TF卡 */
 
-	LCD_P8x16Str(0,0, (BYTE*)"TF..");
-	if (!SD_init())
-	{
-		/* 挂载TF卡文件系统 */
-		if (FR_OK == f_mount(&fatfs1, path, 1))
-		{
-			/* 文件读写测试 */
-			if (!test_file_system())
-			{
-				g_devices_init_status.TFCard_is_OK = 1;
-			}
-		}
-	}
-	if (g_devices_init_status.TFCard_is_OK)
-	{
-		LCD_P8x16Str(0,0, (BYTE*)"TF..OK");
-	}
-	else
-	{
-		LCD_P8x16Str(0,0, (BYTE*)"TF..NOK");
-		suicide();
-	}
+//	LCD_P8x16Str(0,0, (BYTE*)"TF..");
+//	if (!SD_init())
+//	{
+//		/* 挂载TF卡文件系统 */
+//		if (FR_OK == f_mount(&fatfs1, path, 1))
+//		{
+//			/* 文件读写测试 */
+//			if (!test_file_system())
+//			{
+//				g_devices_init_status.TFCard_is_OK = 1;
+//			}
+//		}
+//	}
+//	if (g_devices_init_status.TFCard_is_OK)
+//	{
+//		LCD_P8x16Str(0,0, (BYTE*)"TF..OK");
+//	}
+//	else
+//	{
+//		LCD_P8x16Str(0,0, (BYTE*)"TF..NOK");
+//		suicide();
+//	}
 //	
 //	/* 读取设备号 */
 //#if 0

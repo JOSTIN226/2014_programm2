@@ -24,6 +24,28 @@ Link map of __startup
      4] FlashConfig (func,global) found in __ppc_eabi_init_c.obj 
       5] @22 (object,local) found in __ppc_eabi_init_c.obj 
     3] main (func,global) found in main_c.obj 
+     4] init_all_and_POST (func,global) found in init_c.obj 
+      5] @330 (object,local) found in init_c.obj 
+      5] disable_watchdog (func,global) found in init_c.obj 
+      5] init_modes_and_clock (func,global) found in init_c.obj 
+      5] initEMIOS_0MotorAndSteer (func,global) found in init_c.obj 
+      5] init_led (func,global) found in init_c.obj 
+      5] init_serial_port_1 (func,global) found in UART_c.obj 
+       6] intc_serial_port_1_RX (func,global) found in UART_c.obj 
+        7] g_serial_port_1_f (object,global) found in UART_c.obj 
+        7] g_serial_port_1_data (object,global) found in UART_c.obj 
+       6] INTC_InstallINTCInterruptHandler (func,global) found in IntcInterrupts_c.obj 
+      5] init_DSPI_1 (func,global) found in sdcard_c.obj 
+      5] enable_irq (func,global) found in init_c.obj 
+      5] initLCD (func,global) found in lcd_c.obj 
+       6] delay_ms (func,global) found in init_c.obj 
+        7] delay_us (func,global) found in init_c.obj 
+       6] LCD_WrCmd (func,global) found in lcd_c.obj 
+       6] LCD_Fill (func,global) found in lcd_c.obj 
+        7] LCD_WrDat (func,global) found in lcd_c.obj 
+       6] LCD_Set_Pos (func,global) found in lcd_c.obj 
+     4] set_speed_target (func,global) found in control_c.obj 
+      5] data_speed_settings (object,global) found in control_c.obj 
     3] exit (func,global) found in libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
     3] >>> UNREFERENCED DUPLICATE exit
     3] >>> (func,weak) found in __ppc_eabi_init_c.obj 
@@ -40,10 +62,20 @@ Link map of __startup
     3] .init.11 (notype,local) found in MPC5604B_init_ram_c.obj 
     3] .init (section,local) found in MPC5604B_Startup_c.obj 
     3] .init.21 (notype,local) found in MPC5604B_Startup_c.obj 
+    3] .text (section,local) found in sdcard_c.obj 
+    3] .text.611 (notype,local) found in sdcard_c.obj 
     3] .text (section,local) found in main_c.obj 
-    3] .text.13 (notype,local) found in main_c.obj 
+    3] .text.257 (notype,local) found in main_c.obj 
+    3] .text (section,local) found in lcd_c.obj 
+    3] .text.555 (notype,local) found in lcd_c.obj 
     3] .ivor_branch_table (section,local) found in ivor_branch_table_c.obj 
     3] .ivor_branch_table.24 (notype,local) found in ivor_branch_table_c.obj 
+    3] .text (section,local) found in init_c.obj 
+    3] .text.348 (notype,local) found in init_c.obj 
+    3] .text (section,local) found in control_c.obj 
+    3] .text.439 (notype,local) found in control_c.obj 
+    3] .text (section,local) found in UART_c.obj 
+    3] .text.403 (notype,local) found in UART_c.obj 
     3] .text (section,local) found in libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
     3] .text.86 (notype,local) found in libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
     3] .init (section,local) found in librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
@@ -54,17 +86,19 @@ Link map of __startup
     3] .text.205 (notype,local) found in librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
     3] .text (section,local) found in MPC5604B_HWInit_c.obj 
     3] .text.12 (notype,local) found in MPC5604B_HWInit_c.obj 
+    3] .text (section,local) found in video_c.obj 
+    3] .text.354 (notype,local) found in video_c.obj 
     3] .text (section,local) found in time_c.obj 
-    3] .text.484 (notype,local) found in time_c.obj 
+    3] .text.505 (notype,local) found in time_c.obj 
 
 
 .ivor_branch_table section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 0000f2 40000000 00000140  1 .ivor_branch_table 	ivor_branch_table_c.obj 
-  00000000 0000f2 40000000 00000140 16 ivor_branch_table_p0 	ivor_branch_table_c.obj 
-  000000f2 000000 400000f2 00000232  1 .ivor_branch_table.24 	ivor_branch_table_c.obj 
+  00000000 0000f2 40000000 00000160  1 .ivor_branch_table 	ivor_branch_table_c.obj 
+  00000000 0000f2 40000000 00000160 16 ivor_branch_table_p0 	ivor_branch_table_c.obj 
+  000000f2 000000 400000f2 00000252  1 .ivor_branch_table.24 	ivor_branch_table_c.obj 
 
 
 .intc_hw_branch_table section layout
@@ -77,47 +111,47 @@ Link map of __startup
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 00006c 40001000 00000234  1 .init 	Linker Generated Symbol File 
-  00000000 000054 40001000 00000234  4 _rom_copy_info 	Linker Generated Symbol File 
-  00000054 000018 40001054 00000288  4 _bss_init_info 	Linker Generated Symbol File 
+  00000000 000078 40001000 00000254  1 .init 	Linker Generated Symbol File 
+  00000000 000060 40001000 00000254  4 _rom_copy_info 	Linker Generated Symbol File 
+  00000060 000018 40001060 000002b4  4 _bss_init_info 	Linker Generated Symbol File 
 
 
 .init_vle section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 00002c 4000106c 000002a0  1 .init 	__ppc_eabi_init_c.obj 
-  00000000 00000a 4000106c 000002a0  2 __init_hardware 	__ppc_eabi_init_c.obj 
-  0000000a 000022 40001076 000002aa  2 __flush_cache 	__ppc_eabi_init_c.obj 
-  0000002c 00000e 40001098 000002cc  1 .init 	MPC5604B_init_ram_c.obj 
-  0000002c 00000e 40001098 000002cc  2 usr_init 	MPC5604B_init_ram_c.obj 
-  0000003a 000000 400010a6 000002da  1 .init.11 	MPC5604B_init_ram_c.obj 
-  0000003a 000002 400010a8 000002dc  4 *fill*
-  0000003c 000004 400010a8 000002dc  1 .init 	MPC5604B_Startup_c.obj 
-  0000003c 000004 400010a8 000002dc  4 __startup 	MPC5604B_Startup_c.obj 
-  00000040 000000 400010ac 000002e0  1 .init.21 	MPC5604B_Startup_c.obj 
-  00000040 0000f4 400010ac 000002e0  1 .init 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
-  00000040 000048 400010ac 000002e0  2 __start 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
-  00000088 000030 400010f4 00000328  2 __copy_rom_section 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
-  000000b8 00000e 40001124 00000358  2 __init_bss_section 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
-  000000c6 00001a 40001132 00000366  2 __init_registers 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
-  000000e0 000054 4000114c 00000380  2 __init_data 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
-  00000134 000000 400011a0 000003d4  1 .init.104 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
-  00000134 0000d4 400011a0 000003d4  1 .init 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__mem.o
-  00000134 000038 400011a0 000003d4  2 memcpy 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__mem.o
-  0000016c 000082 400011d8 0000040c  2 __fill_mem 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__mem.o
-  000001ee 00001a 4000125a 0000048e  2 memset 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__mem.o
+  00000000 00002c 40001078 000002cc  1 .init 	__ppc_eabi_init_c.obj 
+  00000000 00000a 40001078 000002cc  2 __init_hardware 	__ppc_eabi_init_c.obj 
+  0000000a 000022 40001082 000002d6  2 __flush_cache 	__ppc_eabi_init_c.obj 
+  0000002c 00000e 400010a4 000002f8  1 .init 	MPC5604B_init_ram_c.obj 
+  0000002c 00000e 400010a4 000002f8  2 usr_init 	MPC5604B_init_ram_c.obj 
+  0000003a 000000 400010b2 00000306  1 .init.11 	MPC5604B_init_ram_c.obj 
+  0000003a 000002 400010b4 00000308  4 *fill*
+  0000003c 000004 400010b4 00000308  1 .init 	MPC5604B_Startup_c.obj 
+  0000003c 000004 400010b4 00000308  4 __startup 	MPC5604B_Startup_c.obj 
+  00000040 000000 400010b8 0000030c  1 .init.21 	MPC5604B_Startup_c.obj 
+  00000040 0000f4 400010b8 0000030c  1 .init 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
+  00000040 000048 400010b8 0000030c  2 __start 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
+  00000088 000030 40001100 00000354  2 __copy_rom_section 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
+  000000b8 00000e 40001130 00000384  2 __init_bss_section 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
+  000000c6 00001a 4000113e 00000392  2 __init_registers 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
+  000000e0 000054 40001158 000003ac  2 __init_data 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
+  00000134 000000 400011ac 00000400  1 .init.104 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
+  00000134 0000d4 400011ac 00000400  1 .init 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__mem.o
+  00000134 000038 400011ac 00000400  2 memcpy 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__mem.o
+  0000016c 000082 400011e4 00000438  2 __fill_mem 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__mem.o
+  000001ee 00001a 40001266 000004ba  2 memset 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__mem.o
 
 
 .__exception_handlers section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 000096 40001280 000004b0  1 .__exception_handlers 	IntcInterrupts_c.obj 
-  00000000 000096 40001280 000004b0 16 INTC_INTCInterruptHandler 	IntcInterrupts_c.obj 
-  00000096 00000a 40001320 00000550 16 *fill*
-  000000a0 000002 40001320 00000550  1 .__exception_handlers 	Exceptions_c.obj 
-  000000a0 000002 40001320 00000550 16 EXCEP_DefaultExceptionHandler 	Exceptions_c.obj 
+  00000000 000096 40001280 000004e0  1 .__exception_handlers 	IntcInterrupts_c.obj 
+  00000000 000096 40001280 000004e0 16 INTC_INTCInterruptHandler 	IntcInterrupts_c.obj 
+  00000096 00000a 40001320 00000580 16 *fill*
+  000000a0 000002 40001320 00000580  1 .__exception_handlers 	Exceptions_c.obj 
+  000000a0 000002 40001320 00000580 16 EXCEP_DefaultExceptionHandler 	Exceptions_c.obj 
 
 
 .text section layout
@@ -130,43 +164,141 @@ Link map of __startup
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 000052 40001330 00000560  1 .text 	__ppc_eabi_init_c.obj 
-  00000000 00003e 40001330 00000560  2 FlashConfig 	__ppc_eabi_init_c.obj 
-  0000003e 000012 4000136e 0000059e  2 __init_user 	__ppc_eabi_init_c.obj 
-  00000050 000002 40001380 000005b0  2 _ExitProcess 	__ppc_eabi_init_c.obj 
-  00000052 000000 40001382 000005b2  1 .text 	MPC5604B_HWInit_c.obj 
+  00000000 000052 40001330 00000590  1 .text 	__ppc_eabi_init_c.obj 
+  00000000 00003e 40001330 00000590  2 FlashConfig 	__ppc_eabi_init_c.obj 
+  0000003e 000012 4000136e 000005ce  2 __init_user 	__ppc_eabi_init_c.obj 
+  00000050 000002 40001380 000005e0  2 _ExitProcess 	__ppc_eabi_init_c.obj 
+  00000052 000000 40001382 000005e2  1 .text 	MPC5604B_HWInit_c.obj 
   UNUSED   000050 ........ ........    INIT_Derivative MPC5604B_HWInit_c.obj 
   UNUSED   000002 ........ ........    INIT_ExternalBusAndMemory MPC5604B_HWInit_c.obj 
-  00000052 000000 40001382 000005b2  1 .text.12 	MPC5604B_HWInit_c.obj 
-  00000052 000000 40001382 000005b2  1 .text 	time_c.obj 
+  00000052 000000 40001382 000005e2  1 .text.12 	MPC5604B_HWInit_c.obj 
+  00000052 000000 40001382 000005e2  1 .text 	video_c.obj 
+  UNUSED   000064 ........ ........    FieldInputCapture video_c.obj 
+  UNUSED   00216a ........ ........    RowInputCapture video_c.obj 
+  UNUSED   00008e ........ ........    Video_Image video_c.obj 
+  UNUSED   000068 ........ ........    TF_Image video_c.obj 
+  UNUSED   000064 ........ ........    Display_Video video_c.obj 
+  UNUSED   00009c ........ ........    Send_CCD_Video video_c.obj 
+  UNUSED   000058 ........ ........    SetupCCD video_c.obj 
+  00000052 000000 40001382 000005e2  1 .text.354 	video_c.obj 
+  00000052 000000 40001382 000005e2  1 .text 	time_c.obj 
   UNUSED   00003c ........ ........    init_I2C time_c.obj 
   UNUSED   000010 ........ ........    disable_I2C time_c.obj 
   UNUSED   0002f2 ........ ........    I2C_read_byte_from_time_module time_c.obj 
   UNUSED   0001d8 ........ ........    I2C_write_byte_to_time_module time_c.obj 
   UNUSED   0001cc ........ ........    I2C_write_byte_to_time_module_2 time_c.obj 
   UNUSED   000322 ........ ........    I2C_read_byte_from_time_module_2 time_c.obj 
-  00000052 000000 40001382 000005b2  1 .text.484 	time_c.obj 
-  00000052 000016 40001382 000005b2  1 .text 	main_c.obj 
-  00000052 000016 40001382 000005b2  2 main 	main_c.obj 
-  00000068 000000 40001398 000005c8  1 .text.13 	main_c.obj 
-  00000068 000022 40001398 000005c8  1 .text 	IntcInterrupts_c.obj 
-  UNUSED   00002c ........ ........    INTC_InstallINTCInterruptHandler IntcInterrupts_c.obj 
-  00000068 000022 40001398 000005c8  2 INTC_InitINTCInterrupts 	IntcInterrupts_c.obj 
-  0000008a 00000e 400013ba 000005ea  1 .text 	Exceptions_c.obj 
-  0000008a 00000e 400013ba 000005ea  2 EXCEP_InitExceptionHandlers 	Exceptions_c.obj 
-  00000098 000040 400013c8 000005f8  1 .text 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  00000052 000000 40001382 000005e2  1 .text.505 	time_c.obj 
+  00000052 0000d4 40001382 000005e2  1 .text 	sdcard_c.obj 
+  00000052 0000d4 40001382 000005e2  2 init_DSPI_1 	sdcard_c.obj 
+  UNUSED   000012 ........ ........    SD_SPI_to_4M sdcard_c.obj 
+  UNUSED   00005a ........ ........    DSPI_read_write_byte sdcard_c.obj 
+  UNUSED   00004c ........ ........    DSPI_send_8_clocks sdcard_c.obj 
+  UNUSED   000020 ........ ........    SD_init sdcard_c.obj 
+  UNUSED   00008a ........ ........    SD_send_cmd sdcard_c.obj 
+  UNUSED   000094 ........ ........    SD_reset sdcard_c.obj 
+  UNUSED   000082 ........ ........    SD_read_block sdcard_c.obj 
+  UNUSED   0000a8 ........ ........    SD_read_multiple_block sdcard_c.obj 
+  UNUSED   0000ba ........ ........    SD_write_block sdcard_c.obj 
+  UNUSED   0000ea ........ ........    SD_write_multiple_block sdcard_c.obj 
+  UNUSED   000034 ........ ........    clear_sd_buffer sdcard_c.obj 
+  UNUSED   000076 ........ ........    read_steer_helm_data_from_TF sdcard_c.obj 
+  UNUSED   0000a4 ........ ........    write_steer_helm_data_to_TF sdcard_c.obj 
+  UNUSED   000076 ........ ........    read_device_no_from_TF sdcard_c.obj 
+  UNUSED   00010e ........ ........    test_file_system sdcard_c.obj 
+  UNUSED   0001d8 ........ ........    write_camera_data_to_TF sdcard_c.obj 
+  00000126 000000 40001456 000006b6  1 .text.611 	sdcard_c.obj 
+  00000126 00001e 40001456 000006b6  1 .text 	main_c.obj 
+  00000126 00001e 40001456 000006b6  2 main 	main_c.obj 
+  00000144 000000 40001474 000006d4  1 .text.257 	main_c.obj 
+  00000144 0002ae 40001474 000006d4  1 .text 	lcd_c.obj 
+  00000144 00015a 40001474 000006d4  2 initLCD 	lcd_c.obj 
+  UNUSED   00002c ........ ........    LCD_DISPLAY lcd_c.obj 
+  0000029e 00005a 400015ce 0000082e  2 LCD_WrDat 	lcd_c.obj 
+  000002f8 00005a 40001628 00000888  2 LCD_WrCmd 	lcd_c.obj 
+  00000352 000046 40001682 000008e2  2 LCD_Set_Pos 	lcd_c.obj 
+  00000398 00005a 400016c8 00000928  2 LCD_Fill 	lcd_c.obj 
+  UNUSED   00005a ........ ........    LCD_CLS lcd_c.obj 
+  UNUSED   000084 ........ ........    LCD_PutPixel lcd_c.obj 
+  UNUSED   0000d4 ........ ........    LCD_Rectangle lcd_c.obj 
+  UNUSED   000092 ........ ........    LCD_P6x8Str lcd_c.obj 
+  UNUSED   0000ce ........ ........    LCD_P8x16Str lcd_c.obj 
+  UNUSED   000182 ........ ........    LCD_P14x16Str lcd_c.obj 
+  UNUSED   0000a2 ........ ........    LCD_Printbyte lcd_c.obj 
+  UNUSED   0001a8 ........ ........    LCD_PrintoutInt lcd_c.obj 
+  UNUSED   0001be ........ ........    LCD_PrintoutFloat lcd_c.obj 
+  000003f2 000000 40001722 00000982  1 .text.555 	lcd_c.obj 
+  000003f2 00045a 40001722 00000982  1 .text 	init_c.obj 
+  000003f2 0000a2 40001722 00000982  2 init_modes_and_clock 	init_c.obj 
+  00000494 000032 400017c4 00000a24  2 disable_watchdog 	init_c.obj 
+  000004c6 00005a 400017f6 00000a56  2 init_led 	init_c.obj 
+  UNUSED   000046 ........ ........    init_pit init_c.obj 
+  00000520 000264 40001850 00000ab0  2 initEMIOS_0MotorAndSteer 	init_c.obj 
+  UNUSED   0000de ........ ........    initEMIOS_0Image init_c.obj 
+  00000784 000018 40001ab4 00000d14  2 enable_irq 	init_c.obj 
+  UNUSED   000026 ........ ........    is_big_endian init_c.obj 
+  UNUSED   00008e ........ ........    init_optical_encoder init_c.obj 
+  0000079c 000030 40001acc 00000d2c  2 delay_us 	init_c.obj 
+  000007cc 00002a 40001afc 00000d5c  2 delay_ms 	init_c.obj 
+  000007f6 000056 40001b26 00000d86  2 init_all_and_POST 	init_c.obj 
+  UNUSED   000004 ........ ........    suicide init_c.obj 
+  0000084c 000000 40001b7c 00000ddc  1 .text.348 	init_c.obj 
+  0000084c 000008 40001b7c 00000ddc  1 .text 	control_c.obj 
+  UNUSED   0001d6 ........ ........    PitISR control_c.obj 
+  UNUSED   000076 ........ ........    set_speed_pwm control_c.obj 
+  UNUSED   00005c ........ ........    contorl_speed_encoder_bb control_c.obj 
+  UNUSED   00004a ........ ........    get_e0 control_c.obj 
+  UNUSED   000106 ........ ........    contorl_speed_encoder_pid control_c.obj 
+  0000084c 000008 40001b7c 00000ddc  2 set_speed_target 	control_c.obj 
+  UNUSED   000022 ........ ........    set_speed_KP control_c.obj 
+  UNUSED   000022 ........ ........    set_speed_KI control_c.obj 
+  UNUSED   000022 ........ ........    set_speed_KD control_c.obj 
+  UNUSED   000038 ........ ........    control_angle_steer_helm control_c.obj 
+  UNUSED   000028 ........ ........    control_speed_motor control_c.obj 
+  UNUSED   00006e ........ ........    set_steer_helm control_c.obj 
+  UNUSED   00002c ........ ........    set_steer_helm_basement control_c.obj 
+  UNUSED   000020 ........ ........    set_steer_helm_basement_center control_c.obj 
+  UNUSED   000022 ........ ........    set_steer_helm_basement_left_limit control_c.obj 
+  UNUSED   000022 ........ ........    set_steer_helm_basement_right_limit control_c.obj 
+  UNUSED   0000a8 ........ ........    update_steer_helm_basement_to_steer_helm control_c.obj 
+  UNUSED   000020 ........ ........    diff_time_basis_PIT control_c.obj 
+  00000854 000000 40001b84 00000de4  1 .text.439 	control_c.obj 
+  00000854 000100 40001b84 00000de4  1 .text 	UART_c.obj 
+  UNUSED   0000a6 ........ ........    init_serial_port_0 UART_c.obj 
+  UNUSED   00003c ........ ........    serial_port_0_TX UART_c.obj 
+  UNUSED   000036 ........ ........    serial_port_0_TX_array UART_c.obj 
+  UNUSED   00004e ........ ........    intc_serial_port_0_RX UART_c.obj 
+  00000854 0000ba 40001b84 00000de4  2 init_serial_port_1 	UART_c.obj 
+  UNUSED   00003a ........ ........    serial_port_1_TX UART_c.obj 
+  UNUSED   000036 ........ ........    serial_port_1_TX_array UART_c.obj 
+  0000090e 000046 40001c3e 00000e9e  2 intc_serial_port_1_RX 	UART_c.obj 
+  UNUSED   0000ba ........ ........    init_serial_port_2 UART_c.obj 
+  UNUSED   00003a ........ ........    serial_port_2_TX UART_c.obj 
+  UNUSED   000036 ........ ........    serial_port_2_TX_array UART_c.obj 
+  UNUSED   00004c ........ ........    intc_serial_port_2_RX UART_c.obj 
+  UNUSED   0000c4 ........ ........    init_serial_port_3 UART_c.obj 
+  UNUSED   00003a ........ ........    serial_port_3_TX UART_c.obj 
+  UNUSED   000036 ........ ........    serial_port_3_TX_array UART_c.obj 
+  UNUSED   00003c ........ ........    intc_serial_port_3_RX UART_c.obj 
+  00000954 000000 40001c84 00000ee4  1 .text.403 	UART_c.obj 
+  00000954 00004e 40001c84 00000ee4  1 .text 	IntcInterrupts_c.obj 
+  00000954 00002c 40001c84 00000ee4  2 INTC_InstallINTCInterruptHandler 	IntcInterrupts_c.obj 
+  00000980 000022 40001cb0 00000f10  2 INTC_InitINTCInterrupts 	IntcInterrupts_c.obj 
+  000009a2 00000e 40001cd2 00000f32  1 .text 	Exceptions_c.obj 
+  000009a2 00000e 40001cd2 00000f32  2 EXCEP_InitExceptionHandlers 	Exceptions_c.obj 
+  000009b0 000040 40001ce0 00000f40  1 .text 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
   UNUSED   00002c ........ ........    abort libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
   UNUSED   000004 ........ ........    atexit libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  00000098 000040 400013c8 000005f8  2 exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  000009b0 000040 40001ce0 00000f40  2 exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
   UNUSED   00002a ........ ........    __atexit libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
   UNUSED   000056 ........ ........    __exit libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  000000d8 000000 40001408 00000638  1 .text.86 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  000000d8 000032 40001408 00000638  1 .text 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
+  000009f0 000000 40001d20 00000f80  1 .text.86 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  000009f0 000032 40001d20 00000f80  1 .text 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
   UNUSED   000010 ........ ........    __register_global_object librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
-  000000d8 000032 40001408 00000638  2 __destroy_global_chain 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
+  000009f0 000032 40001d20 00000f80  2 __destroy_global_chain 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
   UNUSED   00003a ........ ........    __register_atexit librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
-  0000010a 000000 4000143a 0000066a  1 .text.104 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
-  0000010a 000008 4000143a 0000066a  1 .text 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
+  00000a22 000000 40001d52 00000fb2  1 .text.104 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
+  00000a22 000008 40001d52 00000fb2  1 .text 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   00004a ........ ........    __save_gpr librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    _savegpr_14 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    _save32gpr_14 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
@@ -241,7 +373,7 @@ Link map of __startup
   UNUSED   000000 ........ ........    _rest32gpr_30 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    _restgpr_31 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    _rest32gpr_31 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
-  0000010a 000008 4000143a 0000066a  2 __restore_frame_and_exit 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
+  00000a22 000008 40001d52 00000fb2  2 __restore_frame_and_exit 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    __finish_restore_frame_and_exit2 librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   00000a ........ ........    __restore_gpr_31_exit librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   000000 ........ ........    __finish_restore_frame_and_exit librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
@@ -289,15 +421,15 @@ Link map of __startup
   UNUSED   00001a ........ ........    __shl2i librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   00001a ........ ........    __shr2u librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
   UNUSED   00001c ........ ........    __shr2i librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
-  00000112 000000 40001442 00000672  1 .text.205 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
+  00000a2a 000000 40001d5a 00000fba  1 .text.205 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
 
 
 .rodata section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 00000c 40001448 00000678  1 .rodata 	__ppc_eabi_init_c.obj 
-  00000000 00000c 40001448 00000678  4 @22 	__ppc_eabi_init_c.obj 
+  00000000 00000c 40001d60 00000fc0  1 .rodata 	__ppc_eabi_init_c.obj 
+  00000000 00000c 40001d60 00000fc0  4 @22 	__ppc_eabi_init_c.obj 
 
 
 .ctors section layout
@@ -328,8 +460,8 @@ extabindex section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 000348 40001460 00000690  1 .__uninitialized_intc_handlertable 	IntcInterrupts_c.obj 
-  00000000 000348 40001460 00000690  8 INTCInterruptsHandlerTable 	IntcInterrupts_c.obj 
+  00000000 000348 40001d70 00000fd0  1 .__uninitialized_intc_handlertable 	IntcInterrupts_c.obj 
+  00000000 000348 40001d70 00000fd0  8 INTCInterruptsHandlerTable 	IntcInterrupts_c.obj 
 
 
 .data section layout
@@ -342,19 +474,51 @@ extabindex section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
+  00000000 000003 400020b8 00000fd0  1 .sdata 	init_c.obj 
+  00000000 000003 400020b8 00000fd0  4 @330 	init_c.obj 
 
 
 .sbss section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 000008 400017a8 00000690  1 .sbss 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  00000000 000004 400020c0 00000fd8  1 .sbss 	control_c.obj 
+  UNUSED   000008 ........ ........    data_encoder control_c.obj 
+  00000000 000004 400020c0 00000fd8  4 data_speed_settings 	control_c.obj 
+  UNUSED   000004 ........ ........    g_f_pit control_c.obj 
+  UNUSED   000004 ........ ........    g_f_enable_mag_steer_control control_c.obj 
+  UNUSED   000004 ........ ........    g_f_enable_speed_control control_c.obj 
+  UNUSED   000004 ........ ........    g_f_enable_rad_control_1 control_c.obj 
+  UNUSED   000004 ........ ........    g_f_enable_rad_control_2 control_c.obj 
+  UNUSED   000004 ........ ........    g_f_enable_speed_control_2 control_c.obj 
+  UNUSED   000004 ........ ........    angle1 control_c.obj 
+  UNUSED   000004 ........ ........    g_f_enable_single_bridge_control control_c.obj 
+  UNUSED   000004 ........ ........    g_f_enable_fly_bridge control_c.obj 
+  UNUSED   000004 ........ ........    g_f_enable_steer_bridge control_c.obj 
+  UNUSED   000004 ........ ........    speed control_c.obj 
+  UNUSED   000004 ........ ........    read_rad_xyz control_c.obj 
+  UNUSED   000004 ........ ........    find_mag_back_box control_c.obj 
+  UNUSED   000004 ........ ........    find_mag_back_box_2 control_c.obj 
+  UNUSED   000004 ........ ........    find_mag_back_car1 control_c.obj 
+  UNUSED   000004 ........ ........    g_f_big_U control_c.obj 
+  UNUSED   000004 ........ ........    g_f_big_U_2 control_c.obj 
+  UNUSED   000002 ........ ........    @LOCAL@contorl_speed_encoder_pid__Fv@e1 control_c.obj 
+  UNUSED   000002 ........ ........    @LOCAL@contorl_speed_encoder_pid__Fv@e2@0 control_c.obj 
+  UNUSED   000004 ........ ........    g_time_basis_PIT control_c.obj 
+  00000004 000004 400020c8 00000fe0  8 *fill*
+  00000008 000005 400020c8 00000fe0  1 .sbss 	UART_c.obj 
+  UNUSED   000004 ........ ........    g_serial_port_0_f UART_c.obj 
+  00000008 000004 400020c8 00000fe0  4 g_serial_port_1_f 	UART_c.obj 
+  0000000c 000001 400020cc 00000fe4  1 g_serial_port_1_data 	UART_c.obj 
+  UNUSED   000001 ........ ........    g_serial_port_0_data UART_c.obj 
+  0000000d 000003 400020d0 00000fe8  8 *fill*
+  00000010 000008 400020d0 00000fe8  1 .sbss 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
   UNUSED   000004 ........ ........    __atexit_curr_func_C libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  00000000 000004 400017a8 00000690  4 __stdio_exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  00000004 000004 400017ac 00000694  4 __console_exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
-  00000008 000004 400017b0 00000698  1 .sbss 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
+  00000010 000004 400020d0 00000fe8  4 __stdio_exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  00000014 000004 400020d4 00000fec  4 __console_exit 	libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
+  00000018 000004 400020d8 00000ff0  1 .sbss 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
   UNUSED   000004 ........ ........    atexit_curr_func librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
-  00000008 000004 400017b0 00000698  4 __global_destructor_chain 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
+  00000018 000004 400020d8 00000ff0  4 __global_destructor_chain 	librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\global_destructor_chain.o
 
 
 .sdata2 section layout
@@ -378,31 +542,31 @@ extabindex section layout
 Memory map:
                        Starting Size     File       S-Record
                        address           Offset     Line
-    .ivor_branch_table 40000000 000000f4 00000140          2
-  .intc_hw_branch_table 400000f4 00000000 00000234          0
-                 .init 40001000 0000006c 00000234         15
-             .init_vle 4000106c 00000208 000002a0         21
-  .__exception_handlers 40001280 000000a4 000004b0         47
-                 .text 40001324 00000000 00000560          0
-             .text_vle 40001330 00000114 00000560         56
-               .rodata 40001448 0000000c 00000678         70
-                .ctors 40001454 00000000 00000684          0
-                .dtors 40001454 00000000 00000684          0
-                 extab 40001454 00000000 00000684          0
-            extabindex 40001454 00000000 00000684          0
-  .__uninitialized_intc_handlertable 40001460 00000348 00000690          0
-                 .data 400017a8 00000000 00000690          0
-                .sdata 400017a8 00000000 00000690          0
-                 .sbss 400017a8 0000000c 00000690          0
-               .sdata2 400017b4 00000000 00000690          0
-                .sbss2 400017b4 00000000 00000690          0
-                  .bss 400017b4 00000000 00000690          0
-      .PPC.EMB.apuinfo 00004870 00000000 00004f00          0
-         .debug_abbrev          00000129 00000690
-           .debug_info          0000144b 000007b9
-           .debug_line          00002341 00001c04
-            .debug_loc          00000353 00003f45
-       .debug_pubnames          0000030e 00004298
+    .ivor_branch_table 40000000 000000f4 00000160          2
+  .intc_hw_branch_table 400000f4 00000000 00000254          0
+                 .init 40001000 00000078 00000254         15
+             .init_vle 40001078 00000208 000002cc         21
+  .__exception_handlers 40001280 000000a4 000004e0         47
+                 .text 40001324 00000000 00000590          0
+             .text_vle 40001330 00000a2c 00000590         56
+               .rodata 40001d60 0000000c 00000fc0        187
+                .ctors 40001d6c 00000000 00000fcc          0
+                .dtors 40001d6c 00000000 00000fcc          0
+                 extab 40001d6c 00000000 00000fcc          0
+            extabindex 40001d6c 00000000 00000fcc          0
+  .__uninitialized_intc_handlertable 40001d70 00000348 00000fd0          0
+                 .data 400020b8 00000000 00000fd0          0
+                .sdata 400020b8 00000004 00000fd0        188
+                 .sbss 400020c0 0000001c 00000fd8          0
+               .sdata2 400020dc 00000000 00000fd8          0
+                .sbss2 400020dc 00000000 00000fd8          0
+                  .bss 400020dc 00000000 00000fd8          0
+      .PPC.EMB.apuinfo 00007224 00000000 00008200          0
+         .debug_abbrev          00000145 00000fd8
+           .debug_info          00001df8 0000111d
+           .debug_line          00003aef 00002f15
+            .debug_loc          00000524 00006a04
+       .debug_pubnames          00000506 00006f28
 
 
 Linker generated symbols:
@@ -415,10 +579,10 @@ _f_intc_hw_branch_table_rom 40000800
   _e_intc_hw_branch_table 400000f4
                   _f_init 40001000
               _f_init_rom 40001000
-                  _e_init 4000106c
-              _f_init_vle 4000106c
-          _f_init_vle_rom 4000106c
-              _e_init_vle 40001274
+                  _e_init 40001078
+              _f_init_vle 40001078
+          _f_init_vle_rom 40001078
+              _e_init_vle 40001280
   _f___exception_handlers 40001280
 _f___exception_handlers_rom 40001280
   _e___exception_handlers 40001324
@@ -427,49 +591,49 @@ _f___exception_handlers_rom 40001280
                   _e_text 40001324
               _f_text_vle 40001330
           _f_text_vle_rom 40001330
-              _e_text_vle 40001444
-                _f_rodata 40001448
-            _f_rodata_rom 40001448
-                _e_rodata 40001454
-                 _f_ctors 40001454
-             _f_ctors_rom 40001454
-                 _e_ctors 40001454
-                 _f_dtors 40001454
-             _f_dtors_rom 40001454
-                 _e_dtors 40001454
-                  _fextab 40001454
-              _fextab_rom 40001454
-                  _eextab 40001454
-             _fextabindex 40001454
-         _fextabindex_rom 40001454
-             _eextabindex 40001454
-_f___uninitialized_intc_handlertable 40001460
-_e___uninitialized_intc_handlertable 400017a8
-                  _f_data 400017a8
-              _f_data_rom 400017a8
-                  _e_data 400017a8
-                 _f_sdata 400017a8
-             _f_sdata_rom 400017a8
-                 _e_sdata 400017a8
-                  _f_sbss 400017a8
-                  _e_sbss 400017b4
-                _f_sdata2 400017b4
-            _f_sdata2_rom 400017b8
-                _e_sdata2 400017b4
-                 _f_sbss2 400017b4
-                 _e_sbss2 400017b4
-                   _f_bss 400017b4
-                   _e_bss 400017b4
+              _e_text_vle 40001d5c
+                _f_rodata 40001d60
+            _f_rodata_rom 40001d60
+                _e_rodata 40001d6c
+                 _f_ctors 40001d6c
+             _f_ctors_rom 40001d6c
+                 _e_ctors 40001d6c
+                 _f_dtors 40001d6c
+             _f_dtors_rom 40001d6c
+                 _e_dtors 40001d6c
+                  _fextab 40001d6c
+              _fextab_rom 40001d6c
+                  _eextab 40001d6c
+             _fextabindex 40001d6c
+         _fextabindex_rom 40001d6c
+             _eextabindex 40001d6c
+_f___uninitialized_intc_handlertable 40001d70
+_e___uninitialized_intc_handlertable 400020b8
+                  _f_data 400020b8
+              _f_data_rom 400020b8
+                  _e_data 400020b8
+                 _f_sdata 400020b8
+             _f_sdata_rom 400020b8
+                 _e_sdata 400020bc
+                  _f_sbss 400020c0
+                  _e_sbss 400020dc
+                _f_sdata2 400020dc
+            _f_sdata2_rom 400020e0
+                _e_sdata2 400020dc
+                 _f_sbss2 400020dc
+                 _e_sbss2 400020dc
+                   _f_bss 400020dc
+                   _e_bss 400020dc
               _stack_addr 40008000
                _stack_end 40007800
                _heap_addr 40007000
                 _heap_end 40007800
-             _nbfunctions 00000018
-           SIZEOF_HEADERS 00000140
-               _SDA_BASE_ 400097a8
-              _SDA2_BASE_ 400097b4
-           _ABS_SDA_BASE_ 400097a8
-          _ABS_SDA2_BASE_ 400097b4
+             _nbfunctions 0000002a
+           SIZEOF_HEADERS 00000160
+               _SDA_BASE_ 4000a0b8
+              _SDA2_BASE_ 4000a0dc
+           _ABS_SDA_BASE_ 4000a0b8
+          _ABS_SDA2_BASE_ 4000a0dc
                  _SP_INIT 40008000
              __HEAP_START 40007000
               __mem_limit 40007800

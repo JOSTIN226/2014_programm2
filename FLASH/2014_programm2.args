@@ -15,6 +15,7 @@
 "./Sources/drifting_c.obj"
 "./Sources/diskio_c.obj"
 "./Sources/control_c.obj"
+"./Sources/analyse_c.obj"
 "./Sources/action_c.obj"
 "./Sources/WiFi_c.obj"
 "./Sources/UART_c.obj"

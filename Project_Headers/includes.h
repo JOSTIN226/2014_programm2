@@ -56,6 +56,7 @@ typedef unsigned short word;
 #include "action.h"
 #include "IntcInterrupts.h"
 #include "video.h"
+#include "analyse.h"
 
 
 ///****************LED****************///

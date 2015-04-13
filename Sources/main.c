@@ -15,8 +15,8 @@ void main(void)
 	//delay_ms(1000);//等待蓝牙配对
 	//write_camera_data_to_TF();
 	//test_file_system();
-	SetupCCD();
-	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
+	//SetupCCD();
+	//EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 	/*等待开始*/
 //	
 //	while(!g_start_all&&(WIFI_ADDRESS_CAR_4 == g_device_NO||WIFI_ADDRESS_CAR_3 == g_device_NO))
@@ -31,7 +31,7 @@ void main(void)
 //	}
 // 	
 //	if(WIFI_ADDRESS_CAR_3 == g_device_NO)
-//		set_speed_target(10);
+		set_speed_target(10);
 //	else if(WIFI_ADDRESS_CAR_4 == g_device_NO)
 //	{
 //		delay_ms(1000);
@@ -40,6 +40,7 @@ void main(void)
 //	else 	set_speed_target(0);
 	
 	/* Loop forever */
+		//set_speed_pwm(500);
 	for (;;)
 	{
 
@@ -61,17 +62,20 @@ void main(void)
 //
 //		/* 报告在线 */
 	//	report_online();
+#if 0
 		if(fieldover)
 		{
 			fieldover=0;
-			Display_Video();
-			//Send_CCD_Video();
+			//Display_Video();
+			Send_CCD_Video();
 			//D3=~D3;
 			//write_camera_data_to_TF();
 			
 			EMIOS_0.CH[3].CSR.B.FLAG = 1;
 			EMIOS_0.CH[3].CCR.B.FEN=1;
 		}
+#endif
+		
 	}
 
 }

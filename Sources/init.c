@@ -29,7 +29,7 @@ void init_modes_and_clock(void)
   
 	/* 开peri0、1、2 */
 	/* 外设时钟总线 可用于分频 */
-	CGM.SC_DC[0].R = 0x80;	/* LIN */
+	CGM.SC_DC[0].R = 0x84;	/* LIN */
 	CGM.SC_DC[1].R = 0x80;	/* FLEXCAN,DSPI */
     CGM.SC_DC[2].R = 0x80;	/* eMIOS,CTU,ADC */
 }
@@ -256,7 +256,7 @@ void init_all_and_POST(void)
 	disable_watchdog();
 	init_modes_and_clock();
 	initEMIOS_0MotorAndSteer();
-	initEMIOS_0Image();
+	//initEMIOS_0Image();
 	//init_pit();
 	init_led();
 	//init_serial_port_0();

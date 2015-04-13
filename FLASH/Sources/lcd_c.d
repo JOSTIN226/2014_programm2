@@ -31,5 +31,4 @@ Sources/lcd_c.obj: C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Sources\lcd.c \
 	C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Project_Headers\drifting.h \
 	C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Project_Headers\action.h \
 	C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Project_Headers\IntcInterrupts.h \
-	C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Project_Headers\video.h \
-	C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Project_Headers\analyse.h 
+	C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Project_Headers\video.h 

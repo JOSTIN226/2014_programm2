@@ -28,7 +28,7 @@ Link map of __startup
       5] @22 (object,local) found in __ppc_eabi_init_c.obj 
     3] main (func,global) found in main_c.obj 
      4] init_all_and_POST (func,global) found in init_c.obj 
-      5] @330 (object,local) found in init_c.obj 
+      5] @310 (object,local) found in init_c.obj 
       5] disable_watchdog (func,global) found in init_c.obj 
       5] init_modes_and_clock (func,global) found in init_c.obj 
       5] initEMIOS_0MotorAndSteer (func,global) found in init_c.obj 
@@ -70,19 +70,19 @@ Link map of __startup
     3] .text (section,local) found in MPC5604B_HWInit_c.obj 
     3] .text.12 (notype,local) found in MPC5604B_HWInit_c.obj 
     3] .text (section,local) found in sdcard_c.obj 
-    3] .text.611 (notype,local) found in sdcard_c.obj 
+    3] .text.591 (notype,local) found in sdcard_c.obj 
     3] .text (section,local) found in main_c.obj 
-    3] .text.257 (notype,local) found in main_c.obj 
+    3] .text.237 (notype,local) found in main_c.obj 
     3] .text (section,local) found in lcd_c.obj 
-    3] .text.555 (notype,local) found in lcd_c.obj 
+    3] .text.535 (notype,local) found in lcd_c.obj 
     3] .ivor_branch_table (section,local) found in ivor_branch_table_c.obj 
     3] .ivor_branch_table.24 (notype,local) found in ivor_branch_table_c.obj 
     3] .text (section,local) found in init_c.obj 
-    3] .text.348 (notype,local) found in init_c.obj 
+    3] .text.328 (notype,local) found in init_c.obj 
     3] .text (section,local) found in control_c.obj 
-    3] .text.439 (notype,local) found in control_c.obj 
+    3] .text.419 (notype,local) found in control_c.obj 
     3] .text (section,local) found in UART_c.obj 
-    3] .text.403 (notype,local) found in UART_c.obj 
+    3] .text.383 (notype,local) found in UART_c.obj 
     3] .text (section,local) found in libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
     3] .text.86 (notype,local) found in libc_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_C\EWL_C.PA_CmdLineData\libc_E200z0_VLE_Soft\obj\abort_exit.o
     3] .init (section,local) found in librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\__start.o
@@ -92,7 +92,7 @@ Link map of __startup
     3] .text (section,local) found in librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
     3] .text.205 (notype,local) found in librt_E200z0_VLE_Soft.a D:\w\EPPC\workspace_codegen\ewl\EWL_Runtime\Runtime_PA_CmdLineData\librt_E200z0_VLE_Soft\obj\runtime.o
     3] .text (section,local) found in video_c.obj 
-    3] .text.354 (notype,local) found in video_c.obj 
+    3] .text.334 (notype,local) found in video_c.obj 
 
 
 .__bam_bootarea section layout
@@ -192,7 +192,7 @@ Link map of __startup
   UNUSED   000064 ........ ........    Display_Video video_c.obj 
   UNUSED   00009c ........ ........    Send_CCD_Video video_c.obj 
   UNUSED   000058 ........ ........    SetupCCD video_c.obj 
-  000000a2 000000 000030a2 00000772  1 .text.354 	video_c.obj 
+  000000a2 000000 000030a2 00000772  1 .text.334 	video_c.obj 
   000000a2 0000d4 000030a2 00000772  1 .text 	sdcard_c.obj 
   000000a2 0000d4 000030a2 00000772  2 init_DSPI_1 	sdcard_c.obj 
   UNUSED   000012 ........ ........    SD_SPI_to_4M sdcard_c.obj 
@@ -211,10 +211,10 @@ Link map of __startup
   UNUSED   000076 ........ ........    read_device_no_from_TF sdcard_c.obj 
   UNUSED   00010e ........ ........    test_file_system sdcard_c.obj 
   UNUSED   0001d8 ........ ........    write_camera_data_to_TF sdcard_c.obj 
-  00000176 000000 00003176 00000846  1 .text.611 	sdcard_c.obj 
+  00000176 000000 00003176 00000846  1 .text.591 	sdcard_c.obj 
   00000176 00001e 00003176 00000846  1 .text 	main_c.obj 
   00000176 00001e 00003176 00000846  2 main 	main_c.obj 
-  00000194 000000 00003194 00000864  1 .text.257 	main_c.obj 
+  00000194 000000 00003194 00000864  1 .text.237 	main_c.obj 
   00000194 0002ae 00003194 00000864  1 .text 	lcd_c.obj 
   00000194 00015a 00003194 00000864  2 initLCD 	lcd_c.obj 
   UNUSED   00002c ........ ........    LCD_DISPLAY lcd_c.obj 
@@ -231,7 +231,7 @@ Link map of __startup
   UNUSED   0000a2 ........ ........    LCD_Printbyte lcd_c.obj 
   UNUSED   0001a8 ........ ........    LCD_PrintoutInt lcd_c.obj 
   UNUSED   0001be ........ ........    LCD_PrintoutFloat lcd_c.obj 
-  00000442 000000 00003442 00000b12  1 .text.555 	lcd_c.obj 
+  00000442 000000 00003442 00000b12  1 .text.535 	lcd_c.obj 
   00000442 00045a 00003442 00000b12  1 .text 	init_c.obj 
   00000442 0000a2 00003442 00000b12  2 init_modes_and_clock 	init_c.obj 
   000004e4 000032 000034e4 00000bb4  2 disable_watchdog 	init_c.obj 
@@ -246,7 +246,7 @@ Link map of __startup
   0000081c 00002a 0000381c 00000eec  2 delay_ms 	init_c.obj 
   00000846 000056 00003846 00000f16  2 init_all_and_POST 	init_c.obj 
   UNUSED   000004 ........ ........    suicide init_c.obj 
-  0000089c 000000 0000389c 00000f6c  1 .text.348 	init_c.obj 
+  0000089c 000000 0000389c 00000f6c  1 .text.328 	init_c.obj 
   0000089c 000008 0000389c 00000f6c  1 .text 	control_c.obj 
   UNUSED   0001d6 ........ ........    PitISR control_c.obj 
   UNUSED   000076 ........ ........    set_speed_pwm control_c.obj 
@@ -266,7 +266,7 @@ Link map of __startup
   UNUSED   000022 ........ ........    set_steer_helm_basement_right_limit control_c.obj 
   UNUSED   0000a8 ........ ........    update_steer_helm_basement_to_steer_helm control_c.obj 
   UNUSED   000020 ........ ........    diff_time_basis_PIT control_c.obj 
-  000008a4 000000 000038a4 00000f74  1 .text.439 	control_c.obj 
+  000008a4 000000 000038a4 00000f74  1 .text.419 	control_c.obj 
   000008a4 000100 000038a4 00000f74  1 .text 	UART_c.obj 
   UNUSED   0000a6 ........ ........    init_serial_port_0 UART_c.obj 
   UNUSED   00003c ........ ........    serial_port_0_TX UART_c.obj 
@@ -284,7 +284,7 @@ Link map of __startup
   UNUSED   00003a ........ ........    serial_port_3_TX UART_c.obj 
   UNUSED   000036 ........ ........    serial_port_3_TX_array UART_c.obj 
   UNUSED   00003c ........ ........    intc_serial_port_3_RX UART_c.obj 
-  000009a4 000000 000039a4 00001074  1 .text.403 	UART_c.obj 
+  000009a4 000000 000039a4 00001074  1 .text.383 	UART_c.obj 
   000009a4 00004e 000039a4 00001074  1 .text 	IntcInterrupts_c.obj 
   000009a4 00002c 000039a4 00001074  2 INTC_InstallINTCInterruptHandler 	IntcInterrupts_c.obj 
   000009d0 000022 000039d0 000010a0  2 INTC_InitINTCInterrupts 	IntcInterrupts_c.obj 
@@ -479,7 +479,7 @@ extabindex section layout
   address  Size   address  offset
   ---------------------------------
   00000000 000003 40000348 00001800  1 .sdata 	init_c.obj 
-  00000000 000003 40000348 00001800  4 @330 	init_c.obj 
+  00000000 000003 40000348 00001800  4 @310 	init_c.obj 
 
 
 .sbss section layout
@@ -565,12 +565,12 @@ Memory map:
                .sdata2 4000036c 00000000 00001808 00004008 00004008          0
                 .sbss2 4000036c 00000000 00001808 00004008 00004008          0
                   .bss 4000036c 00000000 00001808 00004008 00004008          0
-      .PPC.EMB.apuinfo 000070a0 00000000 000088b0 0000b0a8 0000b0a8          0
+      .PPC.EMB.apuinfo 00007044 00000000 00008850 0000b04c 0000b04c          0
          .debug_abbrev          00000145 00001808
            .debug_info          00001df8 0000194d
-           .debug_line          00003809 00003745
-            .debug_loc          00000537 00006f4e
-       .debug_pubnames          0000054d 00007485
+           .debug_line          000037ae 00003745
+            .debug_loc          00000537 00006ef3
+       .debug_pubnames          0000054d 0000742a
 
 
 Linker generated symbols:

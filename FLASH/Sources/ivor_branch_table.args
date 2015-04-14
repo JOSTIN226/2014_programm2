@@ -20,7 +20,7 @@
 -i
 "$(ProjDirPath)/Project_Headers"
 -i
-"$(FORCAROLOCUP)/Sources"
+"$(FORCALOROCUP)/Sources"
 -I-
 -I"$(MCUToolsBaseDirEnv)/PA_Support/ewl/EWL_C/include"
 -I-

@@ -1,10 +1,10 @@
-Project_Settings/Startup_Code/__ppc_eabi_init_c.obj: C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Project_Settings\Startup_Code\__ppc_eabi_init.c \
+Project_Settings/Startup_Code/__ppc_eabi_init_c.obj: C:\Users\JOSTIN\Documents\GitHub\ForCaloroCup\Project_Settings\Startup_Code\__ppc_eabi_init.c \
 	C:\Freescale\CW\ MCU\ v10.6\MCU\PA_Support\ewl\EWL_C\include\lib_ewl.prefix \
 	C:\Freescale\CW\ MCU\ v10.6\MCU\PA_Support\ewl\EWL_C\include\common.prefix \
 	C:\Freescale\CW\ MCU\ v10.6\MCU\PA_Support\ewl\EWL_C\include\ewl_c_version.h \
-	C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Prefix\MPC5604B_FLASH_VLE.prefix \
-	C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Project_Headers\MPC5604B.h \
-	C:\Users\JOSTIN\Documents\GitHub\ForCaroloCup\Project_Headers\typedefs.h \
+	C:\Users\JOSTIN\Documents\GitHub\ForCaloroCup\Prefix\MPC5604B_FLASH_VLE.prefix \
+	C:\Users\JOSTIN\Documents\GitHub\ForCaloroCup\Project_Headers\MPC5604B.h \
+	C:\Users\JOSTIN\Documents\GitHub\ForCaloroCup\Project_Headers\typedefs.h \
 	C:\Freescale\CW\ MCU\ v10.6\MCU\PA_Support\ewl\EWL_C\include\stdint.h \
 	C:\Freescale\CW\ MCU\ v10.6\MCU\PA_Support\ewl\EWL_C\include\ansi_parms.h \
 	C:\Freescale\CW\ MCU\ v10.6\MCU\PA_Support\ewl\EWL_C\include\ewlGlobals.h \

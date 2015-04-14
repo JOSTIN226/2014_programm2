@@ -18,7 +18,6 @@
 "./Sources/action_c.obj"
 "./Sources/WiFi_c.obj"
 "./Sources/UART_c.obj"
-"./Sources/RFIDCard_c.obj"
 "./Sources/L3G4200D_c.obj"
 "./Sources/IntcInterrupts_c.obj"
 "./Sources/Exceptions_c.obj"

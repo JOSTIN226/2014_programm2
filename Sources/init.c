@@ -256,7 +256,7 @@ void init_all_and_POST(void)
 	disable_watchdog();
 	init_modes_and_clock();
 	initEMIOS_0MotorAndSteer();
-	//initEMIOS_0Image();
+	initEMIOS_0Image();/* 摄像头输入中断初始化 */
 	//init_pit();
 	init_led();
 	//init_serial_port_0();
@@ -276,7 +276,7 @@ void init_all_and_POST(void)
 	//init_DSPI_2();
 	//init_I2C();
 	
-	//enable_irq();
+	
 	
 	/* 初始化SPI总线 */
 	init_DSPI_1();

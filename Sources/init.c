@@ -160,7 +160,7 @@ void initEMIOS_0Image(void)
 	INTC_InstallINTCInterruptHandler(RowInputCapture,144,3); 
 	
 	//C10口二值化入口
-	SIU.PCR[42].R = 0x0102;  // C9口二值化入口
+	SIU.PCR[42].R = 0x0102;  // C10口二值化入口
 }
 
 /*-----------------------------------------------------------------------*/
@@ -250,8 +250,8 @@ void delay_ms(DWORD ms)
 void init_all_and_POST(void)
 {
 	int i = 0;
-	/* TF卡 */
-	TCHAR *path = "0:";
+//	/* TF卡 */
+//	TCHAR *path = "0:";
 	
 	disable_watchdog();
 	init_modes_and_clock();
@@ -259,7 +259,7 @@ void init_all_and_POST(void)
 	initEMIOS_0Image();/* 摄像头输入中断初始化 */
 	//init_pit();
 	init_led();
-	//init_serial_port_0();
+	init_serial_port_0();
 	init_serial_port_1();
 	//init_serial_port_2();
 	//init_ADC();

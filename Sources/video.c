@@ -6,7 +6,7 @@
 word crow = 0;           //行数计数器
 byte prow = 0;  	  	    //摄像头采样当前行
 byte pcolumn = 0;        //摄像头当前列
-byte RowSAIC_DelayTime=43;   //图像延时时间82//43
+byte RowSAIC_DelayTime=82;   //图像延时时间82//43
 //采样结束标志
 byte fieldover = 0;                //一场采样结束标志符 
 int kkk=0;
@@ -14,7 +14,7 @@ int kkk2=0;
 //采样二维数组    
 volatile byte g_pix[ROWS][COLUMNS]; 
 volatile byte pic[ROWS][COLUMNS]; 
-byte pix[ROWS][COLUMNS];
+byte pix[ROWS][COLUMNS]={0};
 
 word selectRows[ROWS]=
 {
@@ -35,7 +35,7 @@ word selectRows[ROWS]=
 		213,214,216,218,220,221,223,224,226,
 		227,229,230,232,233,234,235,237,238,
 		239,240,241,242,243,244,245,246,247,
-		248,249,250,251,252,253,254,255*///X
+		248,249,250,251,252,253,254,255*///62
 
 
 };
@@ -173,7 +173,7 @@ void RowInputCapture(void)
 void Video_Image(void)
 {
 	int y,x,i;
-	for(y=0;y<ROWS/8;y++)
+	for(y=0;y<ROWS/8+(ROWS%8!=0);y++)
 		for(x=0;x<COLUMNS;x++)
 		{
 			pix[y][x]=0;
@@ -197,7 +197,7 @@ void Display_Video(void)
 {
 	BYTE x,y;
 	Video_Image();
-	for(y=0;y<8;y++)
+	for(y=0;y<ROWS/8+(ROWS%8!=0);y++)
 	{
 		LCD_Set_Pos(10,y);				
     	for(x=0;x<COLUMNS;x++)

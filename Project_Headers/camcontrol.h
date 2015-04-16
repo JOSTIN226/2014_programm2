@@ -2,8 +2,8 @@
 #define __CAMCONTROL_H__
 
 
-#define Motor_PWM_MAX (200)
-#define Motor_PWM_MIN (-100)
+#define Motor_PWM_MAX (1500)
+#define Motor_PWM_MIN (1)
 
 
 //**********************舵机参数**********************************************

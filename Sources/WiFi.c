@@ -23,6 +23,7 @@ void execute_remote_cmd(const BYTE *data)
 		/* 舵机调参 */
 		case WIFI_CMD_SET_HELM_TARGET :
 		set_steer_helm_basement(*((SWORD *)(&(data[2]))));
+
 		break;
 		case WIFI_CMD_SET_HELM_KP :
 		break;

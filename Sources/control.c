@@ -34,7 +34,7 @@ void PitISR(void)
 	g_f_pit = 1;
 	
 	g_time_basis_PIT++;	/* 计时 */
-	
+#if 0	
 	/* start:encoder */
 	data_encoder.is_forward = SIU.GPDI[28].B.PDI;
 	data_encoder.cnt_old = data_encoder.cnt_new;
@@ -48,7 +48,10 @@ void PitISR(void)
 		data_encoder.speed_now = 0xffff - (data_encoder.cnt_old - data_encoder.cnt_new);
 	}
 	/* end:encoder */
+	SpeedControl();
+#endif
 	
+#if 0	
 	/* 开始执行速度控制算法 */
 	if (g_f_enable_speed_control)
 	{
@@ -140,7 +143,7 @@ void PitISR(void)
 	{
 		control_speed_target_1(speed);
 	}
-	
+#endif	
 #if 0
 	/* 发送位置 */
 	{
@@ -156,7 +159,7 @@ void PitISR(void)
 
 
 /*-----------------------------------------------------------------------*/
-/* 设置速度PWM                                                                    */
+/* 设置速度PWM      电机接口函数                                                             */
 /*-----------------------------------------------------------------------*/
 void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 {
@@ -356,6 +359,7 @@ void set_steer_helm(SWORD helmData)
 /* 相反                                                                                  */
 /* 直接方向舵机寄存器                                                             */
 /* 有限幅                                                                               */
+/* 舵机接口函数                                                                          */
 /*-----------------------------------------------------------------------*/
 void set_steer_helm_basement(WORD helmData)
 {

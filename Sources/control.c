@@ -34,7 +34,7 @@ void PitISR(void)
 	g_f_pit = 1;
 	
 	g_time_basis_PIT++;	/* 计时 */
-#if 0	
+#if 1	
 	/* start:encoder */
 	data_encoder.is_forward = SIU.GPDI[28].B.PDI;
 	data_encoder.cnt_old = data_encoder.cnt_new;
@@ -48,16 +48,16 @@ void PitISR(void)
 		data_encoder.speed_now = 0xffff - (data_encoder.cnt_old - data_encoder.cnt_new);
 	}
 	/* end:encoder */
-	SpeedControl();
 #endif
 	
-#if 0	
+	
 	/* 开始执行速度控制算法 */
 	if (g_f_enable_speed_control)
 	{
+		//SpeedControl();//不同路段PID,尚未调,不可用
 		contorl_speed_encoder_pid();
 	}
-
+#if 0
 	/* 电磁循迹 */
 	if (g_f_enable_mag_steer_control)
 	{

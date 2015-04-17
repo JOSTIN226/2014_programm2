@@ -34,7 +34,7 @@ void SteerControl()
 	//*1***********出错图像角度控制,输出为前三次平均值**************
 	if(RoadType==NoLine||RoadType==Wrong) {
 		Steer_PWM[3]=(Steer_PWM[2]+Steer_PWM[1])/2;
-		set_steer_helm_basement(Steer_PWM[3]);
+		set_steer_helm(Steer_PWM[3]);
 		//存舵机值
 		Steer_PWM[0]=Steer_PWM[1];Steer_PWM[1]=Steer_PWM[2];Steer_PWM[2]=Steer_PWM[3];
 		return;
@@ -49,14 +49,14 @@ void SteerControl()
 
 
 	
-	Steer_PWM[3]=STEER_HELM_CENTER-Steer_kp*target_offset-Steer_kd*(target_offset-last_offset);
+	Steer_PWM[3]=0-Steer_kp*target_offset-Steer_kd*(target_offset-last_offset);
 	//if(ABS(Steer_PWM[3]-Steer_PWM[2])>250) Steer_PWM[3]=(Steer_PWM[2]+Steer_PWM[1])/2;
 	//感觉不太靠谱，调的不好
 	
 	//舵机限值+舵机输出
-	if(Steer_PWM[3]>STEER_HELM_LEFT) Steer_PWM[3]=STEER_HELM_LEFT;
-	else if(Steer_PWM[3]<STEER_HELM_RIGHT) Steer_PWM[3]=STEER_HELM_RIGHT;
-	set_steer_helm_basement(Steer_PWM[3]);
+	if(Steer_PWM[3]>data_steer_helm.left_limit) Steer_PWM[3]=data_steer_helm.left_limit;
+	else if(Steer_PWM[3]<data_steer_helm.right_limit) Steer_PWM[3]=data_steer_helm.right_limit;
+	set_steer_helm(Steer_PWM[3]);
 	
 	//存舵机值和offset值
 	Steer_PWM[0]=Steer_PWM[1];Steer_PWM[1]=Steer_PWM[2];Steer_PWM[2]=Steer_PWM[3];
@@ -117,16 +117,16 @@ void SpeedControl()
 
    //最低速
 	if(Slope==1)				{targetspeed=180;
-									Speed_kp=6.5;Speed_ki=0.1;Speed_kd=0.2;}
+									data_speed_pid.p=6.5;data_speed_pid.i=0.1;data_speed_pid.d=0.2;}
 	else if(Slope==2)			{targetspeed=140;
-									Speed_kp=6;Speed_ki=0.1;Speed_kd=0.2;}
+									data_speed_pid.p=6;data_speed_pid.i=0.1;data_speed_pid.d=0.2;}
 									
 	else if(RoadEnd<15)			{targetspeed=175;
-									Speed_kp=5.5;Speed_ki=0.1;Speed_kd=0.2;}
+									data_speed_pid.p=5.5;data_speed_pid.i=0.1;data_speed_pid.d=0.2;}
 	else if(RoadEnd<30)			{targetspeed=155-target_offset*target_offset/40;
-									Speed_kp=5.5;Speed_ki=0.2;Speed_kd=0.2;}
+									data_speed_pid.p=5.5;data_speed_pid.i=0.2;data_speed_pid.d=0.2;}
 	else						{targetspeed=130;
-									Speed_kp=5.5;Speed_ki=0.2;Speed_kd=0.2;}
+									data_speed_pid.p=5.5;data_speed_pid.i=0.2;data_speed_pid.d=0.2;}
 
 
 //	if(StartTime2s<290)	{if(currentspeed>targetspeed) SumError=0;}
@@ -134,18 +134,5 @@ void SpeedControl()
 	
 	
 	
-    Error=(signed int)(targetspeed)-(signed int)(currentspeed);
-    
-    SumError+=Error;
-    if(SumError>3000) SumError=3000;
-    if(SumError<-3000) SumError=-3000;
-    
-
-   	Motor_PWM=Speed_kp*Error+Speed_ki*SumError+Speed_kd*(Error-PreError);
-   	
-    if(Motor_PWM>Motor_PWM_MAX)  Motor_PWM=Motor_PWM_MAX;
-	else if(Motor_PWM<Motor_PWM_MIN)  Motor_PWM=Motor_PWM_MIN;
-    set_speed_pwm(Motor_PWM);
-	
-	PreError=Error;
+   
 }

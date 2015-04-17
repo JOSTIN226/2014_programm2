@@ -169,8 +169,8 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 		{
 			speed_pwm = SPEED_PWM_MAX;
 		}
-		EMIOS_0.CH[21].CBDR.R = speed_pwm;//PE5
-		EMIOS_0.CH[22].CBDR.R = 1;//PE6
+		EMIOS_0.CH[6].CBDR.R = speed_pwm;//PE5
+		EMIOS_0.CH[7].CBDR.R = 1;//PE6
 		
 	}
 	else if (speed_pwm<0)	//backward
@@ -181,13 +181,13 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 			speed_pwm = SPEED_PWM_MAX;
 		}
 
-		EMIOS_0.CH[21].CBDR.R = 1;
-		EMIOS_0.CH[22].CBDR.R = speed_pwm;	
+		EMIOS_0.CH[6].CBDR.R = 1;
+		EMIOS_0.CH[7].CBDR.R = speed_pwm;	
 	}
 	else
 	{
-		EMIOS_0.CH[21].CBDR.R = 1;
-		EMIOS_0.CH[22].CBDR.R = 1;	
+		EMIOS_0.CH[6].CBDR.R = 1;
+		EMIOS_0.CH[7].CBDR.R = 1;	
 	}
 }
 

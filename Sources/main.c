@@ -14,7 +14,7 @@ void main(void)
 	//g_f_enable_speed_control=1;
 	//delay_ms(6000);//等待蓝牙配对
 	//write_camera_data_to_TF();
-	set_speed_pwm(50);
+	//set_speed_pwm(50);
 	//SetupCCD();
 	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 	
@@ -70,11 +70,12 @@ void main(void)
 		{
 			
 			Display_Video();
-			Send_CCD_Video();
+			//Send_CCD_Video();
 			D4=~D4;
 			//write_camera_data_to_TF();
 			fieldover=0;
 			FindBlackLine();
+			
 			SteerControl();
 //		    if(Slope==0)
 //				LINFlex_TX(RoadType);

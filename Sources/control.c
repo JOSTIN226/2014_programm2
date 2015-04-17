@@ -34,7 +34,7 @@ void PitISR(void)
 	g_f_pit = 1;
 	
 	g_time_basis_PIT++;	/* 计时 */
-#if 0	
+#if 1	
 	/* start:encoder */
 	data_encoder.is_forward = SIU.GPDI[28].B.PDI;
 	data_encoder.cnt_old = data_encoder.cnt_new;

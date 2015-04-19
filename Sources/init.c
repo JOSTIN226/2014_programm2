@@ -56,11 +56,21 @@ void init_led(void)
   	SIU.PCR[45].R = 0x0203; /* PC13 */
  	SIU.PCR[44].R = 0x0203; /* PC12 */
 	SIU.PCR[71].R = 0x0203;	/* PE7  */
- 	
-	SIU.GPDO[40].R = 1;	/* 1=熄灭 */
-	SIU.GPDO[45].R = 1;
-	SIU.GPDO[44].R = 1;
-	SIU.GPDO[71].R = 1;
+	SIU.PCR[26].R = 0x0203;/* PB10  */
+	SIU.PCR[27].R = 0x0203;/* PB11  */
+	SIU.PCR[28].R = 0x0203;/* PB12  */
+	SIU.PCR[29].R = 0x0203;/* PB13  */
+	SIU.PCR[30].R = 0x0203;/* PB14  */
+	SIU.PCR[31].R = 0x0203;/* PB15  */
+
+	D0 = 1;	/* 1=熄灭 */
+	D1 = 1;
+	D2 = 1;
+	D3 = 1;
+	L1 = 0;	/* 0=熄灭 */
+	L2 = 0;
+	L3 = 0;
+	L4 = 0;
 }
 
 
@@ -92,26 +102,26 @@ void initEMIOS_0MotorAndSteer(void)
 	EMIOS_0.MCR.B.FRZ = 1;    /* Enable stopping channels when in debug mode */
 	
     /* Modulus Up Counter 5kHZ */
-    EMIOS_0.CH[0].CCR.B.UCPRE=0;	/* Set channel prescaler to divide by 1 */
-	EMIOS_0.CH[0].CCR.B.UCPEN = 1;	/* Enable prescaler; uses default divide by 1 */
-	EMIOS_0.CH[0].CCR.B.FREN = 1;	/* Freeze channel counting when in debug mode */
-	EMIOS_0.CH[0].CADR.R = 2000;	/* 设置周期200us 5KHZ */
-	EMIOS_0.CH[0].CCR.B.MODE = 0x50;	/* Modulus Counter Buffered (MCB) */
-	EMIOS_0.CH[0].CCR.B.BSL = 0x3;	/* Use internal counter */
-    /* 前进输出 OPWMB PB14 输出0-2000 */
-	EMIOS_0.CH[6].CCR.B.BSL = 0x1;	/* Use counter bus D (default) */
-	EMIOS_0.CH[6].CCR.B.MODE = 0x60;	/* Mode is OPWM Buffered */
-    EMIOS_0.CH[6].CCR.B.EDPOL = 1;	/* Polarity-leading edge sets output/trailing clears*/
-	EMIOS_0.CH[6].CADR.R = 0;	/* Leading edge when channel counter bus= */
-	EMIOS_0.CH[6].CBDR.R = 0;	/* Trailing edge when channel counter bus= */
-	SIU.PCR[30].R = 0x0600;	/*[11:10]选择AFx 此处AF1 /* MPC56xxS: Assign EMIOS_0 ch 21 to pad */
-	/* 前进输出 OPWMB PB15 输出0-2000 */
-	EMIOS_0.CH[7].CCR.B.BSL = 0x1;
-	EMIOS_0.CH[7].CCR.B.MODE = 0x60;
-    EMIOS_0.CH[7].CCR.B.EDPOL = 1;
-	EMIOS_0.CH[7].CADR.R = 0;
-	EMIOS_0.CH[7].CBDR.R = 0;
-	SIU.PCR[31].R = 0x0600;
+    EMIOS_0.CH[16].CCR.B.UCPRE=0;	/* Set channel prescaler to divide by 1 */
+	EMIOS_0.CH[16].CCR.B.UCPEN = 1;	/* Enable prescaler; uses default divide by 1 */
+	EMIOS_0.CH[16].CCR.B.FREN = 1;	/* Freeze channel counting when in debug mode */
+	EMIOS_0.CH[16].CADR.R = 2000;	/* 设置周期200us 5KHZ */
+	EMIOS_0.CH[16].CCR.B.MODE = 0x50;	/* Modulus Counter Buffered (MCB) */
+	EMIOS_0.CH[16].CCR.B.BSL = 0x3;	/* Use internal counter */
+    /* 前进输出 OPWMB PE1 输出0-2000 */
+	EMIOS_0.CH[17].CCR.B.BSL = 0x1;	/* Use counter bus D (default) */
+	EMIOS_0.CH[17].CCR.B.MODE = 0x60;	/* Mode is OPWM Buffered */
+    EMIOS_0.CH[17].CCR.B.EDPOL = 1;	/* Polarity-leading edge sets output/trailing clears*/
+	EMIOS_0.CH[17].CADR.R = 0;	/* Leading edge when channel counter bus= */
+	EMIOS_0.CH[17].CBDR.R = 0;	/* Trailing edge when channel counter bus= */
+	SIU.PCR[65].R = 0x0600;	/*[11:10]选择AFx 此处AF1 /* MPC56xxS: Assign EMIOS_0 ch 21 to pad */
+	/* 前进输出 OPWMB PE2 输出0-2000 */
+	EMIOS_0.CH[18].CCR.B.BSL = 0x1;
+	EMIOS_0.CH[18].CCR.B.MODE = 0x60;
+    EMIOS_0.CH[18].CCR.B.EDPOL = 1;
+	EMIOS_0.CH[18].CADR.R = 0;
+	EMIOS_0.CH[18].CBDR.R = 0;
+	SIU.PCR[66].R = 0x0600;
 	
     /* Modulus Up Counter 50HZ */
     EMIOS_0.CH[8].CCR.B.UCPRE=3;	/* Set channel prescaler to divide by 4 */
@@ -199,19 +209,19 @@ int is_big_endian()
 /*-----------------------------------------------------------------------*/
 void init_optical_encoder(void)	//PD12模数计数器入口，上升沿
 {
-	/* 计数部分 PD12 */
-	EMIOS_0.CH[24].CCR.B.MODE = 0x51;	/* Mode is MCB */
-	EMIOS_0.CH[24].CCR.B.BSL = 0x3;	/* Use internal counter */
-	EMIOS_0.CH[24].CCR.B.UCPRE=0;	/* Set channel prescaler to divide by 1 */
-	EMIOS_0.CH[24].CCR.B.UCPEN = 1;	/* Enable prescaler; uses default divide by 1 */
-	EMIOS_0.CH[24].CCR.B.FREN = 0;	/* Freeze channel counting when in debug mode */
-	EMIOS_0.CH[24].CCR.B.EDPOL=1;	/* Edge Select rising edge */
-	EMIOS_0.CH[24].CADR.R=0xffff;
-	/* (WORD)EMIOS_0.CH[24].CCNTR.R 数据寄存器 */
-	SIU.PCR[60].R = 0x0100;	/* Initialize pad for eMIOS channel Initialize pad for input */
+	/* 计数部分 PC15 */
+	EMIOS_0.CH[15].CCR.B.MODE = 0x51;	/* Mode is MCB */
+	EMIOS_0.CH[15].CCR.B.BSL = 0x3;	/* Use internal counter */
+	EMIOS_0.CH[15].CCR.B.UCPRE=0;	/* Set channel prescaler to divide by 1 */
+	EMIOS_0.CH[15].CCR.B.UCPEN = 1;	/* Enable prescaler; uses default divide by 1 */
+	EMIOS_0.CH[15].CCR.B.FREN = 0;	/* Freeze channel counting when in debug mode */
+	EMIOS_0.CH[15].CCR.B.EDPOL=1;	/* Edge Select rising edge */
+	EMIOS_0.CH[15].CADR.R=0xffff;
+	/* (WORD)EMIOS_0.CH[15].CCNTR.R 数据寄存器 */
+	SIU.PCR[47].R = 0x0100;	/* Initialize pad for eMIOS channel Initialize pad for input */
 	
-	/* 方向部分 PB12 */
-	SIU.PCR[28].R = 0x0100;
+	/* 方向部分 PC14 */
+	SIU.PCR[46].R = 0x0100;
 	/* SIU.GPDI[28].B.PDI 数据寄存器 */
 }
 
@@ -261,8 +271,8 @@ void init_all_and_POST(void)
 	initEMIOS_0Image();/* 摄像头输入中断初始化 */
 	//init_pit();
 	init_led();
-	init_serial_port_0();
-	init_serial_port_1();
+	//init_serial_port_0();
+	//init_serial_port_1();
 	//init_serial_port_2();
 	//init_ADC();
 	//init_serial_port_3();
@@ -274,7 +284,7 @@ void init_all_and_POST(void)
 	//init_supersonic_trigger_1();
 	//init_supersonic_trigger_2();
 	//init_supersonic_trigger_3();
-	init_optical_encoder();
+	//init_optical_encoder();
 	//init_DSPI_2();
 	//init_I2C();
 	
@@ -286,13 +296,13 @@ void init_all_and_POST(void)
 	/* 开启外部总中断 */
 	enable_irq();
 	
-	/* 初始化显示屏 */
-	initLCD();
-	//LCD_DISPLAY();
-	LCD_Fill(0xFF);	/* 亮屏 */
-	delay_ms(50);
-	LCD_Fill(0x00);	/* 黑屏 */
-	delay_ms(50);
+//	/* 初始化显示屏 */
+//	initLCD();
+//	//LCD_DISPLAY();
+//	LCD_Fill(0xFF);	/* 亮屏 */
+//	delay_ms(50);
+//	LCD_Fill(0x00);	/* 黑屏 */
+//	delay_ms(50);
 	
 	/* 初始化TF卡 */
 
@@ -434,7 +444,7 @@ void init_all_and_POST(void)
 ////	/* 换屏 */
 ////	LCD_Fill(0x00);
 //
-//	/* 速度闭环测试 */
+	/* 速度闭环测试 */
 //	
 //	g_f_enable_speed_control = 1;
 //	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");

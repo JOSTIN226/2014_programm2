@@ -14,10 +14,21 @@ void main(void)
 	//g_f_enable_speed_control=1;
 	//delay_ms(6000);//等待蓝牙配对
 	//write_camera_data_to_TF();
-	//set_speed_pwm(50);
-	//SetupCCD();
-	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
+	//set_speed_target(10);
+	//SetupCCD();	
+	L1=1;
+	L2=1;
+	L3=1;
+	L4=1;
+	L5=1;
+	L6=1;
+	D1=1;
+	D2=1;
+	D3=1;
+	D0=1;
 	
+	//EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
+
 	/*等待开始*/
 #if 0	
 	while(!g_start_all&&(WIFI_ADDRESS_CAR_4 == g_device_NO||WIFI_ADDRESS_CAR_3 == g_device_NO))
@@ -44,6 +55,7 @@ void main(void)
 		
 	for (;;)
 	{
+
 #if 0
 		/* 执行远程命令 */
 		if (REMOTE_FRAME_STATE_OK == g_remote_frame_state)
@@ -64,7 +76,7 @@ void main(void)
 		/* 报告在线 */
 		report_online();
 #endif
-#if 1
+#if 0
 		D3=~D3;
 		if(fieldover)
 		{
@@ -72,13 +84,14 @@ void main(void)
 			Display_Video();
 			//Send_CCD_Video();
 			D4=~D4;
+
 			//write_camera_data_to_TF();
 			fieldover=0;
-			FindBlackLine();
+			//FindBlackLine();
 			
-			SteerControl();
+			//SteerControl();
 //		    if(Slope==0)
-//				LINFlex_TX(RoadType);
+			//serial_port_1_TX(RoadType);
 //			else if(Slope==1)
 //				LINFlex_TX(0x31);
 //			else if(Slope==2)

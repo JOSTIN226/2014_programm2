@@ -36,9 +36,9 @@ void PitISR(void)
 	g_time_basis_PIT++;	/* 计时 */
 #if 1	
 	/* start:encoder */
-	data_encoder.is_forward = SIU.GPDI[28].B.PDI;
+	data_encoder.is_forward = SIU.GPDI[46].B.PDI;//PC14
 	data_encoder.cnt_old = data_encoder.cnt_new;
-	data_encoder.cnt_new = (WORD)EMIOS_0.CH[24].CCNTR.R;//PD12
+	data_encoder.cnt_new = (WORD)EMIOS_0.CH[15].CCNTR.R;//PC15
 	if (data_encoder.cnt_new >= data_encoder.cnt_old)
 	{
 		data_encoder.speed_now = data_encoder.cnt_new - data_encoder.cnt_old;
@@ -169,8 +169,8 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 		{
 			speed_pwm = SPEED_PWM_MAX;
 		}
-		EMIOS_0.CH[6].CBDR.R = speed_pwm;//PE5
-		EMIOS_0.CH[7].CBDR.R = 1;//PE6
+		EMIOS_0.CH[17].CBDR.R = speed_pwm;//PE1
+		EMIOS_0.CH[18].CBDR.R = 1;//PE2
 		
 	}
 	else if (speed_pwm<0)	//backward
@@ -181,13 +181,13 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 			speed_pwm = SPEED_PWM_MAX;
 		}
 
-		EMIOS_0.CH[6].CBDR.R = 1;
-		EMIOS_0.CH[7].CBDR.R = speed_pwm;	
+		EMIOS_0.CH[17].CBDR.R = 1;
+		EMIOS_0.CH[18].CBDR.R = speed_pwm;	
 	}
 	else
 	{
-		EMIOS_0.CH[6].CBDR.R = 1;
-		EMIOS_0.CH[7].CBDR.R = 1;	
+		EMIOS_0.CH[17].CBDR.R = 1;
+		EMIOS_0.CH[18].CBDR.R = 1;	
 	}
 }
 

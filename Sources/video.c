@@ -46,7 +46,7 @@ word selectRows[ROWS]=
 //*************************************************************************
 void FieldInputCapture(void) 
 {	
-	D1=~D1;
+	D0=~D0;
     EMIOS_0.CH[3].CSR.B.FLAG = 1;
 	EMIOS_0.CH[3].CCR.B.FEN=0;  //关闭场中断 
 	prow=0;crow=0;
@@ -56,7 +56,7 @@ void FieldInputCapture(void)
 
 void RowInputCapture(void) 
 {	
-		D2=~D2;
+		D1=~D1;
 	EMIOS_0.CH[7].CSR.B.FLAG = 1;
 	
 	++crow;
@@ -173,7 +173,7 @@ void RowInputCapture(void)
 /*----------------------------------------------------------------------*/
 void Video_Image(void)
 {
-	int y,x,i;
+	int y,x,i,j,col;
 	for(y=0;y<ROWS/8+(ROWS%8!=0);y++)
 		for(x=0;x<COLUMNS;x++)
 		{
@@ -181,6 +181,7 @@ void Video_Image(void)
 			for(i=7;i>=0;i--)
 				pix[y][x]=pix[y][x]*2+g_pix[y*8+i][x];
 		}	
+
 }
 void TF_Image(void)
 {
@@ -203,7 +204,8 @@ void Display_Video(void)
 		LCD_Set_Pos(10,y);				
     	for(x=0;x<COLUMNS;x++)
 	    {      
-	    	LCD_WrDat(pix[y][x]);	    	
+	    	LCD_WrDat(pix[y][x]);		
+
 	    }
 	}
 }
@@ -303,5 +305,5 @@ void Send_CCD_Blackline(void)
     LINFlex_TX(0xBB);        
     LINFlex_TX(0x55);              
 }
-
 */
+

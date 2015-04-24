@@ -9,6 +9,7 @@ void main(void)
 	
 	init_all_and_POST();
 	//g_f_enable_speed_control=1;
+<<<<<<< HEAD
 	//set_speed_pwm(400);
 	//delay_ms(6000);//等待蓝牙配对
 	//write_camera_data_to_TF();
@@ -17,6 +18,12 @@ void main(void)
 	//SetupCCD();	
 
 
+=======
+	delay_ms(1000);//等待蓝牙配对
+	//write_camera_data_to_TF();
+	//test_file_system();
+	SetupCCD();
+>>>>>>> parent of 90f3672... 修改编码格式
 	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 
 	/* Loop forever */
@@ -49,6 +56,7 @@ void main(void)
 		if(fieldover)
 		{
 			
+<<<<<<< HEAD
 			
 			
 			//D3=~D3;
@@ -65,6 +73,13 @@ void main(void)
 				serial_port_1_TX(0x31);
 			else if(Slope==2)
 				serial_port_1_TX(0x32);
+=======
+			//Display_Video();
+			Send_CCD_Video();
+			D4=~D4;
+			//write_camera_data_to_TF();
+			fieldover=0;
+>>>>>>> parent of 90f3672... 修改编码格式
 			EMIOS_0.CH[3].CSR.B.FLAG = 1;
 			EMIOS_0.CH[3].CCR.B.FEN=1;
 		}

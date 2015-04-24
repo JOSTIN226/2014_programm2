@@ -188,7 +188,7 @@ void initEMIOS_0Image(void)
 	INTC_InstallINTCInterruptHandler(RowInputCapture,144,3); 
 	
 	//C10口二值化入口
-	SIU.PCR[42].R = 0x0102;  // C10口二值化入口
+	SIU.PCR[42].R = 0x0102;  // C9口二值化入口
 }
 
 /*-----------------------------------------------------------------------*/
@@ -287,7 +287,10 @@ void init_all_and_POST(void)
 	initEMIOS_0Image();/* 摄像头输入中断初始化 */
 	init_pit();
 	init_led();
+<<<<<<< HEAD
 	//init_DIP();
+=======
+>>>>>>> parent of 90f3672... 修改编码格式
 	//init_serial_port_0();
 	init_serial_port_1();
 	//init_serial_port_2();

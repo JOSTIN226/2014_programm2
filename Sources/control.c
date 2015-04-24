@@ -34,7 +34,11 @@ void PitISR(void)
 	g_f_pit = 1;
 	
 	g_time_basis_PIT++;	/* 计时 */
+<<<<<<< HEAD
 #if 1	
+=======
+	
+>>>>>>> parent of 90f3672... 修改编码格式
 	/* start:encoder */
 	data_encoder.is_forward = SIU.GPDI[46].B.PDI;//PC14
 	data_encoder.cnt_old = data_encoder.cnt_new;
@@ -48,9 +52,13 @@ void PitISR(void)
 		data_encoder.speed_now = 0xffff - (data_encoder.cnt_old - data_encoder.cnt_new);
 	}
 	/* end:encoder */
+<<<<<<< HEAD
 #endif
 	
 	
+=======
+	
+>>>>>>> parent of 90f3672... 修改编码格式
 	/* 开始执行速度控制算法 */
 	if (g_f_enable_speed_control)
 	{
@@ -69,7 +77,56 @@ void PitISR(void)
 		control_steer_helm();
 	}
 #endif
+<<<<<<< HEAD
 
+=======
+		}
+	}
+	
+	/* 陀螺仪角度控制漂移*/
+	if (g_f_enable_rad_control_1 != 0)
+	{
+		if (!control_steer_helm_2(g_f_enable_rad_control_1))
+		{
+			g_f_enable_mag_steer_control=1; 
+			set_steer_helm((WORD)(data_steer_helm.center));	
+			if(g_f_enable_rad_control_1==1)
+			{
+				set_speed_target(20);
+			}
+			if(g_f_enable_rad_control_1==2||g_f_enable_rad_control_1==3)
+			{
+				set_speed_target(0);
+			}
+			g_f_enable_rad_control_1 =0; 
+		}
+	}
+	
+	/* 陀螺仪角度控制转向 */
+	if(g_f_enable_rad_control_2)
+	{
+		if (!control_steer_helm_3(angle1))
+		{
+			g_f_enable_rad_control_2 =0;  
+			set_steer_helm((WORD)(data_steer_helm.center));	
+			if(find_mag_back_box_2==1)
+			{
+				find_mag_back_box=0;
+				find_mag_back_box_2=1;
+				g_f_enable_mag_steer_control=1;
+				set_speed_target(20);
+			}
+		}
+	}
+	
+	
+	/* 陀螺仪控制上下坡 */
+	if(g_f_enable_speed_control_2)
+	{
+		control_speed_target_1(speed);
+	}
+	
+>>>>>>> parent of 90f3672... 修改编码格式
 #if 0
 	/* 发送位置 */
 	{
@@ -85,7 +142,7 @@ void PitISR(void)
 
 
 /*-----------------------------------------------------------------------*/
-/* 设置速度PWM      电机接口函数                                                             */
+/* 设置速度PWM                                                                    */
 /*-----------------------------------------------------------------------*/
 void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 {
@@ -285,7 +342,6 @@ void set_steer_helm(SWORD helmData)
 /* 相反                                                                                  */
 /* 直接方向舵机寄存器                                                             */
 /* 有限幅                                                                               */
-/* 舵机接口函数                                                                          */
 /*-----------------------------------------------------------------------*/
 void set_steer_helm_basement(WORD helmData)
 {

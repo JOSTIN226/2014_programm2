@@ -70,6 +70,8 @@ void SteerControl()
 #if 0
 void PitISR(void)//10ms一个控制周期
 {  
+    if(StartTime2s<200){StartTime2s++;}
+	else{
     	//得到光编反馈值的绝对值及符号
 		speedcounter1=EMIOS_0.CH[24].CCNTR.R;
 		if(speedcounter1<speedcounter2)
@@ -98,20 +100,20 @@ void PitISR(void)//10ms一个控制周期
 void SpeedControl()
 {
 	//1*******************************起始线停车速度控制及光编线接触不牢控制***********************
-//	if(StartLine){
-//    	stop_delay++;
-//
-//    		if(stop_delay==43){
-//		    	if(stop_flag==2) set_speed_pwm(0);
-//		    	else if(data_encoder.is_forward) set_speed_pwm(-300);
-//		    	else stop_flag++;
-//		    	stop_delay--;
-//		      	return;
-//		    }
-//	}
-//   	if(Counter_Error>50) {set_speed_pwm(0);return;}
-//   	
-//   	StartTime2s++;
+	if(StartLine){
+    	stop_delay++;
+
+    		if(stop_delay==43){
+		    	if(stop_flag==2) set_speed_pwm(0);
+		    	else if(data_encoder.is_forward) set_speed_pwm(-300);
+		    	else stop_flag++;
+		    	stop_delay--;
+		      	return;
+		    }
+	}
+   	if(Counter_Error>50) {set_speed_pwm(0);return;}
+   	
+   	StartTime2s++;
 	//2*****正常速度控制...速度分配还要结合最远行和offset
 
 
@@ -129,8 +131,8 @@ void SpeedControl()
 									data_speed_pid.p=5.5;data_speed_pid.i=0.2;data_speed_pid.d=0.2;}
 
 
-//	if(StartTime2s<290)	{if(currentspeed>targetspeed) SumError=0;}
-//	else {StartTime2s--;}
+	if(StartTime2s<290)	{if(currentspeed>targetspeed) SumError=0;}
+	else {StartTime2s--;}
 	
 	
 	

@@ -56,6 +56,11 @@ void PitISR(void)
 	{
 		//SpeedControl();//不同路段PID,尚未调,不可用
 		contorl_speed_encoder_pid();
+//		LCD_PrintoutInt(32, 0, data_encoder.speed_now);
+//		LCD_PrintoutInt(32, 2, data_encoder.cnt_old);
+//		LCD_PrintoutInt(32, 4, data_encoder.cnt_new);
+//		LCD_PrintoutInt(64, 4, g_time_basis_PIT++);
+//		LCD_PrintoutInt(32, 6, data_encoder.is_forward);
 	}
 #if 0
 	/* 电磁循迹 */
@@ -234,7 +239,7 @@ static SWORD get_e0()
 	}
 	else
 	{
-		tmp_speed_now = 0 - (SWORD)data_encoder.speed_now;
+		tmp_speed_now = 0 - (SWORD) data_encoder.speed_now;
 	}
 	e0=data_speed_settings.speed_target-tmp_speed_now;
 	return e0;

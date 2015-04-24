@@ -69,10 +69,9 @@ typedef unsigned short word;
 #define D3 SIU.GPDO[71].B.PDO
 #define L1 SIU.GPDO[26].B.PDO
 #define L2 SIU.GPDO[27].B.PDO
-#define L3 SIU.GPDO[28].B.PDO
-#define L4 SIU.GPDO[29].B.PDO
-#define L5 SIU.GPDO[30].B.PDO
-#define L6 SIU.GPDO[31].B.PDO
+
+#define L3 SIU.GPDO[30].B.PDO
+#define L4 SIU.GPDO[31].B.PDO
 
 
 

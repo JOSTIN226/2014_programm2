@@ -58,8 +58,7 @@ void init_led(void)
 	SIU.PCR[71].R = 0x0203;	/* PE7  */
 	SIU.PCR[26].R = 0x0203;/* PB10  */
 	SIU.PCR[27].R = 0x0203;/* PB11  */
-	SIU.PCR[28].R = 0x0203;/* PB12  */
-	SIU.PCR[29].R = 0x0203;/* PB13  */
+
 	SIU.PCR[30].R = 0x0203;/* PB14  */
 	SIU.PCR[31].R = 0x0203;/* PB15  */
 
@@ -67,10 +66,10 @@ void init_led(void)
 	D1 = 1;
 	D2 = 1;
 	D3 = 1;
-	L1 = 0;	/* 0=熄灭 */
-	L2 = 0;
-	L3 = 0;
-	L4 = 0;
+	L1 = 1;	/* 0=熄灭 */
+	L2 = 1;
+	L3 = 1;
+	L4 = 1;
 }
 
 
@@ -218,7 +217,7 @@ void init_optical_encoder(void)	//PD12模数计数器入口，上升沿
 	EMIOS_0.CH[15].CCR.B.EDPOL=1;	/* Edge Select rising edge */
 	EMIOS_0.CH[15].CADR.R=0xffff;
 	/* (WORD)EMIOS_0.CH[15].CCNTR.R 数据寄存器 */
-	SIU.PCR[47].R = 0x0100;	/* Initialize pad for eMIOS channel Initialize pad for input */
+	SIU.PCR[47].R = 0x0500;	/* Initialize pad for eMIOS channel Initialize pad for input */
 	
 	/* 方向部分 PC14 */
 	SIU.PCR[46].R = 0x0100;
@@ -267,9 +266,9 @@ void init_all_and_POST(void)
 	
 	disable_watchdog();
 	init_modes_and_clock();
-	initEMIOS_0MotorAndSteer();
+	//initEMIOS_0MotorAndSteer();
 	initEMIOS_0Image();/* 摄像头输入中断初始化 */
-	//init_pit();
+	init_pit();
 	init_led();
 	//init_serial_port_0();
 	//init_serial_port_1();
@@ -284,7 +283,7 @@ void init_all_and_POST(void)
 	//init_supersonic_trigger_1();
 	//init_supersonic_trigger_2();
 	//init_supersonic_trigger_3();
-	//init_optical_encoder();
+	init_optical_encoder();
 	//init_DSPI_2();
 	//init_I2C();
 	
@@ -296,13 +295,13 @@ void init_all_and_POST(void)
 	/* 开启外部总中断 */
 	enable_irq();
 	
-//	/* 初始化显示屏 */
-//	initLCD();
-//	//LCD_DISPLAY();
-//	LCD_Fill(0xFF);	/* 亮屏 */
-//	delay_ms(50);
-//	LCD_Fill(0x00);	/* 黑屏 */
-//	delay_ms(50);
+	/* 初始化显示屏 */
+	initLCD();
+	LCD_DISPLAY();
+	LCD_Fill(0xFF);	/* 亮屏 */
+	delay_ms(500);
+	LCD_Fill(0x00);	/* 黑屏 */
+	delay_ms(500);
 	
 	/* 初始化TF卡 */
 

@@ -11,7 +11,7 @@ void main(void)
 	//read_rad_xyz = 1;
 	//reset_rev_data();
 	//g_f_enable_mag_steer_control = 1;
-	//g_f_enable_speed_control=1;
+//	g_f_enable_speed_control=1;
 	//delay_ms(6000);//等待蓝牙配对
 	//write_camera_data_to_TF();
 	//set_speed_target(10);
@@ -20,14 +20,14 @@ void main(void)
 	L2=1;
 	L3=1;
 	L4=1;
-	L5=1;
-	L6=1;
-	D1=1;
-	D2=1;
-	D3=1;
-	D0=1;
+	//L5=1;
+	//L6=1;
+	D1=0;
+	D2=0;
+	D3=0;
+	D0=0;
 	
-	//EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
+	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 
 	/*等待开始*/
 #if 0	
@@ -76,14 +76,14 @@ void main(void)
 		/* 报告在线 */
 		report_online();
 #endif
-#if 0
-		D3=~D3;
+#if 1
+//		D3=~D3;
 		if(fieldover)
 		{
 			
 			Display_Video();
 			//Send_CCD_Video();
-			D4=~D4;
+//			D4=~D4;
 
 			//write_camera_data_to_TF();
 			fieldover=0;

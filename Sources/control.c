@@ -35,10 +35,11 @@ void PitISR(void)
 	
 	g_time_basis_PIT++;	/* 计时 */
 #if 1	
+
 	/* start:encoder */
 	data_encoder.is_forward = SIU.GPDI[46].B.PDI;//PC14
 	data_encoder.cnt_old = data_encoder.cnt_new;
-	data_encoder.cnt_new = (WORD)EMIOS_0.CH[15].CCNTR.R;//PC15
+	data_encoder.cnt_new = (WORD)EMIOS_0.CH[24].CCNTR.R;//PD12
 	if (data_encoder.cnt_new >= data_encoder.cnt_old)
 	{
 		data_encoder.speed_now = data_encoder.cnt_new - data_encoder.cnt_old;
@@ -49,7 +50,6 @@ void PitISR(void)
 	}
 	/* end:encoder */
 #endif
-	
 	
 	/* 开始执行速度控制算法 */
 	if (g_f_enable_speed_control)
@@ -69,42 +69,9 @@ void PitISR(void)
 		mag_read();
 		control_steer_helm();
 	}
-	
-	/*找回磁线  推箱子*/
-	if(find_mag_back_box )
-	{
-		mag_read();
-		if(mag_left>500 && mag_right<100) 
-		{
-			g_f_enable_mag_steer_control=1;
-			find_mag_back_box=0;
-			g_f_enable_rad_control_2=0;
-		}
-	}
-	/*找回磁线  漂移车*/
-	if(find_mag_back_car1 )
-	{
-		mag_read();
-		if(mag_right>500 && mag_left<100) 
-		{
-			g_f_enable_mag_steer_control=1;
-			find_mag_back_car1=0;
-			g_f_enable_rad_control_2=0;
-		}
-	}
-
-	/* 读陀螺仪三轴数据 */
-	if(read_rad_xyz)
-	{
-		if (!read_rev_data())	/* 不是每次都能读出来的 */
-		{
-#if 0
-			LCD_PrintoutInt(64, 0, rad.x);
-			LCD_PrintoutInt(64, 2, rad.y);
-			LCD_PrintoutInt(64, 4, rad.z);
 #endif
-		}
-	}
+
+		
 	
 	/* 陀螺仪角度控制漂移*/
 	if (g_f_enable_rad_control_1 != 0)
@@ -148,7 +115,7 @@ void PitISR(void)
 	{
 		control_speed_target_1(speed);
 	}
-#endif	
+	
 #if 0
 	/* 发送位置 */
 	{
@@ -164,7 +131,7 @@ void PitISR(void)
 
 
 /*-----------------------------------------------------------------------*/
-/* 设置速度PWM      电机接口函数                                                             */
+/* 设置速度PWM                                                                    */
 /*-----------------------------------------------------------------------*/
 void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 {
@@ -174,8 +141,8 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 		{
 			speed_pwm = SPEED_PWM_MAX;
 		}
-		EMIOS_0.CH[17].CBDR.R = speed_pwm;//PE1
-		EMIOS_0.CH[18].CBDR.R = 1;//PE2
+		EMIOS_0.CH[20].CBDR.R = speed_pwm;//PE1
+		EMIOS_0.CH[21].CBDR.R = 1;//PE2
 		
 	}
 	else if (speed_pwm<0)	//backward
@@ -186,13 +153,13 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 			speed_pwm = SPEED_PWM_MAX;
 		}
 
-		EMIOS_0.CH[17].CBDR.R = 1;
-		EMIOS_0.CH[18].CBDR.R = speed_pwm;	
+		EMIOS_0.CH[20].CBDR.R = 1;
+		EMIOS_0.CH[21].CBDR.R = speed_pwm;	
 	}
 	else
 	{
-		EMIOS_0.CH[17].CBDR.R = 1;
-		EMIOS_0.CH[18].CBDR.R = 1;	
+		EMIOS_0.CH[20].CBDR.R = 1;
+		EMIOS_0.CH[21].CBDR.R = 1;	
 	}
 }
 
@@ -364,7 +331,6 @@ void set_steer_helm(SWORD helmData)
 /* 相反                                                                                  */
 /* 直接方向舵机寄存器                                                             */
 /* 有限幅                                                                               */
-/* 舵机接口函数                                                                          */
 /*-----------------------------------------------------------------------*/
 void set_steer_helm_basement(WORD helmData)
 {

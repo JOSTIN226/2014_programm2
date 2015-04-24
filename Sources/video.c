@@ -29,14 +29,14 @@ word selectRows[ROWS]=
 //234,235,236,237,238,239,240,241,242,243,
 //244,245,246,247,248,249,250,251,252,253,
 
-		17,20,25,30,35,40,45,50,55,60,
-		131,136,141,146,148,150,154,159,162,
-		166,170,173,176,179,182,185,188,191,
-		193,196,198,200,203,205,207,209,211,
-		213,214,216,218,220,221,223,224,226,
-		227,229,230,232,233,234,235,237,238,
-		239,240,241,242,243,244,245,246,247,
-		248,249,250,251,252,256//70 数字大为远端
+		17 , 20, 25, 30, 35, 40, 45, 50, 55,
+		60, 131,136,141,146,148,150,154,159,
+		162,166,170,173,176,179,182,185,188,
+		191,193,196,198,200,203,205,207,209,
+		211,213,214,216,218,220,221,223,224,
+		226,227,229,230,232,233,234,235,237,
+		238,239,240,241,242,243,244,245,246,
+		247,248,249,250,251,252,256//70 数字大为远端
 
 
 };
@@ -46,7 +46,7 @@ word selectRows[ROWS]=
 //*************************************************************************
 void FieldInputCapture(void) 
 {	
-	D0=~D0;
+	//D0=~D0;
     EMIOS_0.CH[3].CSR.B.FLAG = 1;
 	EMIOS_0.CH[3].CCR.B.FEN=0;  //关闭场中断 
 	prow=0;crow=0;
@@ -56,7 +56,7 @@ void FieldInputCapture(void)
 
 void RowInputCapture(void) 
 {	
-		D1=~D1;
+		//D1=~D1;
 	EMIOS_0.CH[7].CSR.B.FLAG = 1;
 	
 	++crow;
@@ -173,7 +173,15 @@ void RowInputCapture(void)
 /*----------------------------------------------------------------------*/
 void Video_Image(void)
 {
-	int y,x,i,j,col;
+	int y,x,i,col;
+#if 0
+	volatile int j=0;
+	for(j=0;j<ROWS;j++)
+	{
+		col=CenterLine[j];
+		g_pix[j][col]=0;
+	}
+#endif
 	for(y=0;y<ROWS/8+(ROWS%8!=0);y++)
 		for(x=0;x<COLUMNS;x++)
 		{
@@ -199,13 +207,12 @@ void Display_Video(void)
 {
 	BYTE x,y;
 	Video_Image();
-	for(y=0;y<ROWS/8+(ROWS%8!=0);y++)
+	for(y=0;y<8;y++)
 	{
 		LCD_Set_Pos(10,y);				
     	for(x=0;x<COLUMNS;x++)
 	    {      
 	    	LCD_WrDat(pix[y][x]);		
-
 	    }
 	}
 }
@@ -246,64 +253,64 @@ void SetupCCD(void)
 	serial_port_1_TX(0xAA);        
 }
 
-/*void SetupBKL(void)
+void SetupBKL(void)
 {
     unsigned char para1[10] = {"L"};//设置显示在上位机上的变量名
     unsigned char para2[10] = {"R"};  
     unsigned char para3[10] = {"target_a"};
     byte i;
        
-    LINFlex_TX(0xCC);        
-    LINFlex_TX(0xDD);        
-    LINFlex_TX(0xFF);         
+    serial_port_1_TX(0xCC);        
+    serial_port_1_TX(0xDD);        
+    serial_port_1_TX(0xFF);         
                                              
-    LINFlex_TX(ROWS);        
-    LINFlex_TX(COLUMNS);        
-    LINFlex_TX(3);         // number of parameters
+    serial_port_1_TX(ROWS);        
+    serial_port_1_TX(COLUMNS);        
+    serial_port_1_TX(3);         // number of parameters
     
-    LINFlex_TX(0);         // display position  0和1分别表示在左边窗口或者右边窗口显示
-    LINFlex_TX(0);         // display position
-    LINFlex_TX(1);
+    serial_port_1_TX(0);         // display position  0和1分别表示在左边窗口或者右边窗口显示
+    serial_port_1_TX(0);         // display position
+    serial_port_1_TX(1);
     
     for(i=0;i<10;++i)
-    	LINFlex_TX(para1[i]);
+    	serial_port_1_TX(para1[i]);
     for(i=0;i<10;++i)
-    	LINFlex_TX(para2[i]);
+    	serial_port_1_TX(para2[i]);
    	for(i=0;i<10;++i)
-    	LINFlex_TX(para3[i]);
+   		serial_port_1_TX(para3[i]);
     	        
-    LINFlex_TX(9);         // parameter color
-    LINFlex_TX(5);
-    LINFlex_TX(9);         // parameter color
+   	serial_port_1_TX(9);         // parameter color
+   	serial_port_1_TX(5);
+   	serial_port_1_TX(9);         // parameter color
     
-    LINFlex_TX(0xFF);        
-    LINFlex_TX(0xDD);        
-    LINFlex_TX(0xCC);  
+   	serial_port_1_TX(0xFF);        
+   	serial_port_1_TX(0xDD);        
+   	serial_port_1_TX(0xCC);  
 }
 
 void Send_CCD_Blackline(void)
 {
 	byte i=0;
-    LINFlex_TX(0x55);
-    LINFlex_TX(0xBB);
-    LINFlex_TX(0xFF);
+	serial_port_1_TX(0x55);
+	serial_port_1_TX(0xBB);
+	serial_port_1_TX(0xFF);
     for(;i<ROWS;++i)
-    	LINFlex_TX(BlackLine[0][i]);
-    LINFlex_TX(0x00);
-    LINFlex_TX(0x00);
-    LINFlex_TX(0x00);
-    LINFlex_TX(LineType[0]);//
-    LINFlex_TX(0x00);
-    LINFlex_TX(0x00);
-    LINFlex_TX(0x00);
-    LINFlex_TX(LineType[1]);//
-    LINFlex_TX(0x00);
-    LINFlex_TX(0x00);
-    LINFlex_TX(0x00);
-    LINFlex_TX(target_offset);//
-    LINFlex_TX(0xFF);        
-    LINFlex_TX(0xBB);        
-    LINFlex_TX(0x55);              
+    	serial_port_1_TX(BlackLine[0][i]);
+    serial_port_1_TX(0x00);
+    serial_port_1_TX(0x00);
+    serial_port_1_TX(0x00);
+    serial_port_1_TX(LineType[0]);//
+    serial_port_1_TX(0x00);
+    serial_port_1_TX(0x00);
+    serial_port_1_TX(0x00);
+    serial_port_1_TX(LineType[1]);//
+    serial_port_1_TX(0x00);
+    serial_port_1_TX(0x00);
+    serial_port_1_TX(0x00);
+    serial_port_1_TX(target_offset);//
+    serial_port_1_TX(0xFF);        
+    serial_port_1_TX(0xBB);        
+    serial_port_1_TX(0x55);              
 }
-*/
+
 

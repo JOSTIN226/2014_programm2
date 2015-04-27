@@ -112,6 +112,8 @@
 							<inputType id="com.freescale.ppc.toolchain.compiler.base.input.c++.494123997" name="com.freescale.ppc.toolchain.cf Compiler Input" superClass="com.freescale.ppc.toolchain.compiler.base.input.c++"/>
 						</tool>
 					</fileInfo>
+					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.1181917682.Project_Headers/Exceptions_p1.h" name="Exceptions_p1.h" rcbsApplicability="disable" resourcePath="Project_Headers/Exceptions_p1.h" toolsToInvoke=""/>
+					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.1181917682.Project_Headers/IntcInterrupts_p1.h" name="IntcInterrupts_p1.h" rcbsApplicability="disable" resourcePath="Project_Headers/IntcInterrupts_p1.h" toolsToInvoke=""/>
 					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.1181917682.Project_Settings/Startup_Code/MPC5604B_init_flash.c" name="MPC5604B_init_flash.c" rcbsApplicability="disable" resourcePath="Project_Settings/Startup_Code/MPC5604B_init_flash.c" toolsToInvoke="com.freescale.ppc.toolchain.compiler.601885290.2133568492">
 						<tool errorParsers="" id="com.freescale.ppc.toolchain.compiler.601885290.2133568492" name="PowerPC Compiler" superClass="com.freescale.ppc.toolchain.compiler.601885290">
 							<inputType id="com.freescale.ppc.toolchain.compiler.base.input.1078767954" name="com.freescale.ppc.toolchain.cf Compiler Input" superClass="com.freescale.ppc.toolchain.compiler.base.input"/>
@@ -119,8 +121,6 @@
 						</tool>
 					</fileInfo>
 					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.1181917682.Project_Settings/Linker_Files/MPC5604B_FLASH.lcf" name="MPC5604B_FLASH.lcf" rcbsApplicability="disable" resourcePath="Project_Settings/Linker_Files/MPC5604B_FLASH.lcf" toolsToInvoke=""/>
-					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.1181917682.Project_Headers/Exceptions_p1.h" name="Exceptions_p1.h" rcbsApplicability="disable" resourcePath="Project_Headers/Exceptions_p1.h" toolsToInvoke=""/>
-					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.1181917682.Project_Headers/IntcInterrupts_p1.h" name="IntcInterrupts_p1.h" rcbsApplicability="disable" resourcePath="Project_Headers/IntcInterrupts_p1.h" toolsToInvoke=""/>
 					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.1181917682.MPC5604B_readme.txt" name="MPC5604B_readme.txt" rcbsApplicability="disable" resourcePath="MPC5604B_readme.txt" toolsToInvoke=""/>
 					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.1181917682.Prefix/MPC5604B_FLASH_VLE.prefix" name="MPC5604B_FLASH_VLE.prefix" rcbsApplicability="disable" resourcePath="Prefix/MPC5604B_FLASH_VLE.prefix" toolsToInvoke=""/>
 					<sourceEntries>
@@ -243,6 +243,8 @@
 							<inputType id="com.freescale.ppc.toolchain.compiler.base.input.c++.1252936057" name="com.freescale.ppc.toolchain.cf Compiler Input" superClass="com.freescale.ppc.toolchain.compiler.base.input.c++"/>
 						</tool>
 					</fileInfo>
+					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.543169852.Project_Headers/Exceptions_p1.h" name="Exceptions_p1.h" rcbsApplicability="disable" resourcePath="Project_Headers/Exceptions_p1.h" toolsToInvoke=""/>
+					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.543169852.Project_Headers/IntcInterrupts_p1.h" name="IntcInterrupts_p1.h" rcbsApplicability="disable" resourcePath="Project_Headers/IntcInterrupts_p1.h" toolsToInvoke=""/>
 					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.543169852.Project_Settings/Startup_Code/MPC5604B_init_ram.c" name="MPC5604B_init_ram.c" rcbsApplicability="disable" resourcePath="Project_Settings/Startup_Code/MPC5604B_init_ram.c" toolsToInvoke="com.freescale.ppc.toolchain.compiler.283740685.1949551197">
 						<tool errorParsers="" id="com.freescale.ppc.toolchain.compiler.283740685.1949551197" name="PowerPC Compiler" superClass="com.freescale.ppc.toolchain.compiler.283740685">
 							<inputType id="com.freescale.ppc.toolchain.compiler.base.input.960007260" name="com.freescale.ppc.toolchain.cf Compiler Input" superClass="com.freescale.ppc.toolchain.compiler.base.input"/>
@@ -250,12 +252,10 @@
 						</tool>
 					</fileInfo>
 					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.543169852.Project_Settings/Linker_Files/MPC5604B_RAM.lcf" name="MPC5604B_RAM.lcf" rcbsApplicability="disable" resourcePath="Project_Settings/Linker_Files/MPC5604B_RAM.lcf" toolsToInvoke=""/>
-					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.543169852.Project_Headers/Exceptions_p1.h" name="Exceptions_p1.h" rcbsApplicability="disable" resourcePath="Project_Headers/Exceptions_p1.h" toolsToInvoke=""/>
-					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.543169852.Project_Headers/IntcInterrupts_p1.h" name="IntcInterrupts_p1.h" rcbsApplicability="disable" resourcePath="Project_Headers/IntcInterrupts_p1.h" toolsToInvoke=""/>
 					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.543169852.MPC5604B_readme.txt" name="MPC5604B_readme.txt" rcbsApplicability="disable" resourcePath="MPC5604B_readme.txt" toolsToInvoke=""/>
 					<fileInfo id="com.freescale.ppc.debug.toolchain.configuration.543169852.Prefix/MPC5604B_RAM_VLE.prefix" name="MPC5604B_RAM_VLE.prefix" rcbsApplicability="disable" resourcePath="Prefix/MPC5604B_RAM_VLE.prefix" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="Sources/RFIDCard.c|Prefix/MPC5604B_RAM_VLE.prefix|MPC5604B_readme.txt|Project_Settings/Linker_Files/MPC5604B_RAM.lcf|Project_Settings/Startup_Code/MPC5604B_init_ram.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Sources/mag.c|Prefix/MPC5604B_RAM_VLE.prefix|MPC5604B_readme.txt|Project_Settings/Linker_Files/MPC5604B_RAM.lcf|Project_Settings/Startup_Code/MPC5604B_init_ram.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

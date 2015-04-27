@@ -12,7 +12,9 @@ void main(void)
 	//delay_ms(6000);//等待蓝牙配对
 	//write_camera_data_to_TF();
 	//set_speed_target(10);
-	LCD_P6x8Str(92,0, (BYTE*)"OFFSET");
+	//SetupBKL();
+	//SetupCCD();	
+	g_f_enable_speed_control=0;
 	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 
 
@@ -46,7 +48,7 @@ void main(void)
 			Display_Video();
 			serial_port_1_TX(RoadType);
 			LCD_PrintoutInt(72, 1, target_offset);
-			//Send_CCD_Video();
+			Send_CCD_Video();
 			//Send_CCD_Blackline();
 			SteerControl();
 			D3=0;

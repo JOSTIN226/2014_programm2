@@ -48,7 +48,7 @@ void main(void)
 			Display_Video();
 			serial_port_1_TX(RoadType);
 			LCD_PrintoutInt(72, 1, target_offset);
-			//Send_CCD_Video();
+			Send_CCD_Video();
 			//Send_CCD_Blackline();
 			SteerControl();
 			D3=0;

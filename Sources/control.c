@@ -3,21 +3,9 @@
 
 
 int g_f_pit = 0;
-int g_f_enable_mag_steer_control = 0;	/* 启用电磁循迹标志位 */
 int g_f_enable_speed_control = 0;	/* 启用速度控制标志位 */
-int g_f_enable_rad_control_1 = 0;		/* 启用陀螺仪角度控制漂移标志位*/
-int g_f_enable_rad_control_2 = 0;		/* 启用陀螺仪角度控制转向标志位 */
-int g_f_enable_speed_control_2 = 0;		/* 启用陀螺仪角度控制上下坡标志位 */
-int angle1 = 0; 		 /* 启用陀螺仪角度控制转向标志位   转向角度值 */
-int g_f_enable_single_bridge_control = 0;		/*单边桥标志位*/
-int g_f_enable_fly_bridge = 0;		/* 飞桥标志位 */
-int g_f_enable_steer_bridge = 0;		/* 钢丝桥标志位 */
 int speed = 0;
-int read_rad_xyz = 0;/* 启用读陀螺仪xyz三轴数据 */
-int find_mag_back_box = 0; 	/*找回磁线  推箱子*/
 int update_steer_helm_basement_to_steer_helm(void);
-int find_mag_back_box_2=0;
-int find_mag_back_car1=0;
 int g_f_big_U=0;
 int g_f_big_U_2=0;
 
@@ -32,7 +20,7 @@ int g_f_big_U_2=0;
 void PitISR(void)
 {
 	g_f_pit = 1;
-	
+	D0=~D0;
 	g_time_basis_PIT++;	/* 计时 */
 #if 1	
 
@@ -50,72 +38,12 @@ void PitISR(void)
 	}
 	/* end:encoder */
 #endif
-	
 	/* 开始执行速度控制算法 */
 	if (g_f_enable_speed_control)
 	{
-		//SpeedControl();//不同路段PID,尚未调,不可用
+		SpeedControl();//不同路段PID,尚未调,不可用
 		contorl_speed_encoder_pid();
-//		LCD_PrintoutInt(32, 0, data_encoder.speed_now);
-//		LCD_PrintoutInt(32, 2, data_encoder.cnt_old);
-//		LCD_PrintoutInt(32, 4, data_encoder.cnt_new);
-//		LCD_PrintoutInt(64, 4, g_time_basis_PIT++);
-//		LCD_PrintoutInt(32, 6, data_encoder.is_forward);
 	}
-#if 0
-	/* 电磁循迹 */
-	if (g_f_enable_mag_steer_control)
-	{
-		mag_read();
-		control_steer_helm();
-	}
-#endif
-
-		
-	
-	/* 陀螺仪角度控制漂移*/
-	if (g_f_enable_rad_control_1 != 0)
-	{
-		if (!control_steer_helm_2(g_f_enable_rad_control_1))
-		{
-			g_f_enable_mag_steer_control=1; 
-			set_steer_helm((WORD)(data_steer_helm.center));	
-			if(g_f_enable_rad_control_1==1)
-			{
-				set_speed_target(20);
-			}
-			if(g_f_enable_rad_control_1==2||g_f_enable_rad_control_1==3)
-			{
-				set_speed_target(0);
-			}
-			g_f_enable_rad_control_1 =0; 
-		}
-	}
-	
-	/* 陀螺仪角度控制转向 */
-	if(g_f_enable_rad_control_2)
-	{
-		if (!control_steer_helm_3(angle1))
-		{
-			g_f_enable_rad_control_2 =0;  
-			set_steer_helm((WORD)(data_steer_helm.center));	
-			if(find_mag_back_box_2==1)
-			{
-				find_mag_back_box=0;
-				find_mag_back_box_2=1;
-				g_f_enable_mag_steer_control=1;
-				set_speed_target(20);
-			}
-		}
-	}
-	
-	
-	/* 陀螺仪控制上下坡 */
-	if(g_f_enable_speed_control_2)
-	{
-		control_speed_target_1(speed);
-	}
-	
 #if 0
 	/* 发送位置 */
 	{
@@ -125,7 +53,8 @@ void PitISR(void)
 		generate_remote_frame(WIFI_CMD_NET, data, sizeof(data));
 	}
 #endif
-
+	D3=~D3;
+	EMIOS_0.CH[3].CSR.B.FLAG = 1;//清场中断标志位
 	PIT.CH[1].TFLG.B.TIF = 1;	// MPC56xxB/P/S: Clear PIT 1 flag by writing 1
 }
 
@@ -141,8 +70,8 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 		{
 			speed_pwm = SPEED_PWM_MAX;
 		}
-		EMIOS_0.CH[20].CBDR.R = speed_pwm;//PE1
-		EMIOS_0.CH[21].CBDR.R = 1;//PE2
+		EMIOS_0.CH[20].CBDR.R = speed_pwm;//PE5
+		EMIOS_0.CH[21].CBDR.R = 1;//PE6
 		
 	}
 	else if (speed_pwm<0)	//backward
@@ -277,30 +206,6 @@ void set_speed_KD(WORD kd)
 {
 	data_speed_pid.d = kd;
 }
-
-/*-----------------------------------------------------------------------*/
-/* 陀螺仪控制转向   //叶川添加                                            */
-/*-----------------------------------------------------------------------*/
-void control_angle_steer_helm(int angle_target)
-{
-	reset_rev_data();
-	read_rad_xyz = 1;
-	g_f_enable_rad_control_2=1;
-	angle1=angle_target;
-	if(find_mag_back_box_2) start_time = g_time_basis_PIT;
-}
-/*-----------------------------------------------------------------------*/
-/* 陀螺仪控制速度   //周斯航添加                                            */
-/*-----------------------------------------------------------------------*/
-
-void control_speed_motor(int speed_target)
-{
-	reset_rev_data();
-	read_rad_xyz = 1;
-	g_f_enable_speed_control_2 = 1;	
-	speed = speed_target;
-}
-
 
 
 /*-----------------------------------------------------------------------*/

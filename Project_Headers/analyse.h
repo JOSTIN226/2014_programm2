@@ -1,4 +1,4 @@
-#ifndef __ANALYSE_H__
+ï»¿#ifndef __ANALYSE_H__
 #define __ANALYSE_H__
 #define byte unsigned char
 #define word unsigned int
@@ -9,60 +9,60 @@
 #define ABS(x)          ((x) > 0 ? (x) : 0-(x))
 
 
-//×óÓÒÏßÀàĞÍ
+//å·¦å³çº¿ç±»å‹
 #define UnExist	(0)
 #define	Exist	(1)
 
-//ÏßĞÍÉùÃ÷
-//0-1:Ê×´ÎÕÒÏßÖĞ¼äÁ¿
-#define UnBegin	  (0)	//Ã»¿ªÊ¼ÕÒÏß
-#define CrossLine (1)   //Ê®×Ö
-//4- :×îÖÕÈüµÀÀàĞÍ
-#define NoLine    (2)   //Ã»ÕÒµ½Ïß
-#define Straight  (3)   //Ö±µÀ
-#define BigT	  (4)   //´óÍä
-#define BigS 	  (5)   //´óS
-#define SmallS    (6)   //Ğ¡S
-#define ToT		  (7)	//Ö±µÀÈëÍä
-#define UTurn	  (8)	//UĞÍÍä
-#define UnRec	  (9)	//ÎŞ·¨Ê¶±ğµÄÈüµÀÀàĞÍ
-#define Wrong	  (10)	//ÎŞĞ§Í¼Ïñ
+//çº¿å‹å£°æ˜
+//0-1:é¦–æ¬¡æ‰¾çº¿ä¸­é—´é‡
+#define UnBegin	  (0)	//æ²¡å¼€å§‹æ‰¾çº¿
+#define CrossLine (1)   //åå­—
+//4- :æœ€ç»ˆèµ›é“ç±»å‹
+#define NoLine    (2)   //æ²¡æ‰¾åˆ°çº¿
+#define Straight  (3)   //ç›´é“
+#define BigT	  (4)   //å¤§å¼¯
+#define BigS 	  (5)   //å¤§S
+#define SmallS    (6)   //å°S
+#define ToT		  (7)	//ç›´é“å…¥å¼¯
+#define UTurn	  (8)	//Uå‹å¼¯
+#define UnRec	  (9)	//æ— æ³•è¯†åˆ«çš„èµ›é“ç±»å‹
+#define Wrong	  (10)	//æ— æ•ˆå›¾åƒ
 
 
-//ÓĞĞ§ĞĞ±äÁ¿
+//æœ‰æ•ˆè¡Œå˜é‡
 #define Far		(20)
 #define Mid		(21)
 #define Near	(22)
 
 //#####################
-//ÕÒÏß²ÎÊıÉùÃ÷
+//æ‰¾çº¿å‚æ•°å£°æ˜
 #define Left      (0)   //Left
 #define Right     (1)   //Right
 #define Center	  (2)
-#define Stop      (20)	//Ê×´ÎÃ»ÕÒµ½Ïß£¬¶ş´ÎÕÒÏßÇ°ÒÆµÄÎ»ÖÃ
-#define CrsLen	  (10)	//Ê®×Ö¶ş´ÎÕÒÏßÇ°ÒÆÎ»ÖÃ
+#define Stop      (20)	//é¦–æ¬¡æ²¡æ‰¾åˆ°çº¿ï¼ŒäºŒæ¬¡æ‰¾çº¿å‰ç§»çš„ä½ç½®
+#define CrsLen	  (10)	//åå­—äºŒæ¬¡æ‰¾çº¿å‰ç§»ä½ç½®
 #define COLUMN1_2 (41)
 #define COLUMN2_3 (55)
 #define COLUMN1_3 (27)
 #define ROW1_2	  (35)
-#define REROW	  (55)  //Ê×´ÎÃ»ÕÒµ½£¬¶ş´ÎÕÒÏßµÄÆğÊ¼ĞĞ
+#define REROW	  (55)  //é¦–æ¬¡æ²¡æ‰¾åˆ°ï¼ŒäºŒæ¬¡æ‰¾çº¿çš„èµ·å§‹è¡Œ
 
-//±äÁ¿µÄÍâ²¿ÉùÃ÷
+//å˜é‡çš„å¤–éƒ¨å£°æ˜
 extern byte BlackLine[2][ROWS];
 extern byte StartRow[2];
 extern byte EndRow[2];
-extern byte LineType[2];	//×óÓÒÏßÀàĞÍ
-extern byte RoadType;		//ÈüµÀÀàĞÍ
-extern byte RoadStart;		//ÈüµÀÆğÊ¼ĞĞ
-extern byte RoadEnd;		//ÈüµÀÖÕÖ¹ĞĞ
-extern byte RoadTurn;		//ÈüµÀÖÕÖ¹ĞĞ
+extern byte LineType[2];	//å·¦å³çº¿ç±»å‹
+extern byte RoadType;		//èµ›é“ç±»å‹
+extern byte RoadStart;		//èµ›é“èµ·å§‹è¡Œ
+extern byte RoadEnd;		//èµ›é“ç»ˆæ­¢è¡Œ
+extern byte RoadTurn;		//èµ›é“ç»ˆæ­¢è¡Œ
 extern signed char CenterLine[ROWS];
 
 extern byte StartLine;
-extern byte UpSlope;//ÉÏÆÂ±êÖ¾
-extern byte DownSlope;//ÏÂÆÂ±êÖ¾
-extern byte Slope;	//ÆÂµÀ±êÖ¾
-extern byte DottedLineFlags;//ĞéÏß±êÖ¾
+extern byte UpSlope;//ä¸Šå¡æ ‡å¿—
+extern byte DownSlope;//ä¸‹å¡æ ‡å¿—
+extern byte Slope;	//å¡é“æ ‡å¿—
+extern byte DottedLineFlags;//è™šçº¿æ ‡å¿—
 
 extern byte NearCross[2];
 extern byte FarCross[2];
@@ -82,7 +82,7 @@ void Analyze_Cross();
 void Rec_Cross();
 void FindCross(byte lr);
 byte CrossPoint(byte lr,byte irow,byte pre_point,byte flags,byte offset);
-void FillCross(byte lr);         //ĞŞ¸´Ê®×Ö
+void FillCross(byte lr);         //ä¿®å¤åå­—
 void ReBuildCross();
 void SmoothLine(byte lr);
 void AnalyzeRoadType();
@@ -103,7 +103,7 @@ void DetectStart();
 void ReBuildWeight();
 
 
-//******************************Æ«ÒÆÁ¿¼ÆËã****************************************//
+//******************************åç§»é‡è®¡ç®—****************************************//
 void TargetOffset();
 void UpSlopeOffset();
 void DownSlopeOffset();

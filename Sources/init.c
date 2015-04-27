@@ -48,23 +48,51 @@ void disable_watchdog(void)
 
 
 /*-----------------------------------------------------------------------*/
-/* 初始化板载LED                                                         */
+/* 初始化all灯                                                         */
 /*-----------------------------------------------------------------------*/
 void init_led(void)
 {
+	//2015第一版载LED
  	SIU.PCR[40].R = 0x0203;	/* PC8  */
   	SIU.PCR[45].R = 0x0203; /* PC13 */
  	SIU.PCR[44].R = 0x0203; /* PC12 */
 	SIU.PCR[71].R = 0x0203;	/* PE7  */
- 	
-	SIU.GPDO[40].R = 1;	/* 1=熄灭 */
-	SIU.GPDO[45].R = 1;
-	SIU.GPDO[44].R = 1;
-	SIU.GPDO[71].R = 1;
+
+#if 0
+	//第二版车灯
+ 	SIU.PCR[16].R = 0x0203;	/* PB0  */
+  	SIU.PCR[17].R = 0x0203; /* PB1 */
+ 	SIU.PCR[72].R = 0x0203; /* PE8 */
+	SIU.PCR[73].R = 0x0203;	/* PE9  */	
+
+	//第二版板载LED
+	SIU.PCR[12].R = 0x0203;/* PA12  */
+	SIU.PCR[13].R = 0x0203;/* PA13  */
+	SIU.PCR[14].R = 0x0203;/* PA14  */
+	SIU.PCR[15].R = 0x0203;/* PA15  */
+#endif
+	D0 = 1;	/* 1=熄灭 */
+	D1 = 1;
+	D2 = 1;
+	D3 = 1;
+
+//	LeftL = 0;	/* 0=熄灭 */
+//	RightL = 0;
+//	StopL = 0;
+//	RunL = 0;
 }
 
 
-
+/*-----------------------------------------------------------------------*/
+/* 初始化拨码开关                                                         */
+/*-----------------------------------------------------------------------*/
+void init_DIP(void)
+{
+	SIU.PCR[53].R=0x0100;/*PD5 as input*/
+	SIU.PCR[54].R=0x0100;
+	SIU.PCR[55].R=0x0100;
+	SIU.PCR[56].R=0x0100;
+}
 /*-----------------------------------------------------------------------*/
 /* 初始化PIT中断                                                         */
 /* 10ms                                                                  */
@@ -75,7 +103,7 @@ void init_pit(void)
 	PIT.PITMCR.R = 0x00000001;	/* Enable PIT and configure timers to stop in debug modem */
 	PIT.CH[1].LDVAL.R = 800000;	/* 800000==10ms */
 	PIT.CH[1].TCTRL.R = 0x00000003;	/* Enable PIT1 interrupt and make PIT active to count */
-	INTC_InstallINTCInterruptHandler(PitISR,60,1);	/* PIT 1 interrupt vector with priority 1 */
+	INTC_InstallINTCInterruptHandler(PitISR,60,2);	/* PIT 1 interrupt vector with priority 1 */
 }
 
 
@@ -127,6 +155,7 @@ void initEMIOS_0MotorAndSteer(void)
 	EMIOS_0.CH[9].CADR.R = 1;	/* Leading edge when channel counter bus=250*/
 	EMIOS_0.CH[9].CBDR.R = STEER_HELM_CENTER;	/* Trailing edge when channel counter bus=500*/
 	SIU.PCR[9].R = 0x0600;	/* [11:10]选择AFx 此处AF1 /* MPC56xxS: Assign EMIOS_0 ch 21 to pad */
+#if 0
 	/* 信号舵机 PWM PA12 输出0-50000 */
 	EMIOS_0.CH[12].CCR.B.BSL = 0x1;
 	EMIOS_0.CH[12].CCR.B.MODE = 0x60;  
@@ -134,6 +163,7 @@ void initEMIOS_0MotorAndSteer(void)
 	EMIOS_0.CH[12].CADR.R = 1;
 	EMIOS_0.CH[12].CBDR.R = SINGLE_HELM_CENTER;
 	SIU.PCR[44].R = 0x0600;
+#endif
 }
 
 /*----------------------------------------------------------------------*/
@@ -160,7 +190,7 @@ void initEMIOS_0Image(void)
 	INTC_InstallINTCInterruptHandler(RowInputCapture,144,3); 
 	
 	//C10口二值化入口
-	SIU.PCR[42].R = 0x0102;  // C10口二值化入口
+	SIU.PCR[42].R = 0x0102;  // C9口二值化入口
 }
 
 /*-----------------------------------------------------------------------*/
@@ -193,7 +223,7 @@ int is_big_endian()
 
 
 /*-----------------------------------------------------------------------*/
-/* 初始化光电编码器                                                      */
+/* 初始化光电编码器          已测试                                            */
 /*-----------------------------------------------------------------------*/
 void init_optical_encoder(void)	//PD12模数计数器入口，上升沿
 {
@@ -205,11 +235,12 @@ void init_optical_encoder(void)	//PD12模数计数器入口，上升沿
 	EMIOS_0.CH[24].CCR.B.FREN = 0;	/* Freeze channel counting when in debug mode */
 	EMIOS_0.CH[24].CCR.B.EDPOL=1;	/* Edge Select rising edge */
 	EMIOS_0.CH[24].CADR.R=0xffff;
-	/* (WORD)EMIOS_0.CH[24].CCNTR.R 数据寄存器 */
-	SIU.PCR[60].R = 0x0100;	/* Initialize pad for eMIOS channel Initialize pad for input */
+	/* (WORD)EMIOS_0.CH[15].CCNTR.R 数据寄存器 */
+	SIU.PCR[47].R = 0x0500;	/* Initialize pad for eMIOS channel Initialize pad for input */
+
 	
-	/* 方向部分 PB12 */
-	SIU.PCR[28].R = 0x0100;
+	/* 方向部分 PC14 */
+	SIU.PCR[46].R = 0x0100;
 	/* SIU.GPDI[28].B.PDI 数据寄存器 */
 }
 
@@ -250,16 +281,17 @@ void delay_ms(DWORD ms)
 void init_all_and_POST(void)
 {
 	int i = 0;
-//	/* TF卡 */
-//	TCHAR *path = "0:";
+	/* TF卡 */
+	TCHAR *path = "0:";
 	
 	disable_watchdog();
 	init_modes_and_clock();
 	initEMIOS_0MotorAndSteer();
 	initEMIOS_0Image();/* 摄像头输入中断初始化 */
-	//init_pit();
+	init_pit();
 	init_led();
-	init_serial_port_0();
+	//init_DIP();
+	//init_serial_port_0();
 	init_serial_port_1();
 	//init_serial_port_2();
 	//init_ADC();
@@ -286,179 +318,111 @@ void init_all_and_POST(void)
 	
 	/* 初始化显示屏 */
 	initLCD();
+
 	//LCD_DISPLAY();
 	LCD_Fill(0xFF);	/* 亮屏 */
 	delay_ms(50);
 	LCD_Fill(0x00);	/* 黑屏 */
 	delay_ms(50);
-	
+#if 1	
 	/* 初始化TF卡 */
 
-//	LCD_P8x16Str(0,0, (BYTE*)"TF..");
-//	if (!SD_init())
-//	{
-//		/* 挂载TF卡文件系统 */
-//		if (FR_OK == f_mount(&fatfs1, path, 1))
-//		{
-//			/* 文件读写测试 */
-//			if (!test_file_system())
-//			{
-//				g_devices_init_status.TFCard_is_OK = 1;
-//			}
-//		}
-//	}
-//	if (g_devices_init_status.TFCard_is_OK)
-//	{
-//		LCD_P8x16Str(0,0, (BYTE*)"TF..OK");
-//	}
-//	else
-//	{
-//		LCD_P8x16Str(0,0, (BYTE*)"TF..NOK");
-//		suicide();
-//	}
-//	
-//	/* 读取设备号 */
-//#if 0
-//	LCD_P8x16Str(0, 4, (BYTE*)"DeviceNo=");
-//	if (!read_device_no_from_TF())
-//	{
-//		if (WIFI_ADDRESS_WITHOUT_INIT != g_device_NO)
-//		{
-//			LCD_PrintoutInt(72, 4, g_device_NO);
-//		}
-//		else
-//		{
-//			suicide();
-//		}
-//	}
-//	else
-//	{
-//		suicide();
-//	}
-//
-//	
-//	/* 初始化陀螺仪 */
-//
-//	LCD_P8x16Str(0,2, (BYTE*)"L3G..");
-//	switch (g_device_NO)
-//	{
-//		case WIFI_ADDRESS_CAR_1 :
-//		case WIFI_ADDRESS_CAR_2 :
-//		case WIFI_ADDRESS_CAR_3 :
-//		case WIFI_ADDRESS_CAR_4 :
-//		while (1)
-//		{
-//			BYTE rev = 0x00;
-//			
-//			ReadReg(WHO_AM_I, &rev);
-//			if (I_AM_L3G4200D == rev)
-//			{
-//				g_devices_init_status.L3G4200D_is_OK = 1;
-//				SetODR(  ODR_100Hz_BW_12_5 );
-//				SetInt1Filters( LPF2 );
-//				SetAxis(X_ENABLE | Y_ENABLE | Z_ENABLE);
-//				SetMode(NORMAL);
-//				break;
-//			}
-//		}
-//		break;
-//
-//		case WIFI_ADDRESS_CAR_2 :
-//		case WIFI_ADDRESS_CAR_4 :
-//		for (i=0; i<5; i++)
-//		{
-//			BYTE rev = 0x00;
-//			
-//			ReadReg(WHO_AM_I, &rev);
-//			if (I_AM_L3G4200D == rev)
-//			{
-//				g_devices_init_status.L3G4200D_is_OK = 1;
-//				SetODR(ODR_100Hz_BW_12_5);
-//				SetAxis(X_ENABLE | Y_ENABLE | Z_ENABLE);
-//				SetMode(NORMAL);
-//				break;
-//			}
-//		}
-//		break;
-//
-//	}
-//	if (g_devices_init_status.L3G4200D_is_OK)
-//	{
-//		LCD_P8x16Str(0,2, (BYTE*)"L3G..OK");
-//	}
-//	else
-//	{
-//		LCD_P8x16Str(0,2, (BYTE*)"L3G..NOK");
-//	}
-//	
-//
-//	/* 开启RFID读卡器主动模式 */
-//	if (!init_RFID_modul_type())
-//	{
-//		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 1;
-//		LCD_P8x16Str(0, 6, (BYTE*)"RFID..OK");
-//	}
-//	else
-//	{
-//		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 0;
-//		LCD_P8x16Str(0, 6, (BYTE*)"RFID..NOK");
-//		suicide();
-//	}
-//	
-//	/* 换屏 */
-//	LCD_Fill(0x00);
-//	
-//	/* 读取舵机参数 */
-//	LCD_P8x16Str(0, 0, (BYTE*)"StH.L=");
-//	if (read_steer_helm_data_from_TF())
-//	{
-//		suicide();
-//	}
-//	update_steer_helm_basement_to_steer_helm();
-//	LCD_PrintoutInt(48, 0, data_steer_helm_basement.left_limit);
-//	set_steer_helm_basement(data_steer_helm_basement.left_limit);
-//	delay_ms(500);
-//	LCD_P8x16Str(0, 2, (BYTE*)"StH.R=");
-//	LCD_PrintoutInt(48, 2, data_steer_helm_basement.right_limit);
-//	set_steer_helm_basement(data_steer_helm_basement.right_limit);
-//	delay_ms(500);
-//	LCD_P8x16Str(0, 4, (BYTE*)"StH.C=");
-//	LCD_PrintoutInt(48, 4, data_steer_helm_basement.center);
-//	set_steer_helm_basement(data_steer_helm_basement.center);
-//
-//	set_pos_target();
-//
-//
-////	/* 换屏 */
-////	LCD_Fill(0x00);
-//
-//	/* 速度闭环测试 */
-//	
-//	g_f_enable_speed_control = 1;
-//	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");
-//	set_speed_target(0);
-//	delay_ms(2000);
-//
-//	/* 换屏 */
-//	LCD_Fill(0x00);
-//
-//
-//	/* 测试电感 */
-//	LCD_P8x16Str(0, 0, (BYTE*)"I.L=");
-//	LCD_P8x16Str(0, 2, (BYTE*)"I.R=");
-//	for (i = 0; i < 5; i++)
-//	{
-//		mag_read();
-//		LCD_PrintoutInt(32, 0, mag_left);
-//		LCD_PrintoutInt(32, 2, mag_right);
-//		delay_ms(500);
-//	}
-//
-//
-//	/* 换屏 */
-//	LCD_Fill(0x00);
-//
-//
+	LCD_P8x16Str(0,0, (BYTE*)"TF..");
+	if (!SD_init())
+	{
+		/* 挂载TF卡文件系统 */
+		if (FR_OK == f_mount(&fatfs1, path, 1))
+		{
+			/* 文件读写测试 */
+			if (!test_file_system())
+			{
+				g_devices_init_status.TFCard_is_OK = 1;
+			}
+		}
+	}
+	if (g_devices_init_status.TFCard_is_OK)
+	{
+		LCD_P8x16Str(0,0, (BYTE*)"TF..OK");
+	}
+	else
+	{
+		LCD_P8x16Str(0,0, (BYTE*)"TF..NOK");
+		suicide();
+	}
+	
+	/* 读取设备号 */
+
+	LCD_P8x16Str(0, 4, (BYTE*)"DeviceNo=");
+	if (!read_device_no_from_TF())
+	{
+		if (WIFI_ADDRESS_WITHOUT_INIT != g_device_NO)
+		{
+			LCD_PrintoutInt(72, 4, g_device_NO);
+		}
+		else
+		{
+			suicide();
+		}
+	}
+	else
+	{
+		suicide();
+	}
+#if 0
+	/* 开启RFID读卡器主动模式 */
+	if (!init_RFID_modul_type())
+	{
+		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 1;
+		LCD_P8x16Str(0, 6, (BYTE*)"RFID..OK");
+	}
+	else
+	{
+		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 0;
+		LCD_P8x16Str(0, 6, (BYTE*)"RFID..NOK");
+		suicide();
+	}
+#endif	
+	delay_ms(1000);
+	/* 换屏 */
+	LCD_Fill(0x00);
+
+	/* 读取舵机参数 */
+	LCD_P8x16Str(0, 0, (BYTE*)"StH.L=");
+	if (read_steer_helm_data_from_TF())
+	{
+		suicide();
+	}
+	update_steer_helm_basement_to_steer_helm();
+	LCD_PrintoutInt(48, 0, data_steer_helm_basement.left_limit);
+	set_steer_helm_basement(data_steer_helm_basement.left_limit);
+	delay_ms(500);
+	LCD_P8x16Str(0, 2, (BYTE*)"StH.R=");
+	LCD_PrintoutInt(48, 2, data_steer_helm_basement.right_limit);
+	set_steer_helm_basement(data_steer_helm_basement.right_limit);
+	delay_ms(500);
+	LCD_P8x16Str(0, 4, (BYTE*)"StH.C=");
+	LCD_PrintoutInt(48, 4, data_steer_helm_basement.center);
+	set_steer_helm_basement(data_steer_helm_basement.center);
+
+	set_pos_target();
+	delay_ms(1000);
+
+
+	/* 换屏 */
+	LCD_Fill(0x00);
+
+	/* 速度闭环测试 */
+#if 0	
+	g_f_enable_speed_control = 1;
+	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");
+	set_speed_target(0);
+	delay_ms(2000);
+
+	/* 换屏 */
+	LCD_Fill(0x00);
+#endif
+#endif
+
 }
 //
 

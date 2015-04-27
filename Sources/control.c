@@ -3,21 +3,9 @@
 
 
 int g_f_pit = 0;
-int g_f_enable_mag_steer_control = 0;	/* 启用电磁循迹标志位 */
 int g_f_enable_speed_control = 0;	/* 启用速度控制标志位 */
-int g_f_enable_rad_control_1 = 0;		/* 启用陀螺仪角度控制漂移标志位*/
-int g_f_enable_rad_control_2 = 0;		/* 启用陀螺仪角度控制转向标志位 */
-int g_f_enable_speed_control_2 = 0;		/* 启用陀螺仪角度控制上下坡标志位 */
-int angle1 = 0; 		 /* 启用陀螺仪角度控制转向标志位   转向角度值 */
-int g_f_enable_single_bridge_control = 0;		/*单边桥标志位*/
-int g_f_enable_fly_bridge = 0;		/* 飞桥标志位 */
-int g_f_enable_steer_bridge = 0;		/* 钢丝桥标志位 */
 int speed = 0;
-int read_rad_xyz = 0;/* 启用读陀螺仪xyz三轴数据 */
-int find_mag_back_box = 0; 	/*找回磁线  推箱子*/
 int update_steer_helm_basement_to_steer_helm(void);
-int find_mag_back_box_2=0;
-int find_mag_back_car1=0;
 int g_f_big_U=0;
 int g_f_big_U_2=0;
 
@@ -32,11 +20,12 @@ int g_f_big_U_2=0;
 void PitISR(void)
 {
 	g_f_pit = 1;
-	
+	D0=~D0;
 	g_time_basis_PIT++;	/* 计时 */
-#if 0	
+#if 1	
+
 	/* start:encoder */
-	data_encoder.is_forward = SIU.GPDI[28].B.PDI;
+	data_encoder.is_forward = SIU.GPDI[46].B.PDI;//PC14
 	data_encoder.cnt_old = data_encoder.cnt_new;
 	data_encoder.cnt_new = (WORD)EMIOS_0.CH[24].CCNTR.R;//PD12
 	if (data_encoder.cnt_new >= data_encoder.cnt_old)
@@ -48,102 +37,13 @@ void PitISR(void)
 		data_encoder.speed_now = 0xffff - (data_encoder.cnt_old - data_encoder.cnt_new);
 	}
 	/* end:encoder */
-	SpeedControl();
 #endif
-	
-#if 0	
 	/* 开始执行速度控制算法 */
 	if (g_f_enable_speed_control)
 	{
+		SpeedControl();//不同路段PID,尚未调,不可用
 		contorl_speed_encoder_pid();
 	}
-
-	/* 电磁循迹 */
-	if (g_f_enable_mag_steer_control)
-	{
-		mag_read();
-		control_steer_helm();
-	}
-	
-	/*找回磁线  推箱子*/
-	if(find_mag_back_box )
-	{
-		mag_read();
-		if(mag_left>500 && mag_right<100) 
-		{
-			g_f_enable_mag_steer_control=1;
-			find_mag_back_box=0;
-			g_f_enable_rad_control_2=0;
-		}
-	}
-	/*找回磁线  漂移车*/
-	if(find_mag_back_car1 )
-	{
-		mag_read();
-		if(mag_right>500 && mag_left<100) 
-		{
-			g_f_enable_mag_steer_control=1;
-			find_mag_back_car1=0;
-			g_f_enable_rad_control_2=0;
-		}
-	}
-
-	/* 读陀螺仪三轴数据 */
-	if(read_rad_xyz)
-	{
-		if (!read_rev_data())	/* 不是每次都能读出来的 */
-		{
-#if 0
-			LCD_PrintoutInt(64, 0, rad.x);
-			LCD_PrintoutInt(64, 2, rad.y);
-			LCD_PrintoutInt(64, 4, rad.z);
-#endif
-		}
-	}
-	
-	/* 陀螺仪角度控制漂移*/
-	if (g_f_enable_rad_control_1 != 0)
-	{
-		if (!control_steer_helm_2(g_f_enable_rad_control_1))
-		{
-			g_f_enable_mag_steer_control=1; 
-			set_steer_helm((WORD)(data_steer_helm.center));	
-			if(g_f_enable_rad_control_1==1)
-			{
-				set_speed_target(20);
-			}
-			if(g_f_enable_rad_control_1==2||g_f_enable_rad_control_1==3)
-			{
-				set_speed_target(0);
-			}
-			g_f_enable_rad_control_1 =0; 
-		}
-	}
-	
-	/* 陀螺仪角度控制转向 */
-	if(g_f_enable_rad_control_2)
-	{
-		if (!control_steer_helm_3(angle1))
-		{
-			g_f_enable_rad_control_2 =0;  
-			set_steer_helm((WORD)(data_steer_helm.center));	
-			if(find_mag_back_box_2==1)
-			{
-				find_mag_back_box=0;
-				find_mag_back_box_2=1;
-				g_f_enable_mag_steer_control=1;
-				set_speed_target(20);
-			}
-		}
-	}
-	
-	
-	/* 陀螺仪控制上下坡 */
-	if(g_f_enable_speed_control_2)
-	{
-		control_speed_target_1(speed);
-	}
-#endif	
 #if 0
 	/* 发送位置 */
 	{
@@ -153,13 +53,14 @@ void PitISR(void)
 		generate_remote_frame(WIFI_CMD_NET, data, sizeof(data));
 	}
 #endif
-
+	D3=~D3;
+	EMIOS_0.CH[3].CSR.B.FLAG = 1;//清场中断标志位
 	PIT.CH[1].TFLG.B.TIF = 1;	// MPC56xxB/P/S: Clear PIT 1 flag by writing 1
 }
 
 
 /*-----------------------------------------------------------------------*/
-/* 设置速度PWM      电机接口函数                                                             */
+/* 设置速度PWM                                                                    */
 /*-----------------------------------------------------------------------*/
 void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 {
@@ -169,8 +70,8 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 		{
 			speed_pwm = SPEED_PWM_MAX;
 		}
-		EMIOS_0.CH[21].CBDR.R = speed_pwm;//PE5
-		EMIOS_0.CH[22].CBDR.R = 1;//PE6
+		EMIOS_0.CH[20].CBDR.R = speed_pwm;//PE5
+		EMIOS_0.CH[21].CBDR.R = 1;//PE6
 		
 	}
 	else if (speed_pwm<0)	//backward
@@ -181,13 +82,13 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 			speed_pwm = SPEED_PWM_MAX;
 		}
 
-		EMIOS_0.CH[21].CBDR.R = 1;
-		EMIOS_0.CH[22].CBDR.R = speed_pwm;	
+		EMIOS_0.CH[20].CBDR.R = 1;
+		EMIOS_0.CH[21].CBDR.R = speed_pwm;	
 	}
 	else
 	{
-		EMIOS_0.CH[21].CBDR.R = 1;
-		EMIOS_0.CH[22].CBDR.R = 1;	
+		EMIOS_0.CH[20].CBDR.R = 1;
+		EMIOS_0.CH[21].CBDR.R = 1;	
 	}
 }
 
@@ -234,7 +135,7 @@ static SWORD get_e0()
 	}
 	else
 	{
-		tmp_speed_now = 0 - (SWORD)data_encoder.speed_now;
+		tmp_speed_now = 0 - (SWORD) data_encoder.speed_now;
 	}
 	e0=data_speed_settings.speed_target-tmp_speed_now;
 	return e0;
@@ -306,30 +207,6 @@ void set_speed_KD(WORD kd)
 	data_speed_pid.d = kd;
 }
 
-/*-----------------------------------------------------------------------*/
-/* 陀螺仪控制转向   //叶川添加                                            */
-/*-----------------------------------------------------------------------*/
-void control_angle_steer_helm(int angle_target)
-{
-	reset_rev_data();
-	read_rad_xyz = 1;
-	g_f_enable_rad_control_2=1;
-	angle1=angle_target;
-	if(find_mag_back_box_2) start_time = g_time_basis_PIT;
-}
-/*-----------------------------------------------------------------------*/
-/* 陀螺仪控制速度   //周斯航添加                                            */
-/*-----------------------------------------------------------------------*/
-
-void control_speed_motor(int speed_target)
-{
-	reset_rev_data();
-	read_rad_xyz = 1;
-	g_f_enable_speed_control_2 = 1;	
-	speed = speed_target;
-}
-
-
 
 /*-----------------------------------------------------------------------*/
 /* 设置方向舵机位置                                                                */
@@ -359,7 +236,6 @@ void set_steer_helm(SWORD helmData)
 /* 相反                                                                                  */
 /* 直接方向舵机寄存器                                                             */
 /* 有限幅                                                                               */
-/* 舵机接口函数                                                                          */
 /*-----------------------------------------------------------------------*/
 void set_steer_helm_basement(WORD helmData)
 {

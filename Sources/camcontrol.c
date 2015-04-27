@@ -40,23 +40,21 @@ void SteerControl()
 		return;
 	}
 	//最低速
-	if(Slope==1)					{Steer_kp=10;Steer_kd=5;}
-	else if(Slope==2)				{Steer_kp=8;Steer_kd=5;}
+//	if(Slope==1)					{Steer_kp=10;Steer_kd=5;}
+//	else if(Slope==2)				{Steer_kp=8;Steer_kd=5;}
 	
-	else if(ABS(target_offset)<6) 	{Steer_kp=5;Steer_kd=5;}
+	if(ABS(target_offset)<6) 	{Steer_kp=5;Steer_kd=5;}
 	else if(ABS(target_offset)<26)  {Steer_kp=15.2+target_offset*target_offset/100;Steer_kd=10;}
 	else {Steer_kp=15.8+target_offset*target_offset/500;Steer_kd=5;}
 
 
 	
-	Steer_PWM[3]=STEER_HELM_CENTER-Steer_kp*target_offset-Steer_kd*(target_offset-last_offset);
+	Steer_PWM[3]=Steer_kp*target_offset+Steer_kd*(target_offset-last_offset);
 	//if(ABS(Steer_PWM[3]-Steer_PWM[2])>250) Steer_PWM[3]=(Steer_PWM[2]+Steer_PWM[1])/2;
 	//感觉不太靠谱，调的不好
 	
 	//舵机限值+舵机输出
-	if(Steer_PWM[3]>STEER_HELM_LEFT) Steer_PWM[3]=STEER_HELM_LEFT;
-	else if(Steer_PWM[3]<STEER_HELM_RIGHT) Steer_PWM[3]=STEER_HELM_RIGHT;
-	set_steer_helm_basement(Steer_PWM[3]);
+	set_steer_helm(Steer_PWM[3]);
 	
 	//存舵机值和offset值
 	Steer_PWM[0]=Steer_PWM[1];Steer_PWM[1]=Steer_PWM[2];Steer_PWM[2]=Steer_PWM[3];
@@ -64,88 +62,44 @@ void SteerControl()
 }
 
 
-//*****************************************************************************************************************
-//************************************************PIT中断************************************************    	  *
-//*****************************************************************************************************************
-#if 0
-void PitISR(void)//10ms一个控制周期
-{  
-    	//得到光编反馈值的绝对值及符号
-		speedcounter1=EMIOS_0.CH[24].CCNTR.R;
-		if(speedcounter1<speedcounter2)
-		{
-			currentspeed=speedcounter1+65536-speedcounter2;
-		}
-		else currentspeed=speedcounter1-speedcounter2;
-		
-		if(data_encoder.is_forward) currentspeed=currentspeed;
-		else currentspeed=-currentspeed;
-	    speedcounter2=speedcounter1;
-	    
-	    
-	    //光编错误计数
-	    if(currentspeed==0) Counter_Error++;
-	    else Counter_Error=0;
-	    
-	    SpeedControl();
-	}
-  	PIT.CH[1].TFLG.B.TIF = 1;	//write 1 to clear PIT1 清除标志位
-}
-#endif
+
 //*****************************************************************************************************************
 //************************************************速度控制************************************************    	  *
 //*****************************************************************************************************************
 void SpeedControl()
 {
 	//1*******************************起始线停车速度控制及光编线接触不牢控制***********************
-//	if(StartLine){
-//    	stop_delay++;
-//
-//    		if(stop_delay==43){
-//		    	if(stop_flag==2) set_speed_pwm(0);
-//		    	else if(data_encoder.is_forward) set_speed_pwm(-300);
-//		    	else stop_flag++;
-//		    	stop_delay--;
-//		      	return;
-//		    }
-//	}
-//   	if(Counter_Error>50) {set_speed_pwm(0);return;}
-//   	
-//   	StartTime2s++;
+	if(StartLine){
+    	stop_delay++;
+
+    		if(stop_delay==43){
+		    	if(stop_flag==2) set_speed_pwm(0);
+		    	else if(data_encoder.is_forward) set_speed_pwm(-300);
+		    	else stop_flag++;
+		    	stop_delay--;
+		      	return;
+		    }
+	}
+   	if(Counter_Error>50) {set_speed_pwm(0);return;}
+   	
+   	StartTime2s++;
 	//2*****正常速度控制...速度分配还要结合最远行和offset
 
 
    //最低速
-	if(Slope==1)				{targetspeed=180;
-									Speed_kp=6.5;Speed_ki=0.1;Speed_kd=0.2;}
-	else if(Slope==2)			{targetspeed=140;
-									Speed_kp=6;Speed_ki=0.1;Speed_kd=0.2;}
+	if(Slope==1)				{data_speed_settings.speed_target=180;
+									data_speed_pid.p=6.5;data_speed_pid.i=0.1;data_speed_pid.d=0.2;}
+	else if(Slope==2)			{data_speed_settings.speed_target=140;
+									data_speed_pid.p=6;data_speed_pid.i=0.1;data_speed_pid.d=0.2;}
 									
-	else if(RoadEnd<15)			{targetspeed=175;
-									Speed_kp=5.5;Speed_ki=0.1;Speed_kd=0.2;}
-	else if(RoadEnd<30)			{targetspeed=155-target_offset*target_offset/40;
-									Speed_kp=5.5;Speed_ki=0.2;Speed_kd=0.2;}
-	else						{targetspeed=130;
-									Speed_kp=5.5;Speed_ki=0.2;Speed_kd=0.2;}
+	else if(RoadEnd<15)			{data_speed_settings.speed_target=175;
+									data_speed_pid.p=5.5;data_speed_pid.i=0.1;data_speed_pid.d=0.2;}
+	else if(RoadEnd<30)			{data_speed_settings.speed_target=155-target_offset*target_offset/40;
+									data_speed_pid.p=5.5;data_speed_pid.i=0.2;data_speed_pid.d=0.2;}
+	else						{data_speed_settings.speed_target=130;
+									data_speed_pid.p=5.5;data_speed_pid.i=0.2;data_speed_pid.d=0.2;}
 
 
-//	if(StartTime2s<290)	{if(currentspeed>targetspeed) SumError=0;}
-//	else {StartTime2s--;}
-	
-	
-	
-    Error=(signed int)(targetspeed)-(signed int)(currentspeed);
-    
-    SumError+=Error;
-    if(SumError>3000) SumError=3000;
-    if(SumError<-3000) SumError=-3000;
-    
-
-   	Motor_PWM=Speed_kp*Error+Speed_ki*SumError+Speed_kd*(Error-PreError);
-   	
-    if(Motor_PWM>Motor_PWM_MAX)  Motor_PWM=Motor_PWM_MAX;
-	else if(Motor_PWM<Motor_PWM_MIN)  Motor_PWM=Motor_PWM_MIN;
-    set_speed_pwm(Motor_PWM);
-	
-	PreError=Error;
+	if(StartTime2s<290)	{if(data_encoder.speed_now>data_speed_settings.speed_target) SumError=0;}
+	else {StartTime2s--;}
 }

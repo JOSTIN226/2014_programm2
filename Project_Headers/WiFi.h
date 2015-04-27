@@ -23,8 +23,6 @@
 #define WIFI_CMD_GET_GYRO_INTEGRAL_DATA (0x0014)	/* 获取陀螺仪积分值 */
 #define WIFI_CMD_UNGET_GYRO_INTEGRAL_DATA (0x0015)	/* 停止获取陀螺仪积分值 */
 #define WIFI_CMD_STOP_SPEED (0x0016)	/* 车辆停止 */
-#define WIFI_CMD_ASK_LIGHT_STATUS (0x0017)	/* 请求信号灯信息 */
-
 
 
 #define WIFI_CMD_NET (0x0100)	/* 封装网络数据 */

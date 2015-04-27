@@ -1,5 +1,4 @@
 ﻿#include "includes.h"
-void FindBlackLine(void);
 //找线变量定义
 byte BlackLine[2][ROWS]; //左右线的数组
 byte StartRow[2];        //线的起点
@@ -85,34 +84,14 @@ byte StraightWeight[ROWS]=		//直道偏移量权值
 };//近
 byte UTurnWeight[ROWS]=		//偏移量权值
 {
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
-		0,0,0,0,0,0,0,0,0,0,//20-29
-		0,0,0,0,0,0,0,0,0,0,//30-39
-		0,0,0,0,0,0,0,0,0,0,//40-49
-		4,4,4,4,4,6,6,6,6,6,//50-59
-		6,6,6,6,6,5,5,5, 5, 5  //60-69
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
+ 4, 4, 4, 4, 4, 6, 6, 6, 6, 6,//50-59
+ 6 ,6 ,6 ,6 ,6 ,5 ,5 ,5 ,5 ,5 //60-69
 };
-byte ToTWeightMode0[ROWS]=//15-29
-{//远
-215,214,213,212,211,210,209,208,207,206,//0-15无用
-204,202,200,198,196,194,192,190,188,185,//15-19
-182,179,176,173,169,165,161,157,153,148,//20-29
-143,138,133,128,122,116,109,101, 94, 87,//30-39
- 81, 75, 69, 64, 59, 54, 49, 45, 41, 37,//40-49	
- 33, 29, 26, 23, 20, 17, 14, 12, 10,  8,//50-59
-  6,  5,  4,  3,  3,  2,  2,  1,  1,  1//60-69
-};//近
-byte ToTWeightMode1[ROWS]=//15-29
-{//远
-160,160,159,158,157,156,154,153,152,151,//0-15无用
-150,149,148,147,146,145,143,141,139,137,//15-19
-135,133,131,129,127,125,123,120,107,104,//20-29
-101, 98, 95, 92, 88, 84, 80, 75, 70, 64,//30-39
- 59, 54, 50, 46, 42, 39, 36, 33, 30, 27,//40-49	
- 24, 22, 20, 18, 16, 14, 12, 10,  8,  7,//50-59
-  6,  5,  4,  3,  3,  2,  2,  1,  1,  1//60-69
-};//近
 byte ToTWeight[ROWS]=//15-29
 {//远
 100,99,99,98,98,97,96,95,94,93,//0-15无用
@@ -123,85 +102,47 @@ byte ToTWeight[ROWS]=//15-29
 12, 1, 10, 9, 8, 7, 6, 6, 5, 5,//50-59
 4, 4, 3, 3, 2, 2, 2, 1, 1, 1  //60-69
 };//近
-byte FarWeightMode0[ROWS]=//0-14
-{
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
-		0,0,0,0,0,0,0,0,0,0,//20-29
-		0,0,0,0,0,0,0,0,0,0,//30-39
-		0,0,0,0,0,0,0,0,0,0,//40-49
-		4,4,4,4,4,6,6,6,6,6,//50-59
-		6,6,6,6,6,5,5,5, 5, 5  //60-69
-};
+
 byte FarWeight[ROWS]=//0-14
 {
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
-		0,0,0,0,0,0,0,0,0,0,//20-29
-		0,0,0,0,0,0,0,0,0,0,//30-39
-		0,0,0,0,0,0,0,0,0,0,//40-49
-		4,4,4,4,4,6,6,6,6,6,//50-59
-		6,6,6,6,6,5,5,5, 5, 5  //60-69
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
+ 4, 4, 4, 4, 4, 6, 6, 6, 6, 6,//50-59
+ 6 ,6 ,6 ,6 ,6 ,5 ,5 ,5 ,5 ,5 //60-69
 };
 byte FarWeightTem[ROWS]=//0-14
 {
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
-		0,0,0,0,0,0,0,0,0,0,//20-29
-		0,0,0,0,0,0,0,0,0,0,//30-39
-		0,0,0,0,0,0,0,0,0,0,//40-49
-		4,4,4,4,4,6,6,6,6,6,//50-59
-		6,6,6,6,6,5,5,5, 5, 5  //60-69
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
+ 4, 4, 4, 4, 4, 6, 6, 6, 6, 6,//50-59
+ 6 ,6 ,6 ,6 ,6 ,5 ,5 ,5 ,5 ,5 //60-69
 };
-/*byte MidWeight[ROWS]=//15-29
-{//远
-0,0,0,0,0,0,0,0,0,0,0 ,0 ,0 ,0 ,0,//0-15无用
-20,20,20,20,20,               //15-19
-25,25,25,25,25,30,30,30,30,30,//20-29
-35,35,35,35,35,30,30,30,30,30,//30-39
-25,25,25,25,25,20,20,20,20,20,//40-49	
-15,15,15,15,15,10,10,10,10,10,//50-59
-5 ,5 ,5 ,5 ,5 ,1 ,1 ,1 ,1 ,1  //60-69
-};//近*/
-byte NearWeightMode0[ROWS]=//30-69
-{//远
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
-		0,0,0,0,0,0,0,0,0,0,//20-29
-		0,0,0,0,0,0,0,0,0,0,//30-39
-		0,0,0,0,0,0,0,0,0,0,//40-49
-		4,4,4,4,4,6,6,6,6,6,//50-59
-		6,6,6,6,6,5,5,5, 5, 5  //60-69
-};//近
-byte NearWeightMode1[ROWS]=//30-69
-{//远
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
-		0,0,0,0,0,0,0,0,0,0,//20-29
-		0,0,0,0,0,0,0,0,0,0,//30-39
-		0,0,0,0,0,0,0,0,0,0,//40-49
-		4,4,4,4,4,6,6,6,6,6,//50-59
-		6,6,6,6,6,5,5,5, 5, 5  //60-69
-};//近
+
 byte NearWeight[ROWS]=//30-69
 {//远
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
-		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
-		0,0,0,0,0,0,0,0,0,0,//20-29
-		0,0,0,0,0,0,0,0,0,0,//30-39
-		0,0,0,0,0,0,0,0,0,0,//40-49
-		4,4,4,4,4,6,6,6,6,6,//50-59
-		6,6,6,6,6,5,5,5, 5, 5  //60-69
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
+ 4, 4, 4, 4, 4, 6, 6, 6, 6, 6,//50-59
+ 6 ,6 ,6 ,6 ,6 ,5 ,5 ,5 ,5 ,5 //60-69
 };//近
 byte SlopeWeight[ROWS]=
 {
  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
-0,0,0,0,0,0,0,0,0,0,//20-29
-0,0,0,0,0,0,0,0,0,0,//30-39
-0,0,0,0,0,0,0,0,0,0,//40-49
-4,4,4,4,4,6,6,6,6,6,//50-59
-6,6,6,6,6,5,5,5, 5, 5  //60-69
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
+ 4, 4, 4, 4, 4, 6, 6, 6, 6, 6,//50-59
+ 6 ,6 ,6 ,6 ,6 ,5 ,5 ,5 ,5 ,5 //60-69
 };
 /*
 ** ###################################################################
@@ -237,7 +178,7 @@ void FindBlackLine(void) {
 	AnalyzeRoadType();				//分析赛道类型
 
 //	GetTurnPoint();					//再次判断赛道类型
-	DetectSlope();					//检测坡道
+//	DetectSlope();					//检测坡道
 //	DetectStartLine();				//检测起始线
 //	DetectStart();
 //	LINFlex_TX(StartFlags);
@@ -456,130 +397,101 @@ void RebuildLine()
 void Analyze_Cross()
 {
 	byte i,irow,irowb,irowe,lr,dis,dis2,num=0,flags=0,maxr,maxc;
-	if(EndRow[0]==0&&EndRow[1]==0&&StartRow[0]!=ROWS&&StartRow[1]!=ROWS&&ABS(StartRow[0]-StartRow[1])<25)
-		return;		//针对虚线，长直道
+	if(EndRow[0]==0&&EndRow[1]==0&&StartRow[0]!=ROWS&&StartRow[1]!=ROWS&&ABS(StartRow[0]-StartRow[1])<25)	return;		//针对虚线，长直道
 	for(lr=0;lr<2;lr++)
 	{
 		if(StartRow[lr]==ROWS)	continue;
-		if(SegNum[lr]>2)		continue;// 黑线段数多余两条
+		if(SegNum[lr]>2)		continue;
 		for(irow=0;irow<ROW;irow++)
-			dif[irow]=0;					//二次差分量数组清零
+			dif[irow]=0;
 		for(irow=StartRow[lr];irow>EndRow[lr];irow--)
-			dif[irow]=BlackLine[lr][irow-1]-BlackLine[lr][irow]; //记录黑线变化趋势 从近端到远端
-		for(irow=EndRow[lr]+1;irow<StartRow[lr];irow++)			
-			dif[irow]=ABS(dif[irow]-dif[irow+1]);				//记录黑线变化趋势二阶(绝对值) 从远端到近端
-		dif[StartRow[lr]]=0;					//在第一个循环中已经赋值,此处清零,不理解[1]
+			dif[irow]=BlackLine[lr][irow-1]-BlackLine[lr][irow];
+		for(irow=EndRow[lr]+1;irow<StartRow[lr];irow++)
+			dif[irow]=ABS(dif[irow]-dif[irow+1]);
+		dif[StartRow[lr]]=0;
 		irowb=StartRow[lr]-2;irowe=EndRow[lr]+2;
 		maxc=lr*COLUMN;
 		for(irow=irowb;irow>=irowe;irow--)
 		{
 			if(irow<15)	break;
-			if((BlackLine[lr][irow]>maxc&&lr==0)||(BlackLine[lr][irow]<maxc&&lr==1))
-			{
+			if((BlackLine[lr][irow]>maxc&&lr==0)||(BlackLine[lr][irow]<maxc&&lr==1)){
 				maxc=BlackLine[lr][irow];
 				maxr=irow;
-			}//找左黑线右极值点   右黑线左极值点
-			if(dif[irow]>3
-				&&(BlackLine[lr][irow]-BlackLine[lr][irow-2])*(BlackLine[lr][irow]-BlackLine[lr][irow+2])>0)
-			//该点是一个大拐点
-			{
-				LineType[lr]=CrossLine; // 这是十字
-				TurnRow[lr]=irow;flags=1;num++; // 记录当前拐点,num计数一次,flag标记
 			}
-			else if(dif[irow]>3//不理解 这个elseif应该是无法进入的，和之前的if是同样的条件！？
-					&&(BlackLine[lr][irow]-BlackLine[lr][irow-2])*(BlackLine[lr][irow]-BlackLine[lr][irow+2])>0)
-			{
-				if(num==0  //没出现过拐点
-					&&(BlackLine[lr][irow-1]-BlackLine[lr][irow-2])*(BlackLine[lr][irow+1]-BlackLine[lr][irow+2])>0)
-				{
+			if(dif[irow]>3&&(BlackLine[lr][irow]-BlackLine[lr][irow-2])*(BlackLine[lr][irow]-BlackLine[lr][irow+2])>0){
+				LineType[lr]=CrossLine;
+				TurnRow[lr]=irow;flags=1;num++;
+			}
+			else if(dif[irow]>3&&(BlackLine[lr][irow]-BlackLine[lr][irow-2])*(BlackLine[lr][irow]-BlackLine[lr][irow+2])>0){
+				if(num==0&&(BlackLine[lr][irow-1]-BlackLine[lr][irow-2])*(BlackLine[lr][irow+1]-BlackLine[lr][irow+2])>0){
 					LineType[lr]=CrossLine;
 					TurnRow[lr]=irow;	flags=1;
 				}
 				num++;
 			}
-			else if(dif[irow]>=2&&flags==0) //没出现过大拐点 此处曲率较大
-			{
-				for(i=0;i<2;i++)//检测是否是拐点
+			else if(dif[irow]>=2&&flags==0){
+				for(i=0;i<2;i++)
 					if((!lr&&!(BlackLine[lr][irow-i]>=BlackLine[lr][irow-i-1]&&BlackLine[lr][irow+i]>=BlackLine[lr][irow+i+1]))
 					||(lr&&!(BlackLine[lr][irow-i]<=BlackLine[lr][irow-i-1]&&BlackLine[lr][irow+i]<=BlackLine[lr][irow+i+1])))
-					break;//是拐点跳出  左i=0 右i=1,没有i=2
-				if(i==2	//不是拐点
-					&&!(BlackLine[lr][irow]==BlackLine[lr][irow-2]||BlackLine[lr][irow]==BlackLine[lr][irow+2]))
-				//锯齿状?
-				{
-					dis=MIN(3,irow-EndRow[lr]);		dis=MIN(dis,StartRow[lr]-irow); //
+					break;
+				if(i==2&&!(BlackLine[lr][irow]==BlackLine[lr][irow-2]||BlackLine[lr][irow]==BlackLine[lr][irow+2])){
+					dis=MIN(3,irow-EndRow[lr]);		dis=MIN(dis,StartRow[lr]-irow);
 					dis2=MIN(5,irow-EndRow[lr]);		dis2=MIN(dis2,StartRow[lr]-irow);
 					if(lr&&BlackLine[lr][irow-dis]+BlackLine[lr][irow+dis]-2*BlackLine[lr][irow]>5
-						&&BlackLine[lr][irow-dis2]+BlackLine[lr][irow+dis2]-2*BlackLine[lr][irow]>7)
-					{//从更远的距离确定是否拐点
+						&&BlackLine[lr][irow-dis2]+BlackLine[lr][irow+dis2]-2*BlackLine[lr][irow]>7){
 						LineType[lr]=CrossLine;
 						TurnRow[lr]=irow;
 						flags=1;
 					}
 					else if(!lr&&2*BlackLine[lr][irow]-BlackLine[lr][irow-dis]-BlackLine[lr][irow+dis]>5
-						&&2*BlackLine[lr][irow]-BlackLine[lr][irow-dis2]-BlackLine[lr][irow+dis2]>7)
-					{
+						&&2*BlackLine[lr][irow]-BlackLine[lr][irow-dis2]-BlackLine[lr][irow+dis2]>7){
 						LineType[lr]=CrossLine;
 						TurnRow[lr]=irow;
 						flags=1;
 					}
 				}
 			}
-			else if(dif[irow]==1&&dif[irow-1]==1&&flags==0){//持续弯曲
-				if(lr
-					&&!(BlackLine[lr][irow]<BlackLine[lr][irow+1]&&BlackLine[lr][irow-1]<BlackLine[lr][irow-2]))
-					continue;
-				else if(!lr
-					&&!(BlackLine[lr][irow]>BlackLine[lr][irow+1]&&BlackLine[lr][irow-1]>BlackLine[lr][irow-2]))	
-					continue;
+			else if(dif[irow]==1&&dif[irow-1]==1&&flags==0){
+				if(lr&&!(BlackLine[lr][irow]<BlackLine[lr][irow+1]&&BlackLine[lr][irow-1]<BlackLine[lr][irow-2]))	continue;
+				else if(!lr&&!(BlackLine[lr][irow]>BlackLine[lr][irow+1]&&BlackLine[lr][irow-1]>BlackLine[lr][irow-2]))	continue;
 				dis=MIN(3,irow-1-EndRow[lr]);		dis=MIN(dis,StartRow[lr]-irow);
 				dis2=MIN(5,irow-1-EndRow[lr]);		dis2=MIN(dis2,StartRow[lr]-irow);
 				if(lr&&BlackLine[lr][irow-dis-1]+BlackLine[lr][irow+dis]-BlackLine[lr][irow-1]-BlackLine[lr][irow]>5
-					&&BlackLine[lr][irow-dis2-1]+BlackLine[lr][irow+dis2]-BlackLine[lr][irow-1]-BlackLine[lr][irow]>7)
-				{//从更远的距离确定是否拐点 右
+					&&BlackLine[lr][irow-dis2-1]+BlackLine[lr][irow+dis2]-BlackLine[lr][irow-1]-BlackLine[lr][irow]>7){
 					LineType[lr]=CrossLine;
 					TurnRow[lr]=irow;
 					flags=1;
 				}
 				else if(!lr&&BlackLine[lr][irow]+BlackLine[lr][irow-1]-BlackLine[lr][irow-dis-1]-BlackLine[lr][irow+dis]>5
-					&&BlackLine[lr][irow]+BlackLine[lr][irow-1]-BlackLine[lr][irow-dis2-1]-BlackLine[lr][irow+dis2]>5)
-				{//左
+					&&BlackLine[lr][irow]+BlackLine[lr][irow-1]-BlackLine[lr][irow-dis2-1]-BlackLine[lr][irow+dis2]>5){
 					LineType[lr]=CrossLine;
 					TurnRow[lr]=irow;
 					flags=1;
 				}
 			}
-		}//拐点寻找完毕
-		if(num>1){				//多个拐点 对应黑色赛道下的虚线小S弯
+		}
+		if(num>1){				//对应黑色赛道下的虚线小S弯
 			RoadType=SmallS;
 			LineType[lr]=UnBegin;
 			TurnRow[lr]=ROWS;
 		}
-		if(LineType[lr]==CrossLine&&TurnRow[lr]!=ROWS)//线性为十字，且拐点在中间
+		if(LineType[lr]==CrossLine&&TurnRow[lr]!=ROWS)
 		{
-			BlackLine_Init(lr,TurnRow[lr]-1,EndRow[lr]);//补全黑线
+			BlackLine_Init(lr,TurnRow[lr]-1,EndRow[lr]);
 			EndRow[lr]=TurnRow[lr];
 		}
-		if(TurnRow[lr]==ROWS	//无拐点
-			&&EndRow[lr]>25&&EndRow[lr]<ROW-4 //线的结束点在一定范围内
-			&&(ABS(EndRow[0]-EndRow[1])<18||TurnRow[1-lr]!=ROWS))//左右结束点距离不远或另一端有拐点
-		{
-			if(maxr-EndRow[lr]<5||ABS(BlackLine[lr][maxr]-BlackLine[lr][EndRow[lr]])<4)//极值点与结束点纵向、横向距离接近
-			{
+		if(TurnRow[lr]==ROWS&&EndRow[lr]>25&&EndRow[lr]<ROW-4&&(ABS(EndRow[0]-EndRow[1])<18||TurnRow[1-lr]!=ROWS)){		//
+			if(maxr-EndRow[lr]<5||ABS(BlackLine[lr][maxr]-BlackLine[lr][EndRow[lr]])<4){
 				if((lr==0&&BlackLine[lr][EndRow[lr]]<40&&BlackLine[lr][EndRow[lr]]>5)
-				||(lr==1&&BlackLine[lr][EndRow[lr]]<78&&BlackLine[lr][EndRow[lr]]>35))//结束点在某个奇妙深刻的地点
-					LineType[lr]=CrossLine;
-			}
-			else
-			{
+				||(lr==1&&BlackLine[lr][EndRow[lr]]<78&&BlackLine[lr][EndRow[lr]]>35))
+				LineType[lr]=CrossLine;}
+			else{
 				if((lr==0&&BlackLine[lr][EndRow[lr]]<50&&BlackLine[lr][EndRow[lr]]>10)
 				||(lr==1&&BlackLine[lr][EndRow[lr]]<73&&BlackLine[lr][EndRow[lr]]>30))
-					LineType[lr]=CrossLine;
-				TurnRow[lr]=maxr;//拐点定义为极值点
-			}
-		}//没能理解这个是什么情况判断的十字
-	}//左右找线结束
-	if(StartRow[1]<5+EndRow[0]&&BlackLine[0][EndRow[0]]>BlackLine[1][EndRow[1]]+10)//十字找线出错//黑线错位？
+				LineType[lr]=CrossLine;TurnRow[lr]=maxr;}
+		}
+	}
+	if(StartRow[1]<5+EndRow[0]&&BlackLine[0][EndRow[0]]>BlackLine[1][EndRow[1]]+10)//十字找线出错
 		Line_Init(1);
 	if(StartRow[0]<5+EndRow[1]&&BlackLine[0][EndRow[0]]>BlackLine[1][EndRow[1]]+10)
 		Line_Init(0);
@@ -1742,7 +1654,7 @@ void DetectDownSlope()
 void DetectStartLine()
 {
 	byte i;
-	if(StartDelay<250)//靠近起始线再开始检测
+	if(StartDelay<250)
 	{
 		StartDelay++;
 		StartFlags=0;
@@ -1758,7 +1670,7 @@ void DetectStartLine()
 		if(StartList[i]==1)
 			startcount++;
 	}
-	if(startcount>=2)	StartLine=1;	//大于两场检测到起始线
+	if(startcount>=2)	StartLine=1;	
 }
 
 void DetectStart()
@@ -1858,10 +1770,10 @@ void ReBuildWeight()		//修复直道入弯
 //*****************************************************************************************************************
 void TargetOffset()
 {	
-	if(Slope==1)	UpSlopeOffset();
-	else if(Slope==2) UpSlopeOffset();
-	
-	else if(RoadType==Straight||RoadType==SmallS) StraightOffset();
+//	if(Slope==1)	UpSlopeOffset();
+//	else if(Slope==2) UpSlopeOffset();
+//	
+	if(RoadType==Straight||RoadType==SmallS) StraightOffset();
 	else if(RoadType==UTurn) UTurnOffset();
 	else if(RoadType==ToT)	ToToffset();
 	else if(RoadType==Near||RoadType==Mid) NearOffset();
@@ -1916,12 +1828,10 @@ void ToToffset()
 	signed long sum_weight=0;
 	target_offset=0;
 	//irowe=RoadStart>65?65:RoadStart;
-
-		for(irow=RoadEnd;irow<=RoadStart;++irow){
-			target_offset+=(CenterLine[irow]-COLUMN1_2)*ToTWeightMode0[irow];
-			sum_weight+=ToTWeightMode0[irow];
-		}
-
+	for(irow=RoadEnd;irow<=RoadStart;++irow){
+		target_offset+=(CenterLine[irow]-COLUMN1_2)*ToTWeight[irow];
+		sum_weight+=ToTWeight[irow];
+	}
 	target_offset/=sum_weight;
 }
 
@@ -1934,12 +1844,10 @@ void FarOffset()
 	target_offset=0;
 //	if(count!=3)
 //		irowe=RoadStart>39?39:RoadStart;
-
-	for(irow=RoadEnd;irow<=RoadStart;++irow){
-		target_offset+=(CenterLine[irow]-COLUMN1_2)*FarWeight[irow];
-		sum_weight+=FarWeight[irow];
-	}
-
+		for(irow=RoadEnd;irow<=RoadStart;++irow){
+			target_offset+=(CenterLine[irow]-COLUMN1_2)*FarWeight[irow];
+			sum_weight+=FarWeight[irow];
+		}
 	target_offset/=sum_weight;
 }
 
@@ -1963,7 +1871,6 @@ void NearOffset()
 	signed long sum_weight=0;
 	target_offset=0;
 	//irowe=RoadStart>65?65:RoadStart;
-
 	for(irow=RoadEnd;irow<=RoadStart;++irow){
 		target_offset+=(CenterLine[irow]-COLUMN1_2)*NearWeight[irow];
 		sum_weight+=NearWeight[irow];

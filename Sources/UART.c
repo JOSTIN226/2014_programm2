@@ -34,7 +34,7 @@ void init_serial_port_0(void)
 	
 	SIU.PCR[18].R = 0x0400;    /* MPC56xxB: Configure port B2 as LIN0TX */
     SIU.PCR[19].R = 0x0103;    /* MPC56xxB: Configure port B3 as LIN0RX */
-  	INTC_InstallINTCInterruptHandler(intc_serial_port_0_RX,79,02); 
+  	INTC_InstallINTCInterruptHandler(intc_serial_port_0_RX,79,5); 
 }
 
 
@@ -104,7 +104,7 @@ void init_serial_port_1(void)
 	SIU.PCR[38].R = 0x0400;	/* MPC56xxB: Configure port C6 as LIN1TX */
     SIU.PCR[39].R = 0x0103;	/* MPC56xxB: Configure port C7 as LIN1RX */
     
-    INTC_InstallINTCInterruptHandler(intc_serial_port_1_RX, 99, 2);
+    INTC_InstallINTCInterruptHandler(intc_serial_port_1_RX, 99, 5);
 }
 
 #if 1
@@ -161,7 +161,7 @@ void init_serial_port_2(void)
 	
 	SIU.PCR[40].R = 0x0400;	/* MPC56xxB: Configure port C8 as LIN0TX */
     SIU.PCR[41].R = 0x0103;	/* MPC56xxB: Configure port C9 as LIN0RX */
-  	INTC_InstallINTCInterruptHandler(intc_serial_port_2_RX, 119, 2); 
+  	INTC_InstallINTCInterruptHandler(intc_serial_port_2_RX, 119, 5); 
 }
 
 
@@ -219,7 +219,7 @@ void init_serial_port_3(void)
 	SIU.PCR[74].R = 0x0400;	//LINFLEX_3 TX PE10
     SIU.PCR[75].R = 0x0103;	//LINFLEX_3 RX PE11 涉及到引脚复用
   	SIU.PSMI[31].R = 1;
-  	INTC_InstallINTCInterruptHandler(intc_serial_port_3_RX, 122, 2); 
+  	INTC_InstallINTCInterruptHandler(intc_serial_port_3_RX, 122, 5); 
 }
 
 

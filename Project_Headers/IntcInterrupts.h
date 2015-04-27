@@ -1,11 +1,15 @@
-
 /**
  * FILE: IntcInterrupts.h
  *
- *  DESCRIPTION: Contains defines for utilizing the Interrupt Controller in the MPC5500. 
- *   There is also the function prototypes for the common interrupt handling 
- *   routines to be used on the MPC55xx (PowerPC Zen core).
+ *  DESCRIPTION: Contains defines for utilizing the Interrupt Controller
+ *   in the MPC56xx/PX MCU families. There are also function prototypes
+ *   for the common interrupt handling routines.
+ * 
+ * For more on Qorivva/PX MCUs INTC module and initializations please
+ * consult the Qorivva cookbook AN2865.  
  *
+ * VERSION: 1.2
+ *  
  */
 
 #ifndef _INTCINTERRUPTS_H_

@@ -38,8 +38,8 @@ typedef unsigned char byte;
 typedef unsigned short word;
 #endif
 #endif
-#include "MPC5604B_M27V.h"
 
+#include "MPC5604B.h"
 #include "ff.h"	/* 定义了FATFS，后面要用 */
 #include "init.h"
 #include "control.h"

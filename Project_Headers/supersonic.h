@@ -1,6 +1,30 @@
 ﻿#ifndef __SUPERSONIC_H__
 #define __SUPERSONIC_H__
 
+/* 超声 */
+#ifdef __SUPERSONIC_C_
+union
+{
+	DWORD R;
+	struct {
+		BYTE byte_0;
+		BYTE byte_1;
+		BYTE byte_2;
+		BYTE byte_3;
+	} B;
+}tmp_time;
+#else
+extern union
+{
+	DWORD R;
+	struct {
+		BYTE byte_0;
+		BYTE byte_1;
+		BYTE byte_2;
+		BYTE byte_3;
+	} B;
+}tmp_time;
+#endif
 
 #define SS_DIS_20CM (0x00000000)
 

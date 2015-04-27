@@ -19,6 +19,8 @@ void init_supersonic_trigger_0(void)
 	EMIOS_0.CH[0].CADR.B.CADR = 0x0000ff;
 	
 	EMIOS_0.CH[0].CCR.B.MODE = 0x03;
+	tmp_time.R = 0x00000000;
+	
 }
 
 
@@ -169,17 +171,6 @@ void trigger_supersonic_3(void)
 void intc_get_supersonic_time_0(void)
 {
 	DWORD tmp_a, tmp_b;
-	union {
-		DWORD R;
-		struct {
-			BYTE byte_0;
-			BYTE byte_1;
-			BYTE byte_2;
-			BYTE byte_3;
-		} B;
-	} tmp_time;
-	
-	tmp_time.R = 0x00000000;	//躲过未初始化警告
 	tmp_a = EMIOS_0.CH[1].CADR.R;
 	tmp_b = EMIOS_0.CH[1].CBDR.R;
 	
@@ -272,7 +263,7 @@ void intc_get_supersonic_time_3(void)
 		} B;
 	} tmp_time;
 	
-	tmp_time.R = 0x00000000;
+	
 	tmp_a = EMIOS_0.CH[7].CADR.R;
 	tmp_b = EMIOS_0.CH[7].CBDR.R;
 	

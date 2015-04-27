@@ -290,7 +290,7 @@ void init_all_and_POST(void)
 	initEMIOS_0Image();/* 摄像头输入中断初始化 */
 	init_pit();
 	init_led();
-	//init_DIP();
+	init_DIP();
 	//init_serial_port_0();
 	init_serial_port_1();
 	//init_serial_port_2();

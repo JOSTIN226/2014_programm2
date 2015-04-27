@@ -41,8 +41,8 @@ void PitISR(void)
 	/* 开始执行速度控制算法 */
 	if (g_f_enable_speed_control)
 	{
-		SpeedControl();//不同路段PID,尚未调,不可用
-		contorl_speed_encoder_pid();
+		//SpeedControl();//不同路段PID,尚未调,不可用
+		//contorl_speed_encoder_pid();
 	}
 #if 0
 	/* 发送位置 */
@@ -149,14 +149,14 @@ static SWORD get_e0()
 /*-----------------------------------------------------------------------*/
 void contorl_speed_encoder_pid(void)
 {
-	float d_speed_pwm;
+	SWORD d_speed_pwm;
 	SWORD e0=get_e0();
-	static SWORD e1=0;
+	static SWORD e1=0;//【问川叶】
 	static SWORD e2=0;
 	static SWORD speed_pwm=SPEED_PWM_MIN;
-	d_speed_pwm=(float)(data_speed_pid.p*(e0-e1));       //P控制
-	d_speed_pwm+=(float)(data_speed_pid.d*(e0+e2-2*e1));
-	d_speed_pwm+=(float)(data_speed_pid.i*(e0));		
+	d_speed_pwm=(SWORD)(data_speed_pid.p*(e0-e1));       //P控制
+	d_speed_pwm+=(SWORD)(data_speed_pid.d*(e0+e2-2*e1));
+	d_speed_pwm+=(SWORD)(data_speed_pid.i*(e0));		
 	if(d_speed_pwm>200)
 	      d_speed_pwm=200;
 	if(d_speed_pwm<-200)

@@ -103,7 +103,7 @@ void init_pit(void)
 	PIT.PITMCR.R = 0x00000001;	/* Enable PIT and configure timers to stop in debug modem */
 	PIT.CH[1].LDVAL.R = 800000;	/* 800000==10ms */
 	PIT.CH[1].TCTRL.R = 0x00000003;	/* Enable PIT1 interrupt and make PIT active to count */
-	INTC_InstallINTCInterruptHandler(PitISR,60,1);	/* PIT 1 interrupt vector with priority 1 */
+	INTC_InstallINTCInterruptHandler(PitISR,60,2);	/* PIT 1 interrupt vector with priority 1 */
 }
 
 
@@ -286,7 +286,7 @@ void init_all_and_POST(void)
 	
 	disable_watchdog();
 	init_modes_and_clock();
-	//initEMIOS_0MotorAndSteer();
+	initEMIOS_0MotorAndSteer();
 	initEMIOS_0Image();/* 摄像头输入中断初始化 */
 	init_pit();
 	init_led();
@@ -304,7 +304,7 @@ void init_all_and_POST(void)
 	//init_supersonic_trigger_1();
 	//init_supersonic_trigger_2();
 	//init_supersonic_trigger_3();
-//	init_optical_encoder();
+	//init_optical_encoder();
 	//init_DSPI_2();
 	//init_I2C();
 	
@@ -324,7 +324,7 @@ void init_all_and_POST(void)
 	delay_ms(50);
 	LCD_Fill(0x00);	/* 黑屏 */
 	delay_ms(50);
-	
+#if 1	
 	/* 初始化TF卡 */
 
 	LCD_P8x16Str(0,0, (BYTE*)"TF..");
@@ -382,6 +382,7 @@ void init_all_and_POST(void)
 		suicide();
 	}
 #endif	
+	delay_ms(1000);
 	/* 换屏 */
 	LCD_Fill(0x00);
 
@@ -404,14 +405,14 @@ void init_all_and_POST(void)
 	set_steer_helm_basement(data_steer_helm_basement.center);
 
 	set_pos_target();
-	delay_ms(2000);
+	delay_ms(1000);
 
 
 	/* 换屏 */
 	LCD_Fill(0x00);
 
 	/* 速度闭环测试 */
-	
+#if 1	
 	g_f_enable_speed_control = 1;
 	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");
 	set_speed_target(0);
@@ -419,8 +420,8 @@ void init_all_and_POST(void)
 
 	/* 换屏 */
 	LCD_Fill(0x00);
-
-
+#endif
+#endif
 
 }
 //

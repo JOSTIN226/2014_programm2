@@ -20,11 +20,6 @@ void main(void)
 	//SetupBKL();
 	//SetupCCD();	
 	g_f_enable_speed_control=0;
-	D1=0;
-	D2=0;
-	D3=0;
-	D0=0;
-	
 	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 
 

@@ -412,7 +412,7 @@ void init_all_and_POST(void)
 	LCD_Fill(0x00);
 
 	/* 速度闭环测试 */
-#if 1	
+#if 0	
 	g_f_enable_speed_control = 1;
 	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");
 	set_speed_target(0);

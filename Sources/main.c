@@ -8,7 +8,7 @@ void main(void)
 	//int flag = 1;
 	
 	init_all_and_POST();
-	g_f_enable_speed_control=1;
+	g_f_enable_speed_control=0;
 	//delay_ms(6000);//等待蓝牙配对
 	//write_camera_data_to_TF();
 	//set_speed_target(10);

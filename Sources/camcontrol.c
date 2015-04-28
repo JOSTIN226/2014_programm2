@@ -49,7 +49,7 @@ void SteerControl()
 
 
 	
-	Steer_PWM[3]=Steer_kp*target_offset+Steer_kd*(target_offset-last_offset);
+	Steer_PWM[3]=0-(Steer_kp*target_offset+Steer_kd*(target_offset-last_offset));
 	//if(ABS(Steer_PWM[3]-Steer_PWM[2])>250) Steer_PWM[3]=(Steer_PWM[2]+Steer_PWM[1])/2;
 	//感觉不太靠谱，调的不好
 	

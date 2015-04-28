@@ -5,9 +5,9 @@
 //**********************超声0***************************
 void init_supersonic_trigger_0(void)
 {
-	EMIOS_0.CH[0].CCR.B.BSL = 0x3;
-	EMIOS_0.CH[0].CCR.B.UCPRE=0;
-	EMIOS_0.CH[0].CCR.B.UCPEN = 1;
+	EMIOS_0.CH[0].CCR.B.BSL = 0x3;//use internal counter
+	EMIOS_0.CH[0].CCR.B.UCPRE=0;//internal prescaler clock divider as 1
+	EMIOS_0.CH[0].CCR.B.UCPEN = 1;//enable prescaler 
 	EMIOS_0.CH[0].CCR.B.FREN = 0;
 	EMIOS_0.CH[0].CCR.B.EDPOL=0;
 	EMIOS_0.CH[0].CCR.B.EDSEL = 0;

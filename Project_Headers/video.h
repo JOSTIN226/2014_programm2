@@ -1,4 +1,4 @@
-#ifndef __VEDIO_H__
+﻿#ifndef __VEDIO_H__
 #define __VEDIO_H__
 #define byte unsigned char
 #define word unsigned int

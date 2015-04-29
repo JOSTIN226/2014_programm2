@@ -6,8 +6,8 @@
 
 #define ROW  (69)
 #define ROWS  (70)	     
-#define COLUMN (120)//82
-#define COLUMNS (121)//83
+#define COLUMN (82)
+#define COLUMNS (83)
 
 
 
@@ -18,7 +18,7 @@ extern void Display_Video(void);
 extern void TF_Image(void);
 
 //*************************************************************************
-//*			**********************图像发送函数*************************   *
+//*			**********************鍥惧儚鍙戦�鍑芥暟*************************   *
 //*************************************************************************
 void Send_CCD_Video(void); 
 void SetupCCD(void);
@@ -28,9 +28,9 @@ void Send_CCD_Blackline(void);
 
 
 //*************************************************************************
-//*			**********************采样变量*****************************   *
+//*			**********************閲囨牱鍙橀噺*****************************   *
 //*************************************************************************
-extern byte fieldover;                //一场采样结束标志符 
+extern byte fieldover;                //涓�満閲囨牱缁撴潫鏍囧織绗�
 extern volatile byte g_pix[ROWS][COLUMNS]; 
 extern volatile byte pic[ROWS][COLUMNS];
 extern byte	pix[ROWS][COLUMNS];

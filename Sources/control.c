@@ -4,6 +4,7 @@
 
 int g_f_pit = 0;
 int g_f_enable_speed_control = 0;	/* 启用速度控制标志位 */
+int g_f_enable_supersonic=0;	/* 启用超声探测标志位 */
 int speed = 0;
 int update_steer_helm_basement_to_steer_helm(void);
 int g_f_big_U=0;
@@ -42,7 +43,11 @@ void PitISR(void)
 	if (g_f_enable_speed_control)
 	{
 		//SpeedControl();//不同路段PID,尚未调,不可用
-		//contorl_speed_encoder_pid();
+		contorl_speed_encoder_pid();
+	}
+	if (g_f_enable_supersonic)
+	{
+		trigger_supersonic_0();
 	}
 #if 0
 	/* 发送位置 */

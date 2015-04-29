@@ -15,13 +15,16 @@ void main(void)
 	//SetupBKL();
 	//SetupCCD();	
 	g_f_enable_speed_control=0;
-	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
+	g_f_enable_supersonic=1;
+	EMIOS_0.CH[3].CCR.B.FEN=0;//开场中断
 
 
 	/* Loop forever */
 		
 	for (;;)
 	{
+		
+
 #if 0
 		/* 执行远程命令 */
 		if (REMOTE_FRAME_STATE_OK == g_remote_frame_state)
@@ -37,7 +40,7 @@ void main(void)
 		/* 报告在线 */
 		report_online();
 #endif
-#if 1
+#if 0
 		if(fieldover)
 		{
 			

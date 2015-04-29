@@ -34,6 +34,8 @@ extern int g_f_enable_speed_control_2;
 extern int g_f_enable_single_bridge_control;
 extern int g_f_enable_fly_bridge;
 extern int g_f_enable_steer_bridge;
+extern int g_f_enable_supersonic;	/* 启用超声探测标志位 */
+
 extern int read_rad_xyz;
 extern int find_mag_back_box;
 extern int find_mag_back_box_2;

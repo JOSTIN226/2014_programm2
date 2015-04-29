@@ -20,7 +20,6 @@ signed int Motor_PWM=0;				//电机底层控制量
 
 //********************辅助调试参数******************************************
 unsigned int Counter_Error=0;		//光编接触不牢靠错误计数量
-unsigned int StartTime2s=0;			//起始线时间计算(起车2s,延时一段时间再检测起始线,第二次见到起始线停车)
 ////********************起始线停车参数******************************************
 byte stop_flag=0;
 byte stop_delay=0;
@@ -50,7 +49,7 @@ void SteerControl()
 
 	
 
-	Steer_PWM[3]=0-(Steer_kp*target_offset+Steer_kd*(target_offset-last_offset));
+	Steer_PWM[3]=Steer_kp*target_offset+Steer_kd*(target_offset-last_offset);
 
 	//if(ABS(Steer_PWM[3]-Steer_PWM[2])>250) Steer_PWM[3]=(Steer_PWM[2]+Steer_PWM[1])/2;
 	//感觉不太靠谱，调的不好
@@ -71,17 +70,17 @@ void SteerControl()
 void SpeedControl()
 {
 	//1*******************************起始线停车速度控制及光编线接触不牢控制***********************
-	if(StartLine){
-    	stop_delay++;
-
-    		if(stop_delay==43){
-		    	if(stop_flag==2) set_speed_pwm(0);
-		    	else if(data_encoder.is_forward) set_speed_pwm(-300);
-		    	else stop_flag++;
-		    	stop_delay--;
-		      	return;
-		    }
-	}
+//	if(StartLine){
+//    	stop_delay++;
+//
+//    		if(stop_delay==43){
+//		    	if(stop_flag==2) set_speed_pwm(0);
+//		    	else if(data_encoder.is_forward) set_speed_pwm(-300);
+//		    	else stop_flag++;
+//		    	stop_delay--;
+//		      	return;
+//		    }
+//	}
    	if(Counter_Error>50) {set_speed_pwm(0);return;}
    	
    	StartTime2s++;

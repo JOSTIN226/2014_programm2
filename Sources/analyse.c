@@ -1,4 +1,12 @@
-﻿#include "includes.h"
+/*
+ * analyse.c
+ *
+ *  Created on: Mar 25, 2015
+ *      Author: Administrator
+ */
+
+#include "includes.h"
+
 //找线变量定义
 byte BlackLine[2][ROWS]; //左右线的数组
 byte StartRow[2];        //线的起点
@@ -7,41 +15,28 @@ byte BreakRow[2];        //线的中断点
 byte ContinueRow[2];     //线的续接点
 byte SegNum[2];			 //黑线的段数
 byte TurnRow[2];         //拐角点位置
-byte LineType[2]={0,0};  //找到的线的类型
+byte LineType[2]={0,0};  //找到的线的类型，初始化为0
 signed char CenterLine[ROWS]; //找到的中线数组
 signed char dif[70];		  //二次差分量
+int NoLineTimes=0;
+
 //赛道类型有关量
 byte RoadType=UnBegin;		//赛道类型
 byte RoadStart=ROWS;		//赛道起始行
 byte RoadEnd=0;		//赛道终止行
 byte RoadTurn;		//赛道拐点
-byte PastType[10];
-byte MostL[3];
-byte MostR[3];
-byte left_d[3],right_d[3],mid_d[3];//0:左线	1:右线	2:中线部分
-
-byte turn[10],count;
+byte PastType[10];	//未用
+byte MostL[3];//0:左线	1:右线	2:中线部分	
+byte MostR[3];//0:左线	1:右线	2:中线部分	
+byte left_d[3],right_d[3],mid_d[3];//0:左线	1:右线	2:中线部分	
+byte turn[10],count;//turn[10]统计中线的起点、拐点、终点
 byte TurnPoint=0;
-//虚线类型识别
-unsigned int blackcount=0;
-byte DottedLineFlags=0;
-byte DotRow=0,DotCol=0;
-byte DotUseful;
-byte Line[70];
+
 //十字类型判断
 byte NearCross[2];
 byte FarCross[2];
 byte CrossFlags;
-//起始线识别参数
-byte StartLine=0;//起始线标志(1:表示检测到起始线)
-byte startline_fnum=0;
-byte startline_unfnum=0;
-byte startline_delay=0;
-byte startcount=0;
-byte StartFlags=0;
-byte StartList[15]=
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0	};
-unsigned char StartDelay=0;
+
 //坡道识别参数
 byte up_fnum=0;
 byte up_unfnum=0;
@@ -59,8 +54,16 @@ byte PPastUpSlope=0;
 byte PPPastUpSlope=0;
 byte PastDownSlope=0;
 byte PPastDownSlope=0;
-byte Offset[ROWS]=	//畸变修复偏移量
-{
+
+//直角弯处理参数
+byte flag_Rightangle_l=0;                         //判断直角标识 0：找到直角或者直角距离小车还很远    1：是直角
+byte flag_Rightangle_r=0;                         //l为左转 r为右转
+int RightAngleTime=0;				//检测到直角弯后直跑的时间
+byte flag_BlackRow;
+
+//畸变修复偏移量
+byte Offset[ROWS]=	
+{//需要改吗？
 51,51,51,52,52,52,52,52,53,53,
 53,53,54,54,54,54,54,55,55,55,
 55,55,56,56,56,56,56,57,57,57,
@@ -69,9 +72,21 @@ byte Offset[ROWS]=	//畸变修复偏移量
 65,66,66,67,67,68,68,69,70,71,
 72,73,74,75,76,77,78,79,80,81,
 };
+
 //*****************************************************************************************************************
 //*	     *************************有效行权值分配******************************************************* 	      *
 //*****************************************************************************************************************
+byte UTurnWeight[ROWS]=		//偏移量权值
+{
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
+		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
+		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
+		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
+		 5, 5, 5, 5, 5, 6, 6, 6, 6, 6,//50-59
+		 6, 6, 6, 6, 6, 4, 4, 4, 4, 4, //60-69
+};
+
 byte StraightWeight[ROWS]=		//直道偏移量权值
 {//远
 10,10,10,10,10,9,9,9,9,9,//1
@@ -82,16 +97,18 @@ byte StraightWeight[ROWS]=		//直道偏移量权值
 2,2,2,2,2,2,2,2,2,2,//6
 1,1,1,1,1,1,1,1,1,1,//7
 };//近
-byte UTurnWeight[ROWS]=		//偏移量权值
+
+byte SlopeWeight[ROWS]=
 {
  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
- 4, 4, 4, 4, 4, 6, 6, 6, 6, 6,//50-59
- 6 ,6 ,6 ,6 ,6 ,5 ,5 ,5 ,5 ,5 //60-69
+69,69,69,69,69,69,68,68,68,66,//20-29
+64,62,60,58,56,54,52,50,48,46,//30-39
+44,42,40,38,20,19,18,17,16,15,//40-49
+6,6,6,6,6,5,5,5, 5, 5,//50-59
+5 ,4 ,4 ,4 ,3 ,3 ,3 ,1 ,1 ,1  //60-69
 };
+
 byte ToTWeight[ROWS]=//15-29
 {//远
 100,99,99,98,98,97,96,95,94,93,//0-15无用
@@ -105,45 +122,36 @@ byte ToTWeight[ROWS]=//15-29
 
 byte FarWeight[ROWS]=//0-14
 {
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
- 4, 4, 4, 4, 4, 6, 6, 6, 6, 6,//50-59
- 6 ,6 ,6 ,6 ,6 ,5 ,5 ,5 ,5 ,5 //60-69
+1 ,2 ,3 ,4 ,4 ,5 ,5 ,6 ,6 ,7 ,//0-9
+7 ,8 ,8 ,9 ,9 ,10,10,11,11,12,//10-19
+12,13,13,14,14,15,16,17,19,21,//20-29
+24,26,28,29,31,33,35,33,30,27,//30-39
+24,22,19,16,14,13,12,11,10,9,//40-49
+8, 8, 7 ,7 ,6 ,6 ,5 ,5 ,4 ,4 ,//50-59
+3 ,3 ,3 ,2 ,2 ,2 ,1 ,1 ,1 ,1  //60-69
 };
 byte FarWeightTem[ROWS]=//0-14
 {
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
- 4, 4, 4, 4, 4, 6, 6, 6, 6, 6,//50-59
- 6 ,6 ,6 ,6 ,6 ,5 ,5 ,5 ,5 ,5 //60-69
+1 ,2 ,3 ,4 ,4 ,5 ,5 ,6 ,6 ,7 ,//0-9
+7 ,8 ,8 ,9 ,9 ,10,10,11,11,12,//10-19
+12,13,13,14,14,15,16,17,19,21,//20-29
+24,26,28,29,30,31,32,30,28,26,//30-39
+24,22,19,16,14,13,12,11,10,9,//40-49
+8, 8, 7 ,7 ,6 ,6 ,5 ,5 ,4 ,4 ,//50-59
+3 ,3 ,3 ,2 ,2 ,2 ,1 ,1 ,1 ,1  //60-69
 };
 
 byte NearWeight[ROWS]=//30-69
 {//远
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
- 4, 4, 4, 4, 4, 6, 6, 6, 6, 6,//50-59
- 6 ,6 ,6 ,6 ,6 ,5 ,5 ,5 ,5 ,5 //60-69
+0 , 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
+0 , 0, 0, 0, 0, 1, 2, 5, 8,12,//10-19
+17,22,28,33,37,40,38,36,35,34,//20-29
+33,32,31,29,27,25,24,23,22,21,//30-39
+20,19,18,17,16,15,14,13,12,11,//40-49
+10, 9, 8, 8, 7, 7, 6, 6, 5, 5,//50-59
+ 4, 4, 3, 3, 2, 2, 2, 1, 1, 1,//60-69
 };//近
-byte SlopeWeight[ROWS]=
-{
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0-9
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//10-19
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//20-29
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//30-39
- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//40-49
- 4, 4, 4, 4, 4, 6, 6, 6, 6, 6,//50-59
- 6 ,6 ,6 ,6 ,6 ,5 ,5 ,5 ,5 ,5 //60-69
-};
+
 /*
 ** ###################################################################
 **     CCD 视频寻找黑线算法
@@ -152,7 +160,8 @@ byte SlopeWeight[ROWS]=
 **		    BlackLine[][]		//左右黑线
 ** ###################################################################
 */
-void FindBlackLine(void) {
+void FindBlackLine(void) 
+{
     byte lr=0,i;
 	LineType[0]=LineType[1]=0;
 	RoadType=UnBegin;
@@ -165,8 +174,10 @@ void FindBlackLine(void) {
 	}
 	Analyze_Cross();				//分析是不是十字线，若是：则重新初始化有关信息
 	Rec_Cross();					//再次分析十字赛道
-	for(lr=0;lr<2;lr++){
-		if(LineType[lr]==CrossLine){
+	for(lr=0;lr<2;lr++)
+	{
+		if(LineType[lr]==CrossLine)
+		{
 			FindCross(lr);			//针对十字，进行二次找线
 			FillCross(lr);			//填充十字中间线
 		}
@@ -178,16 +189,15 @@ void FindBlackLine(void) {
 	AnalyzeRoadType();				//分析赛道类型
 
 //	GetTurnPoint();					//再次判断赛道类型
-//	DetectSlope();					//检测坡道
-//	DetectStartLine();				//检测起始线
-//	DetectStart();
+	DetectSlope();					//检测坡道
 //	LINFlex_TX(StartFlags);
 	
-//	ReBuildWeight();
+//	ReBuildWeight();				//未用，修复直道入弯
 	TargetOffset();					//目标控制量
 }
 //*   *********************找线初始化*********************************    *
-void Line_Init(byte lr) {
+void Line_Init(byte lr) //√（初始化找线变量）
+{
     StartRow[lr]=ROWS;
     BreakRow[lr]=0;
     ContinueRow[lr]=ROWS;
@@ -198,7 +208,7 @@ void Line_Init(byte lr) {
 	MostR[lr]=0;
 	BlackLine_Init(lr,ROW,0);
 }
-void BlackLine_Init(byte lr,byte irowb,byte irowe)
+void BlackLine_Init(byte lr,byte irowb,byte irowe)//√（左右黑线都初始化在图像最右侧）
 {
 	byte irow=irowe;
 	for(;irow<=irowb;++irow)
@@ -206,15 +216,19 @@ void BlackLine_Init(byte lr,byte irowb,byte irowe)
 }
 //*    ************************找线主程序***************************
 byte find_num,pre_break,seg_num,pre_flags;//全局变量变成局部变量
-void FindLine(byte lr){
+void FindLine(byte lr)
+{
     byte flags=0,irow=0,irowb=ROW,irowe=0;
   	find_num=0;	 seg_num=0;	 pre_break=ROWS;	 pre_flags=0;
-    for(irow=irowb;irow<ROWS;--irow){		//左上角的坐标为（0，0）
+    for(irow=irowb;irow<ROWS;--irow)
+    {		//左上角的坐标为（0，0）
 	  flags=NextPoint(lr,irow,pre_flags);
-  	  if(flags==0){         		 //没有找到线
+  	  if(flags==0)		//没有找到线
+  	  {         		 
   		if(irow<=40)	break;
   	  }
-  	  else if(flags==1){      		 //找到一个点
+  	  else if(flags==1)		//找到一个点
+  	  {      		 
 		if(pre_flags==2)	
 		{
 			if(ABS(BlackLine[lr][irow]-BlackLine[lr][pre_break])>25)
@@ -228,12 +242,14 @@ void FindLine(byte lr){
 				pre_flags=1;			
 			}
 		}
-		else {
+		else 
+		{
 	      	++find_num;
 			pre_flags=1;
 		}
   	  }
- 	  if(flags==2){             //之前找到，现在没找到
+ 	  if(flags==2)
+ 	  {             //之前找到，现在没找到
 		  if(pre_flags==1){
 			  if(find_num<3)
 				BlackLine_Init(lr,irow+find_num,irow+1);
@@ -369,7 +385,7 @@ void Pre_handle(byte lr)
 		EndRow[lr]=irowe;
 	}
 }
-void RebuildLine()
+void RebuildLine()	//未用
 {
 	byte irow,irowb,irowe;
 	if(StartRow[0]<EndRow[1]+5)
@@ -873,22 +889,32 @@ void GetCenterLine()
 		CenterLine[irow]=-1;
 	if(EndRow[0]>55&&EndRow[1]>55)
 	{
-		RoadType=NoLine;
+		RoadType=NoLine;		
+		if(NoLineTimes<=100)
+			NoLineTimes++;
 		return;
 	}
-    if(StartRow[0]==ROWS||(EndRow[0]>55&&EndRow[1]<30)){				//左边没线
-		if(EndRow[1]<35){
+	else if(NoLineTimes>0)
+	{
+		NoLineTimes--;
+	}
+    if(StartRow[0]==ROWS||(EndRow[0]>55&&EndRow[1]<30))
+    {//左边没线
+		if(EndRow[1]<35)
+		{
 			for(irow=EndRow[1];irow<=StartRow[1];irow++)
 				CenterLine[irow]=BlackLine[1][irow]-(Offset[irow]-COLUMN1_2);//+5
 		}
-		else{
+		else
+		{
 			for(irow=StartRow[1];irow>=EndRow[1];irow--)
 				CenterLine[irow]=BlackLine[1][irow]-(Offset[irow]-COLUMN1_2)-(StartRow[1]-irow)/2;//+5
 		}
 		RoadStart=StartRow[1];
 		RoadEnd=EndRow[1];
 	}
-	else if(StartRow[1]==ROWS||(EndRow[1]>55&&EndRow[0]<30)){			//右边没线
+	else if(StartRow[1]==ROWS||(EndRow[1]>55&&EndRow[0]<30))
+	{//右边没线
 		if(EndRow[0]<35){
 			for(irow=EndRow[0];irow<=StartRow[0];irow++)
 				CenterLine[irow]=BlackLine[0][irow]+(Offset[irow]-COLUMN1_2);//+5
@@ -900,10 +926,12 @@ void GetCenterLine()
 		RoadStart=StartRow[0];
 		RoadEnd=EndRow[0];
 	}
-	else if(StartRow[0]<EndRow[1]){//左边在前
+	else if(StartRow[0]<EndRow[1])
+	{//左边在前
 		RoadStart=StartRow[1];
 		RoadEnd=EndRow[0];
-		if(RoadEnd<=35){
+		if(RoadEnd<=35)
+		{
 			for(irow=EndRow[1];irow<=StartRow[1];++irow)//近处,单边平移
 				CenterLine[irow]=BlackLine[1][irow]-(Offset[irow]-COLUMN1_2);//
 			for(irow=EndRow[1];irow>=StartRow[0];irow--)//中间间隔处，趋势延伸
@@ -914,7 +942,8 @@ void GetCenterLine()
 			for(irow=StartRow[0];irow>=EndRow[0]&&irow<ROWS;irow--)
 				CenterLine[irow]=BlackLine[0][irow]+(Offset[irow]-COLUMN1_2)+dis;
 		}
-		else{
+		else
+		{
 			for(irow=EndRow[1];irow<=StartRow[1];++irow)//近处
 				CenterLine[irow]=BlackLine[1][irow]-(Offset[irow]-COLUMN1_2)+(irow-EndRow[1])/2;//
 			for(irow=EndRow[1];irow>=StartRow[0];irow--)//远处
@@ -925,10 +954,12 @@ void GetCenterLine()
 				CenterLine[irow]=BlackLine[0][irow]+(Offset[irow]-COLUMN1_2)+dis+(StartRow[0]-irow);
 		}
 	}
-	else if(StartRow[1]<EndRow[0]){//右边在前
+	else if(StartRow[1]<EndRow[0])
+	{//右边在前
 		RoadStart=StartRow[0];
 		RoadEnd=EndRow[1];
-		if(RoadEnd<=33){
+		if(RoadEnd<=33)
+		{
 			for(irow=EndRow[0];irow<=StartRow[0];++irow)
 				CenterLine[irow]=BlackLine[0][irow]+(Offset[irow]-COLUMN1_2);//
 			for(irow=EndRow[0];irow>=StartRow[1];irow--)
@@ -938,7 +969,8 @@ void GetCenterLine()
 			for(irow=StartRow[1];irow>=EndRow[1]&&irow<ROWS;irow--)
 				CenterLine[irow]=BlackLine[1][irow]-(Offset[irow]-COLUMN1_2)+dis;
 		}
-		else{
+		else
+		{
 			//以近处为准，远处平移
 			for(irow=EndRow[0];irow<=StartRow[0];++irow)
 				CenterLine[irow]=BlackLine[0][irow]+(Offset[irow]-COLUMN1_2)-(irow-EndRow[0])/2;//
@@ -950,7 +982,8 @@ void GetCenterLine()
 				CenterLine[irow]=BlackLine[1][irow]-(Offset[irow]-COLUMN1_2)+dis-(StartRow[1]-irow);
 		}
 	}
-	else{
+	else
+	{
 		if(StartRow[0]<StartRow[1])
 			lrb=1;
 		if(EndRow[0]>EndRow[1])
@@ -967,11 +1000,13 @@ void GetCenterLine()
 		dis=CenterLine[subend]-BlackLine[lre][subend];
 		dis=dis+lre1*Offset[subend];
 		//远处，趋势平移
-		if(RoadEnd<=35){
+		if(RoadEnd<=35)
+		{
 			for(irow=subend-1;irow>=RoadEnd&&irow<ROWS;--irow)
 				CenterLine[irow]=BlackLine[lre][irow]-lre1*Offset[irow]+dis;
 		}
-		else{
+		else
+		{
 			for(irow=subend-1;irow>=RoadEnd&&irow<ROWS;--irow)
 				CenterLine[irow]=BlackLine[lre][irow]-lre1*Offset[irow]+dis+(1-2*lre)*(subend-irow);
 		}
@@ -1043,7 +1078,13 @@ void AnalyzeRoad()
 	if((StartRow[0]==ROWS&&StartRow[1]==ROWS)||(EndRow[0]>60&&EndRow[1]>60))
 	{
 		RoadType=NoLine;
+		if(NoLineTimes<=100)
+			NoLineTimes++;
 		return;
+	}
+	else if(NoLineTimes>0)
+	{
+		NoLineTimes--;
 	}
 	if(StartRow[0]-EndRow[0]<5)
 		LineType[0]=UnExist;
@@ -1053,7 +1094,7 @@ void AnalyzeRoad()
 		LineType[1]=UnExist;
 	else
 		LineType[1]=Exist;
-	//计算三根线的向左、向右、向中
+	//计算三根线的向左、向右、向中,0:左线	1:右线	2:中线部分
 	left_d[0]=0;	right_d[0]=0;	mid_d[0]=0;		
 	left_d[1]=0;	right_d[1]=0;	mid_d[1]=0;		
 	left_d[2]=0;	right_d[2]=0;	mid_d[2]=0;	
@@ -1085,7 +1126,7 @@ void AnalyzeRoad()
 				right_d[1]++;
 	}
 	
-	//统计起点、拐点、终点
+	//统计中线的起点、拐点、终点
 	for(i=0;i<10;i++)
 		turn[i]=0;
 	count=1;
@@ -1097,10 +1138,10 @@ void AnalyzeRoad()
 	if(CenterLine[irow]>CenterLine[irow-1])//向左
 		flags=1;		//1:表示向左
 	else
-		flags=0;
+		flags=0;	//0:表示向右
 	while(irow>irowe)
 	{
-		if(flags==1)
+		if(flags==1)	//1:表示向左
 		{
 			if(CenterLine[irow]<CenterLine[irow-1])
 			{
@@ -1109,7 +1150,7 @@ void AnalyzeRoad()
 				count++;
 			}
 		}
-		else
+		else	//0:表示向右
 		{
 			if(CenterLine[irow]>CenterLine[irow-1])
 			{
@@ -1255,7 +1296,7 @@ byte JudgeToT()
 		}
 	}
 }
-byte JudgeBigT()
+byte JudgeBigT()	//未用
 {
 	byte i,j,k,irow=RoadStart;
 	byte mid=0,left=0,right=0;
@@ -1459,8 +1500,7 @@ void JudgeGeneral()
 	}
 }
 
-
-void GetTurnPoint()
+void GetTurnPoint()		//未用,再次判断赛道类型
 {
 	byte irow,irowb,irowe,countnum,point,pcount=0,ppoint;
 	if(RoadType==ToT)
@@ -1651,92 +1691,7 @@ void DetectDownSlope()
 		DownSlope=0;
 }
 
-void DetectStartLine()
-{
-	byte i;
-	if(StartDelay<250)
-	{
-		StartDelay++;
-		StartFlags=0;
-	}
-	else
-		DetectStart();
-	for(i=1;i<10;i++)
-		StartList[i]=StartList[i-1];
-	StartList[0]=StartFlags;
-	startcount=0;
-	for(i=0;i<10;i++)
-	{
-		if(StartList[i]==1)
-			startcount++;
-	}
-	if(startcount>=2)	StartLine=1;	
-}
-
-void DetectStart()
-{
-	byte irow,icolumn,irowb,irowe,width,temrow1,temrow2;
-	byte lstart=0,lend=0,rstart=0,rend=0;
-	StartFlags=0;
-	if(RoadType!=Straight)	//直道上检测起始线
-		return;	
-	if(Slope!=0)	//坡道不检测起始线
-		return;
-	irowe=MAX(EndRow[0],EndRow[1]);
-	irowe=MAX(irowe,25);
-	irowb=MIN(StartRow[0],StartRow[1]);
-	if(irowb<=irowe)	
-		return;	
-	for(irow=irowb-1;irow>=irowe;irow--)
-	{
-		width=(BlackLine[1][irow]-CenterLine[irow])/2+CenterLine[irow];
-		temrow1=irow;	//上一黑点行数
-		for(icolumn=CenterLine[irow];icolumn<BlackLine[1][irow];icolumn++)//右侧起始线
-		{
-			if(icolumn==width&&rstart==0)	//
-				break;
-			if(!g_pix[temrow1][icolumn])	//黑点
-			{
-				if(rstart==0)	//首次找到黑点
-					rstart=icolumn;
-			}
-			else if(!g_pix[temrow1-1][icolumn])			
-				temrow1--;
-			else if(!g_pix[temrow1+1][icolumn])
-				temrow1++;
-			else
-				rend=icolumn-1;
-		}
-		width=CenterLine[irow]-(CenterLine[irow]-BlackLine[0][irow])/2;
-		temrow2=irow;	//上一黑点行数
-		for(icolumn=CenterLine[irow];icolumn>BlackLine[0][irow];icolumn--)//左侧起始线
-		{
-			if(icolumn==width&&lstart==0)	//
-				break;
-			if(!g_pix[temrow2][icolumn])	//黑点
-			{
-				if(lstart==0)	//首次找到黑点
-					lstart=icolumn;
-			}
-			else if(!g_pix[temrow2-1][icolumn])			
-				temrow2--;
-			else if(!g_pix[temrow2+1][icolumn])
-				temrow2++;
-			else
-				lend=icolumn-1;
-		}
-		if(rstart&&lstart)
-			break;
-	}
-	if(irow<irowe)
-		return;	
-	width=BlackLine[1][temrow1]-BlackLine[0][temrow2];
-	if((rstart-lstart)>width/7&&(rend-rstart)>width/7&&(lstart-lend)>width/7)
-		StartFlags=1;
-	else
-		StartFlags=0;
-}
-void ReBuildWeight()		//修复直道入弯
+void ReBuildWeight()		//未用，修复直道入弯
 {
 	byte irow;
 	if(RoadType==Far){
@@ -1770,10 +1725,10 @@ void ReBuildWeight()		//修复直道入弯
 //*****************************************************************************************************************
 void TargetOffset()
 {	
-//	if(Slope==1)	UpSlopeOffset();
-//	else if(Slope==2) UpSlopeOffset();
-//	
-	if(RoadType==Straight||RoadType==SmallS) StraightOffset();
+	if(Slope==1)	UpSlopeOffset();
+	else if(Slope==2) UpSlopeOffset();
+	
+	else if(RoadType==Straight||RoadType==SmallS) StraightOffset();
 	else if(RoadType==UTurn) UTurnOffset();
 	else if(RoadType==ToT)	ToToffset();
 	else if(RoadType==Near||RoadType==Mid) NearOffset();
@@ -1828,14 +1783,15 @@ void ToToffset()
 	signed long sum_weight=0;
 	target_offset=0;
 	//irowe=RoadStart>65?65:RoadStart;
-	for(irow=RoadEnd;irow<=RoadStart;++irow){
-		target_offset+=(CenterLine[irow]-COLUMN1_2)*ToTWeight[irow];
-		sum_weight+=ToTWeight[irow];
-	}
+	
+	
+		for(irow=RoadEnd;irow<=RoadStart;++irow){
+			target_offset+=(CenterLine[irow]-COLUMN1_2)*ToTWeight[irow];
+			sum_weight+=ToTWeight[irow];
+		}
+	
 	target_offset/=sum_weight;
 }
-
-
 
 void FarOffset()
 {
@@ -1844,10 +1800,13 @@ void FarOffset()
 	target_offset=0;
 //	if(count!=3)
 //		irowe=RoadStart>39?39:RoadStart;
+	
+	
 		for(irow=RoadEnd;irow<=RoadStart;++irow){
 			target_offset+=(CenterLine[irow]-COLUMN1_2)*FarWeight[irow];
 			sum_weight+=FarWeight[irow];
 		}
+	
 	target_offset/=sum_weight;
 }
 
@@ -1871,9 +1830,337 @@ void NearOffset()
 	signed long sum_weight=0;
 	target_offset=0;
 	//irowe=RoadStart>65?65:RoadStart;
-	for(irow=RoadEnd;irow<=RoadStart;++irow){
-		target_offset+=(CenterLine[irow]-COLUMN1_2)*NearWeight[irow];
-		sum_weight+=NearWeight[irow];
-	}
+		for(irow=RoadEnd;irow<=RoadStart;++irow){
+			target_offset+=(CenterLine[irow]-COLUMN1_2)*NearWeight[irow];
+			sum_weight+=NearWeight[irow];
+		}
+	
 	target_offset/=sum_weight;
 }
+//*****************************************************************************************************************
+//*	 *************************直角弯处理函数******************************************************* 	  *
+//*****************************************************************************************************************
+void Analyse_Rigntangle()
+{
+	if(!(flag_Rightangle_l||flag_Rightangle_r)) //不是直角的情况
+		Find_Rightangle();
+	if(flag_Rightangle_l||flag_Rightangle_r)                     //主函数中判断
+		Out_Rightangle();
+}
+
+void Find_Rightangle()                      //寻找直角 基于双边找线
+{
+	byte lrb=0,lre=0,m,irow;                //循环变量
+	byte Blackpoint=0;                      //初步搜索的黑点数目
+	byte Blackrow=0;                        //检验搜索时黑色行的数目
+//	byte searchrow;                         //检验时搜索的基准行
+//	byte flag_BlackRow=0;                     //黑色标识行
+	byte Writepoint_l=0;                    //左边白点标志
+	byte Writepoint_r=0;                    //右边白点标志
+	byte Writerow_l=0;                      //左边白行标志
+	byte Writerow_r=0;                      //右边白行标志
+	byte flag_Rightangle=0;                 //直角标识出现标志位
+
+//	if(StartRow[0]<StartRow[1])             //Start>End 
+//		lrb=1;
+//	if(EndRow[0]>EndRow[1])
+//		lre=1;
+//	RoadStart=StartRow[lrb];
+//	RoadEnd=0;                   //取大的Start，小的End
+
+	for(irow=68;irow<69;irow++) //初次判断是否有直角标识     
+	{    
+		Blackpoint=0;
+		for(m=0;m<5;m++)	
+			if(g_pix[irow][35+3*m]==0)   
+				Blackpoint++;
+		if(Blackpoint>3)               //判断搜索到的这行的五个点是否有4个以上为黑点
+		{
+			//searchrow=irow;
+			flag_BlackRow=irow;
+			flag_Rightangle=1;
+			break;
+		}
+	}
+	if(!flag_Rightangle)             //未找到黑色线 或者小车距离黑线过远
+	{
+		flag_Rightangle_l=0;
+		flag_Rightangle_r=0;
+		return;
+	}
+
+	while(1)
+	{
+		Blackpoint=0;                                 //再次确认
+		for(m=28;m<55;m+=2)
+			if(g_pix[flag_BlackRow][35+3*m]==0)
+				Blackpoint++;
+		if(Blackpoint>10)
+		{
+			flag_Rightangle=1;
+        }
+		else 
+		{
+			flag_Rightangle=0;
+			flag_Rightangle_l=0;
+			flag_Rightangle_r=0;
+			return;
+		}
+	
+		if(flag_Rightangle)                                 //至少一整行黑线 即认为找到黑线标志
+		{
+			for(irow=8;irow<13;irow++)             //在图像上，当69处于最近处时，直角大约处于13行以下的位置 纵坐标靠近边界的20个点为白点
+			{
+				for(m=0;m<20;m+=2)
+					if(g_pix[irow][m])  //白点个数	
+						Writepoint_l++;
+				for(m=83;m>63;m-=2)                
+					if(g_pix[irow][m])
+						Writepoint_r++;
+				if(Writepoint_l>8)
+					Writerow_l++;
+				if(Writepoint_r>8)
+					Writerow_r++;	
+			}
+			if(Writerow_l>2)                        //五行里面有三个白行
+				flag_Rightangle_l=1;
+			if(Writerow_r>2)                        
+				flag_Rightangle_r=1;
+			return ;
+		}
+		else
+		{
+			flag_Rightangle_l=0;
+			flag_Rightangle_r=0;
+			return;
+		}
+	}
+}
+
+void Out_Rightangle()                            //寻找直角 基于双边找线
+{
+
+	byte lrb=0,lre=0,m,irow;                //循环变量
+	byte Blackpoint=0;                      //初步搜索的黑点数目
+	byte Blackrow=0;                        //检验搜索时黑色行的数目
+	byte searchrow;                         //检验时搜索的基准行
+	byte flag_BlackRow;                     //黑色标识行
+	byte falg_Rightangle_out=0;
+//	if(StartRow[0]<StartRow[1])             //Start>End 
+//		lrb=1;
+//	if(EndRow[0]>EndRow[1])
+//		lre=1;
+//	RoadStart=StartRow[lrb];
+//	RoadEnd=0;                   //取大的Start，小的End
+
+	for(irow=0;irow<3;irow++) //初次判断是否有直角标识     赛道最小宽度27，最宽度83,中心41   以三步为步进
+	{    
+		for(m=0;m<5;m++)	
+			if(g_pix[irow][35+3*m]==0)   
+				Blackpoint++;
+		if(Blackpoint>3)               //判断搜索到的这行的五个点是否有4个以上为黑点
+		{
+			searchrow=irow;
+			falg_Rightangle_out=1;
+			break;
+		}
+	}
+	Blackpoint=0;                 //黑点个数置零
+	if(falg_Rightangle_out)
+		for(irow=searchrow-2;irow<searchrow+3;irow++)
+		{
+			for(m=28;m<55;m+=2)
+				if(g_pix[irow][35+3*m]==0)
+					Blackpoint++;
+			if(Blackpoint>10)
+				Blackrow++;	
+		}
+	if(Blackrow>0)                                 //至少一整行黑线
+	{
+		flag_Rightangle_l=0;
+		flag_Rightangle_r=0;                    //标志位清零	
+		RightAngleTime=0;
+	}
+}
+
+//void Analyse_Rigntangle()
+//{
+//	if(!(flag_Rightangle_l||flag_Rightangle_r)) 	//不是直角的情况
+//		Find_Rightangle();
+//	if(flag_Rightangle_l||flag_Rightangle_r)     //主函数中判断
+//		Out_Rightangle();
+//}
+
+//void Find_Rightangle()  
+//{
+//		if(key1==0)//按一下S4开始跑车，再按一下S4停
+//		{
+//			DelayKeys();
+//			if(key1==0)	
+//			{
+//				while(!key1);
+//				flag_Rightangle_l=1;
+//			}
+//		}
+//		if(key2==0)//按一下S4开始跑车，再按一下S4停
+//		{
+//			DelayKeys();
+//			if(key2==0)	
+//			{
+//				while(!key2);
+//				flag_Rightangle_r=1;
+//			}
+//		}
+//}
+//
+//void Out_Rightangle()
+//{
+//		if(key3==0)//按一下S4开始跑车，再按一下S4停
+//		{
+//			DelayKeys();
+//			if(key3==0)	
+//			{
+//				while(!key3);
+//				flag_Rightangle_l=0;
+//				VerticalAngleStraightTime=0;
+//			}
+//		}
+//		if(key4==0)//按一下S4开始跑车，再按一下S4停
+//		{
+//			DelayKeys();
+//			if(key4==0)	
+//			{
+//				while(!key4);
+//				flag_Rightangle_r++;
+//				flag_Rightangle_r=0;
+//				VerticalAngleStraightTime=0;
+//			}
+//		}
+//}
+
+//void Find_Rightangle()                      //寻找直角 基于双边找线
+//{
+//	byte lrb=0,lre=0,m,irow;                //循环变量
+//	byte Blackpoint=0;                      //初步搜索的黑点数目
+//	byte Blackrow=0;                        //检验搜索时黑色行的数目
+//	byte searchrow;                         //检验时搜索的基准行
+//	byte flag_BlackRow=0;                     //黑色标识行
+//	byte Writepoint_l=0;                    //左边白点标志
+//	byte Writepoint_r=0;                    //右边白点标志
+//	byte Writerow_l=0;                      //左边白行标志
+//	byte Writerow_r=0;                      //右边白行标志
+//
+//	if(StartRow[0]<StartRow[1])             //Start>End 
+//		lrb=1;
+//	if(EndRow[0]>EndRow[1])
+//		lre=1;
+//	RoadStart=StartRow[lrb];
+//	RoadEnd=EndRow[lre];                   //取大的Start，小的End
+//
+//
+//
+//		for(irow=RoadEnd;irow<RoadStart;irow+=3) //初次判断是否有直角标识     赛道最小宽度27，最宽度83,中心41   以三步为步进
+//		{    
+//			for(m=0;m<5;m++)	
+//				if(g_pix[irow][35+3*m]==0)   
+//					Blackpoint++;
+//			if(Blackpoint>3)               //判断搜索到的这行的五个点是否有4个以上为黑点
+//			{
+//				searchrow=irow;
+//				break;
+//			}
+//		}
+//		if(irow==RoadStart||searchrow<65)                       //未找到黑色线 或者小车距离黑线过远
+//		{
+//			flag_Rightangle_l=0;
+//			flag_Rightangle_r=0;
+//			return;
+//		}
+//		while(flag_BlackRow<69)
+//		{
+//			Blackpoint=0;                                 //黑点个数置零
+//			for(irow=searchrow-2;irow<searchrow+3;irow++)
+//			{
+//				for(m=28;m<55;m+=2)
+//					if(g_pix[irow][35+3*m]==0)
+//						Blackpoint++;
+//				if(Blackpoint>10)
+//				{
+//					Blackrow++;
+//					flag_BlackRow=irow;
+//                       		}
+//				
+//			}
+//			searchrow++;
+//		}
+//			
+//
+//			if(Blackrow>0)                                 //至少一整行黑线 即认为找到黑线标志
+//			{
+//				for(irow=13;irow<8;irow++)             //在图像上，当69处于最近处时，直角大约处于13行以下的位置 纵坐标靠近边界的20个点为白点
+//				{
+//					for(m=0;m<20;m+=2)
+//						if(g_pix[irow][m]==1)  //白点个数	
+//							Writepoint_l++;
+//					for(m=83;m>63;m-=2)                
+//						if(g_pix[irow][m]==1)
+//							Writepoint_r++;
+//					if(Writepoint_l>8)
+//						Writerow_l++;
+//					if(Writepoint_r>8)
+//						Writerow_r++;	
+//				}
+//				if(Writerow_l>2)                        //五行里面有三个白行
+//					flag_Rightangle_l=1;
+//				if(Writerow_r>2)                        
+//					flag_Rightangle_r=1;
+//			}
+//			else
+//			{
+//				flag_Rightangle_l=0;
+//				flag_Rightangle_r=0;
+//			}
+//}
+//
+//void Out_Rightangle()                            //寻找直角 基于双边找线
+//{
+//	byte lrb=0,lre=0,m,irow;                //循环变量
+//	byte Blackpoint=0;                      //初步搜索的黑点数目
+//	byte Blackrow=0;                        //检验搜索时黑色行的数目
+//	byte searchrow;                         //检验时搜索的基准行
+//	byte flag_BlackRow;                     //黑色标识行
+//
+//	if(StartRow[0]<StartRow[1])             //Start>End 
+//		lrb=1;
+//	if(EndRow[0]>EndRow[1])
+//		lre=1;
+//	RoadStart=StartRow[lrb];
+//	RoadEnd=EndRow[lre];                   //取大的Start，小的End
+//
+//	for(irow=RoadEnd;irow<RoadStart;irow+=3) //初次判断是否有直角标识     赛道最小宽度27，最宽度83,中心41   以三步为步进
+//	{    
+//		for(m=0;m<5;m++)	
+//			if(g_pix[irow][35+3*m]==0)   
+//				Blackpoint++;
+//		if(Blackpoint>3)               //判断搜索到的这行的五个点是否有4个以上为黑点
+//		{
+//			searchrow=irow;
+//			break;
+//		}
+//	}
+//	Blackpoint=0;                 //黑点个数置零
+//	for(irow=searchrow-2;irow<searchrow+3;irow++)
+//	{
+//		for(m=28;m<55;m+=2)
+//			if(g_pix[irow][35+3*m]==0)
+//				Blackpoint++;
+//		if(Blackpoint>10)
+//			Blackrow++;	
+//	}
+//	if(Blackrow>0)                                 //至少一整行黑线
+//	{
+//		flag_Rightangle_l=0;
+//		flag_Rightangle_r=0;                    //标志位清零	
+//	}
+//	VerticalAngleStraightTime=0;
+//}

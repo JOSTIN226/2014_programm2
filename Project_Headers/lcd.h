@@ -18,6 +18,10 @@ void LCD_PrintoutInt(BYTE x, BYTE y, SWORD data);
 void LCD_PrintoutIntS(BYTE x, BYTE y, SWORD data);
 void LCD_PrintoutFloat(BYTE x, BYTE y, float n);
 void LCD_DISPLAY(void);
+void LCD_Write_Num(unsigned char X,unsigned char Y,int num,unsigned char N);
+void LCD_write_char(unsigned char c);
+void LCD_write_english_string(unsigned char X,unsigned char Y,char *s);
+
 
 
 //*****************OLED****************//

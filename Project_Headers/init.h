@@ -40,6 +40,8 @@ extern void init_pit(void);
 extern void init_encoder(void);
 extern void enable_irq(void);
 extern int is_big_endian();
+void init_DIP(void);
+
 
 
 

@@ -55,7 +55,6 @@ word selectRows[ROWS]=
 //*************************************************************************
 void FieldInputCapture(void) 
 {	
-    EMIOS_0.CH[3].CSR.B.FLAG = 1;
 	EMIOS_0.CH[3].CCR.B.FEN=0;  //关闭场中断 
 	prow=0;crow=0;
 	D1=~D1;
@@ -67,7 +66,6 @@ void FieldInputCapture(void)
 void RowInputCapture(void) 
 {	
 	EMIOS_0.CH[7].CSR.B.FLAG = 1;
-	EMIOS_0.CH[7].CCR.B.FEN=0;
 	++crow;
 	//采样开始
 	//行消影 因为摄像头输出信号的前几行是不能用的，所以扔掉前ROWS_MIN行
@@ -176,8 +174,6 @@ void RowInputCapture(void)
 		}
 	}
 	D0=~D0;
-	EMIOS_0.CH[7].CSR.B.FLAG = 1;//清行中断
-	EMIOS_0.CH[7].CCR.B.FEN=1;	//开启行中断
 }
 
 /*----------------------------------------------------------------------*/

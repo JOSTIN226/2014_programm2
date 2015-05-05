@@ -57,6 +57,7 @@ void init_led(void)
   	SIU.PCR[45].R = 0x0203; /* PC13 */
  	SIU.PCR[44].R = 0x0203; /* PC12 */
 	SIU.PCR[71].R = 0x0203;	/* PE7  */
+	SIU.PCR[12].R = 0x0203;	/* ban  */
 
 #if 0
 	//第二版车灯
@@ -75,6 +76,7 @@ void init_led(void)
 	D1 = 1;
 	D2 = 1;
 	D3 = 1;
+	D5=1;
 
 //	LeftL = 0;	/* 0=熄灭 */
 //	RightL = 0;
@@ -286,13 +288,13 @@ void init_all_and_POST(void)
 	
 	disable_watchdog();
 	init_modes_and_clock();
-	initEMIOS_0MotorAndSteer();
-	initEMIOS_0Image();/* 摄像头输入中断初始化 */
-	//init_pit();
+//	initEMIOS_0MotorAndSteer();
+//	initEMIOS_0Image();/* 摄像头输入中断初始化 */
+	init_pit();
 	init_led();
-	init_DIP();
+//	init_DIP();
 	//init_serial_port_0();
-	init_serial_port_1();
+	//init_serial_port_1();
 	//init_serial_port_2();
 	//init_ADC();
 	//init_serial_port_3();
@@ -300,7 +302,7 @@ void init_all_and_POST(void)
 	//init_supersonic_receive_1();
 	//init_supersonic_receive_2();
 	//init_supersonic_receive_3();
-	//init_supersonic_trigger_0();
+	init_supersonic_trigger_0_2();
 	//init_supersonic_trigger_1();
 	//init_supersonic_trigger_2();
 	//init_supersonic_trigger_3();
@@ -324,7 +326,7 @@ void init_all_and_POST(void)
 	delay_ms(50);
 	LCD_Fill(0x00);	/* 黑屏 */
 	delay_ms(50);
-#if 1	
+#if 0	
 	/* 初始化TF卡 */
 
 	LCD_P8x16Str(0,0, (BYTE*)"TF..");

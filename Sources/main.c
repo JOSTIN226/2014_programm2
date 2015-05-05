@@ -12,7 +12,7 @@ void main(void)
 	//write_camera_data_to_TF();
 	//set_speed_target(10);
 	//SetupBKL();
-	SetupCCD();	
+	//SetupCCD();	
 	g_f_enable_speed_control=0;
 	g_f_enable_supersonic=0;
 	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
@@ -45,8 +45,7 @@ void main(void)
 		{
 			
 
-			D3=~D3;//7ms
-
+			//D3=~D3;//7ms
 			//write_camera_data_to_TF();
 			fieldover=0;
 			FindBlackLine();
@@ -56,7 +55,7 @@ void main(void)
 				LCD_write_english_string(96,1,"-");
 			else LCD_write_english_string(96,1,"+");
 			LCD_Write_Num(105,1,ABS(target_offset),2);
-			Send_CCD_Video();
+			//Send_CCD_Video();
 			//Send_CCD_Blackline();
 			SteerControl();
 			//write_camera_data_to_TF();

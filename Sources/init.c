@@ -324,7 +324,7 @@ void init_all_and_POST(void)
 	delay_ms(50);
 	LCD_Fill(0x00);	/* 黑屏 */
 	delay_ms(50);
-#if 1	
+#if 0	
 	/* 初始化TF卡 */
 
 	LCD_P8x16Str(0,0, (BYTE*)"TF..");

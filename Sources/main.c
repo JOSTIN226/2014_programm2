@@ -14,9 +14,15 @@ void main(void)
 	//SetupBKL();
 	SetupCCD();	
 	g_f_enable_speed_control=0;
+<<<<<<< HEAD
 	g_f_enable_supersonic=1;
 	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 
+=======
+	g_f_enable_supersonic=0;
+	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
+	LCD_write_english_string(96,0,"T");
+>>>>>>> a06144a2286a20042b063ca08b9f495c40ef7b24
 
 	/* Loop forever */
 		
@@ -43,16 +49,26 @@ void main(void)
 		if(fieldover)
 		{
 			
+<<<<<<< HEAD
 			D3=~D3;//7ms
+=======
+>>>>>>> a06144a2286a20042b063ca08b9f495c40ef7b24
 			//write_camera_data_to_TF();
 			fieldover=0;
 			FindBlackLine();
 			Display_Video();
-			serial_port_1_TX(RoadType);
-			LCD_PrintoutInt(72, 1, target_offset);
+			//serial_port_1_TX(RoadType);
+			if(target_offset<0)
+				LCD_write_english_string(96,1,"-");
+			else LCD_write_english_string(96,1,"+");
+			LCD_Write_Num(105,1,ABS(target_offset),2);
 			Send_CCD_Video();
 			//Send_CCD_Blackline();
 			SteerControl();
+<<<<<<< HEAD
+=======
+			D3=~D3;//7ms
+>>>>>>> a06144a2286a20042b063ca08b9f495c40ef7b24
 			//write_camera_data_to_TF();
 			EMIOS_0.CH[3].CSR.B.FLAG = 1;
 			EMIOS_0.CH[3].CCR.B.FEN=1;

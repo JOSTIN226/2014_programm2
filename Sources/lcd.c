@@ -817,3 +817,90 @@ void LCD_PrintoutFloat(BYTE x, BYTE y, float n)
      LCD_Printbyte(x,y,m);    
 
 } 
+/***********************************************************************
+* 函数名称：LCD_Write_Num()
+* 函数功能：显示变量
+* 入口参数：X:行;Y:列;num:变量;N:要显示的变量的位数
+* 出口参数：无
+/**********************************************************************/
+void LCD_Write_Num(unsigned char X,unsigned char Y,int num,unsigned char N)
+{
+  unsigned char line;
+  unsigned char i=0;
+  unsigned int n[5]={0};
+  
+  if(num>=0)
+  {
+      LCD_Set_Pos(X-4,Y);//光标定位
+  	  LCD_WrDat(0x00);
+  	  LCD_WrDat(0x00);
+  	  LCD_WrDat(0x00);
+  	  LCD_WrDat(0x00);
+	  n[0]= num%10;
+	  n[1]=(num/10)%10;
+	  n[2]=(num/100)%10;
+	  n[3]=(num/1000)%10;
+	  n[4]=(num/10000)%10;
+	  for(i=0;i<5;i++) n[i]=n[i]+16;
+	  for(i=N;i>0;i--) 
+	  {
+	    LCD_Set_Pos(X+(N-i)*6,Y);//光标定位
+	    for (line=0; line<6; line++)
+	     LCD_WrDat(F6x8[n[i-1]][line]);//从ACSII码表中读取字节，然后写入液晶
+	  }
+  	
+  }
+  else
+  {
+  	  LCD_Set_Pos(X-4,Y);//光标定位
+  	  LCD_WrDat(0x10);
+  	  LCD_WrDat(0x10);
+  	  LCD_WrDat(0x10);
+  	  LCD_WrDat(0x10);
+  	  num=-num;
+  	  n[0]= num%10;
+	  n[1]=(num/10)%10;
+	  n[2]=(num/100)%10;
+	  n[3]=(num/1000)%10;
+	  n[4]=(num/10000)%10;
+	  for(i=0;i<5;i++) n[i]=n[i]+16;
+	  
+	  for(i=N;i>0;i--) 
+	  {
+	  	LCD_Set_Pos(X+(N-i)*6,Y);//光标定位
+	    for (line=0; line<6; line++)
+	    LCD_WrDat(F6x8[n[i-1]][line]);//从ACSII码表中读取字节，然后写入液晶
+	  }
+  	
+  }
+}
+
+/***********************************************************************
+* 函数名称：LCD_write_char()
+* 函数功能：写入1个字符
+* 入口参数：c   要写入的数据
+* 出口参数：无
+**********************************************************************/
+void LCD_write_char(unsigned char c)
+  {
+    unsigned char line;
+    c -= 32;
+    for (line=0; line<6; line++)
+      LCD_WrDat(F6x8[c][line]);//从ACSII码表中读取字节，然后写入液晶
+  }
+
+/***********************************************************************
+* 函数名称LCD_write_english_string()
+* 函数功能：写英文字符串
+* 入口参数：X,Y,*S------x行y列*s为英文字符串
+* 出口参数：无
+***********************************************************************/
+void LCD_write_english_string(unsigned char X,unsigned char Y,char *s)
+{
+	LCD_Set_Pos(X,Y);//光标定位
+	while (*s) 
+	{
+		LCD_write_char(*s);
+		 s++;
+	}
+}

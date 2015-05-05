@@ -9,14 +9,13 @@ void main(void)
 	
 	init_all_and_POST();
 	//g_f_enable_speed_control=1;
-	//delay_ms(6000);//等待蓝牙配对
 	//write_camera_data_to_TF();
 	//set_speed_target(10);
 	//SetupBKL();
 	SetupCCD();	
 	g_f_enable_speed_control=0;
 	g_f_enable_supersonic=1;
-	EMIOS_0.CH[3].CCR.B.FEN=0;//开场中断
+	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 
 
 	/* Loop forever */
@@ -40,11 +39,11 @@ void main(void)
 		/* 报告在线 */
 		report_online();
 #endif
-#if 0
+#if 1
 		if(fieldover)
 		{
 			
-			D3=1;//7ms
+			D3=~D3;//7ms
 			//write_camera_data_to_TF();
 			fieldover=0;
 			FindBlackLine();
@@ -54,7 +53,6 @@ void main(void)
 			Send_CCD_Video();
 			//Send_CCD_Blackline();
 			SteerControl();
-			D3=0;
 			//write_camera_data_to_TF();
 			EMIOS_0.CH[3].CSR.B.FLAG = 1;
 			EMIOS_0.CH[3].CCR.B.FEN=1;

@@ -287,20 +287,20 @@ void init_all_and_POST(void)
 	disable_watchdog();
 	init_modes_and_clock();
 	initEMIOS_0MotorAndSteer();
-	//initEMIOS_0Image();/* 摄像头输入中断初始化 */
-	init_pit();
+	initEMIOS_0Image();/* 摄像头输入中断初始化 */
+	//init_pit();
 	init_led();
-	init_DIP();
+	//init_DIP();
 	//init_serial_port_0();
-	//init_serial_port_1();
+	init_serial_port_1();
 	//init_serial_port_2();
 	//init_ADC();
 	//init_serial_port_3();
-	init_supersonic_receive_0();
+	//init_supersonic_receive_0();
 	//init_supersonic_receive_1();
 	//init_supersonic_receive_2();
 	//init_supersonic_receive_3();
-	init_supersonic_trigger_0();
+	//init_supersonic_trigger_0();
 	//init_supersonic_trigger_1();
 	//init_supersonic_trigger_2();
 	//init_supersonic_trigger_3();

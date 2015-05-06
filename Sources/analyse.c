@@ -7,6 +7,8 @@
 
 #include "includes.h"
 
+byte StopLine=1;
+
 //找线变量定义
 byte BlackLine[2][ROWS]; //左右线的数组
 byte StartRow[2];        //线的起点
@@ -2198,3 +2200,31 @@ void Out_Rightangle()                            //寻找直角 基于双边找�
 //	}
 //	VerticalAngleStraightTime=0;
 //}
+
+void DetectStopLine()
+{
+	byte irow,irow4,irowb,irowe,icolumn,count;
+	irowb=65;irowe=25;
+		//if(RoadType!=Straight)	//直道上检测停车线
+		//return;
+		for(irow=irowb;irow>=irowe;irow--)
+		{
+			count=0;
+			for(irow4=irow;irow4>=irow-4;irow4--)
+			{
+			  for(icolumn=30;icolumn<=50;icolumn++)
+			  {
+				if(!g_pix[irow][icolumn]&&g_pix[irow-5][icolumn]&&g_pix[irow+5][icolumn])
+					count++;
+			  }
+			}
+			if(count>=5)
+			{
+			StopLine=1;
+			D3=~D3;
+			return;
+			}
+
+		}
+		
+}

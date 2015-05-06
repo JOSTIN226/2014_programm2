@@ -47,7 +47,9 @@ void PitISR(void)
 	}
 	if (g_f_enable_supersonic)
 	{
-		trigger_supersonic_0();
+		D5=~D5;
+		supersonic_trigger_0_2();
+		//LCD_PrintoutInt(48, 4, tmp_time.R);
 	}
 #if 0
 	/* 发送位置 */

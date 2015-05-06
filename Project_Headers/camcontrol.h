@@ -9,7 +9,7 @@
 //**********************舵机参数**********************************************
 extern signed long target_offset,last_offset;
 extern double Steer_kp,Steer_kd;//舵机P、D值
-extern WORD Steer_PWM[4];//舵机输出值记录
+extern SWORD Steer_PWM[4];//舵机输出值记录
 
 
 //**********************电机参数**********************************************

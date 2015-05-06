@@ -65,6 +65,7 @@ extern byte UpSlope;//上坡标志
 extern byte DownSlope;//下坡标志
 extern byte Slope;	//坡道标志
 extern byte turn[10];//turn[10]//统计中线的起点、拐点、终点
+extern byte StopLine;
 
 //直角弯处理参数
 extern byte flag_Rightangle_l;                          //判断直角标识 0：找到直角或者直角距离小车还很远    1：是直角
@@ -103,6 +104,8 @@ void DetectUpSlope();
 void DetectStopLine();
 void DetectDownSlope();
 void ReBuildWeight();
+void DetectStopLine();
+
 
 //******************************直角处理函数****************************************//
 void Analyse_Rigntangle();

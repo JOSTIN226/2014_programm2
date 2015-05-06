@@ -205,7 +205,7 @@ void intc_get_supersonic_time_0(void)
 				BYTE byte_3;
 			} B;
 		} tmp_time;
-		D3=~D3;
+		//D3=~D3;
 		tmp_time.R = 0x00000000;	//躲过未初始化警告
 		tmp_a = EMIOS_0.CH[1].CADR.R;
 		tmp_b = EMIOS_0.CH[1].CBDR.R;

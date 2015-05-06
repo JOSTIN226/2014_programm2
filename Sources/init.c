@@ -122,26 +122,26 @@ void initEMIOS_0MotorAndSteer(void)
 	EMIOS_0.MCR.B.FRZ = 1;    /* Enable stopping channels when in debug mode */
 	
     /* Modulus Up Counter 5kHZ */
-    EMIOS_0.CH[0].CCR.B.UCPRE=0;	/* Set channel prescaler to divide by 1 */
-	EMIOS_0.CH[0].CCR.B.UCPEN = 1;	/* Enable prescaler; uses default divide by 1 */
-	EMIOS_0.CH[0].CCR.B.FREN = 1;	/* Freeze channel counting when in debug mode */
-	EMIOS_0.CH[0].CADR.R = 2000;	/* 设置周期200us 5KHZ */
-	EMIOS_0.CH[0].CCR.B.MODE = 0x50;	/* Modulus Counter Buffered (MCB) */
-	EMIOS_0.CH[0].CCR.B.BSL = 0x3;	/* Use internal counter */
+    EMIOS_0.CH[16].CCR.B.UCPRE=0;	/* Set channel prescaler to divide by 1 */
+	EMIOS_0.CH[16].CCR.B.UCPEN = 1;	/* Enable prescaler; uses default divide by 1 */
+	EMIOS_0.CH[16].CCR.B.FREN = 1;	/* Freeze channel counting when in debug mode */
+	EMIOS_0.CH[16].CADR.R = 2000;	/* 设置周期200us 5KHZ */
+	EMIOS_0.CH[16].CCR.B.MODE = 0x50;	/* Modulus Counter Buffered (MCB) */
+	EMIOS_0.CH[16].CCR.B.BSL = 0x3;	/* Use internal counter */
     /* 前进输出 OPWMB PE5 输出0-2000 */
-	EMIOS_0.CH[6].CCR.B.BSL = 0x1;	/* Use counter bus D (default) */
-	EMIOS_0.CH[6].CCR.B.MODE = 0x60;	/* Mode is OPWM Buffered */
-    EMIOS_0.CH[6].CCR.B.EDPOL = 1;	/* Polarity-leading edge sets output/trailing clears*/
-	EMIOS_0.CH[6].CADR.R = 0;	/* Leading edge when channel counter bus= */
-	EMIOS_0.CH[6].CBDR.R = 0;	/* Trailing edge when channel counter bus= */
-	SIU.PCR[30].R = 0x0600;	/*[11:10]选择AFx 此处AF1 /* MPC56xxS: Assign EMIOS_0 ch 21 to pad */
+	EMIOS_0.CH[17].CCR.B.BSL = 0x1;	/* Use counter bus D (default) */
+	EMIOS_0.CH[17].CCR.B.MODE = 0x60;	/* Mode is OPWM Buffered */
+    EMIOS_0.CH[17].CCR.B.EDPOL = 1;	/* Polarity-leading edge sets output/trailing clears*/
+	EMIOS_0.CH[17].CADR.R = 0;	/* Leading edge when channel counter bus= */
+	EMIOS_0.CH[17].CBDR.R = 0;	/* Trailing edge when channel counter bus= */
+	SIU.PCR[65].R = 0x0600;	/*[11:10]选择AFx 此处AF1 /* MPC56xxS: Assign EMIOS_0 ch 21 to pad */
 	/* 前进输出 OPWMB PE6 输出0-2000 */
-	EMIOS_0.CH[7].CCR.B.BSL = 0x1;
-	EMIOS_0.CH[7].CCR.B.MODE = 0x60;
-    EMIOS_0.CH[7].CCR.B.EDPOL = 1;
-	EMIOS_0.CH[7].CADR.R = 0;
-	EMIOS_0.CH[7].CBDR.R = 0;
-	SIU.PCR[31].R = 0x0600;
+	EMIOS_0.CH[18].CCR.B.BSL = 0x1;
+	EMIOS_0.CH[18].CCR.B.MODE = 0x60;
+    EMIOS_0.CH[18].CCR.B.EDPOL = 1;
+	EMIOS_0.CH[18].CADR.R = 0;
+	EMIOS_0.CH[18].CBDR.R = 0;
+	SIU.PCR[66].R = 0x0600;
 	
     /* Modulus Up Counter 50HZ */
     EMIOS_0.CH[8].CCR.B.UCPRE=3;	/* Set channel prescaler to divide by 4 */

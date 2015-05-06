@@ -7,6 +7,8 @@
 
 #include "includes.h"
 
+
+
 //找线变量定义
 byte BlackLine[2][ROWS]; //左右线的数组
 byte StartRow[2];        //线的起点
@@ -37,6 +39,9 @@ byte NearCross[2];
 byte FarCross[2];
 byte CrossFlags;
 
+//停车线识别参数
+//byte StopLine=0;//停车线标志(1:表示检测到停车线)
+
 //坡道识别参数
 byte up_fnum=0;
 byte up_unfnum=0;
@@ -61,6 +66,7 @@ byte flag_Rightangle_r=0;                         //l为左转 r为右转
 int RightAngleTime=0;				//检测到直角弯后直跑的时间
 byte flag_BlackRow;
 
+byte StopLine=0;
 //畸变修复偏移量
 byte Offset[ROWS]=	
 {//需要改吗？
@@ -191,6 +197,8 @@ void FindBlackLine(void)
 //	GetTurnPoint();					//再次判断赛道类型
 //	DetectSlope();					//检测坡道
 //	LINFlex_TX(StartFlags);
+
+	DetectStopLine();
 //	ReBuildWeight();				//未用，修复直道入弯
 	TargetOffset();					//目标控制量
 }
@@ -412,6 +420,36 @@ void RebuildLine()	//未用
 		}
 	}
 }
+
+//
+//		
+//void DetectStopLine()
+//{
+//	byte irow,irow4,irowb,irowe,icolumn,count;
+//	irowb=65;irowe=25;
+//		if(RoadType!=Straight)	//直道上检测停车线
+//		return;
+//		for(irow=irowb;irow>=irowe;irow--)
+//		{
+//			count=0;
+//			for(irow4=irow;irow4>=irow-4;irow4--)
+//			{
+//			  for(icolumn=30;icolumn<=50;icolumn++)
+//			  {
+//				if(g_pix[irow][icolumn]&&!g_pix[irow-5][icolumn]&&!g_pix[irow+5][icolumn])
+//					count++;
+//			  }
+//			}
+//			if(count>=5)
+//			{
+//			StopLine=1;
+//			D2=~D2;
+//			return;
+//
+//		}
+//		
+//}
+
 void Analyze_Cross()
 {
 	byte i,irow,irowb,irowe,lr,dis,dis2,num=0,flags=0,maxr,maxc;
@@ -2166,3 +2204,31 @@ void Out_Rightangle()                            //寻找直角 基于双边找�
 //	}
 //	VerticalAngleStraightTime=0;
 //}
+
+void DetectStopLine()
+{
+	byte irow,irow4,irowb,irowe,icolumn,count;
+	irowb=68;irowe=60;
+		//if(RoadType!=Straight)	//直道上检测停车线
+		//return;
+		for(irow=irowb;irow>=irowe;irow--)
+		{
+			count=0;
+			for(irow4=irow;irow4>=irow-4;irow4--)
+			{
+			  for(icolumn=30;icolumn<=50;icolumn++)
+			  {
+				if(!g_pix[irow][icolumn]&&g_pix[irow-5][icolumn]&&g_pix[irow+5][icolumn])
+					count++;
+			  }
+			}
+			if(count>=30)
+			{
+			StopLine=1;
+			D3=~D3;
+			return;
+			}
+
+		}
+		
+}

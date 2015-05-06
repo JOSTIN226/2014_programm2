@@ -122,26 +122,26 @@ void initEMIOS_0MotorAndSteer(void)
 	EMIOS_0.MCR.B.FRZ = 1;    /* Enable stopping channels when in debug mode */
 	
     /* Modulus Up Counter 5kHZ */
-    EMIOS_0.CH[16].CCR.B.UCPRE=0;	/* Set channel prescaler to divide by 1 */
-	EMIOS_0.CH[16].CCR.B.UCPEN = 1;	/* Enable prescaler; uses default divide by 1 */
-	EMIOS_0.CH[16].CCR.B.FREN = 1;	/* Freeze channel counting when in debug mode */
-	EMIOS_0.CH[16].CADR.R = 2000;	/* 设置周期200us 5KHZ */
-	EMIOS_0.CH[16].CCR.B.MODE = 0x50;	/* Modulus Counter Buffered (MCB) */
-	EMIOS_0.CH[16].CCR.B.BSL = 0x3;	/* Use internal counter */
+    EMIOS_0.CH[0].CCR.B.UCPRE=0;	/* Set channel prescaler to divide by 1 */
+	EMIOS_0.CH[0].CCR.B.UCPEN = 1;	/* Enable prescaler; uses default divide by 1 */
+	EMIOS_0.CH[0].CCR.B.FREN = 1;	/* Freeze channel counting when in debug mode */
+	EMIOS_0.CH[0].CADR.R = 2000;	/* 设置周期200us 5KHZ */
+	EMIOS_0.CH[0].CCR.B.MODE = 0x50;	/* Modulus Counter Buffered (MCB) */
+	EMIOS_0.CH[0].CCR.B.BSL = 0x3;	/* Use internal counter */
     /* 前进输出 OPWMB PE5 输出0-2000 */
-	EMIOS_0.CH[21].CCR.B.BSL = 0x1;	/* Use counter bus D (default) */
-	EMIOS_0.CH[21].CCR.B.MODE = 0x60;	/* Mode is OPWM Buffered */
-    EMIOS_0.CH[21].CCR.B.EDPOL = 1;	/* Polarity-leading edge sets output/trailing clears*/
-	EMIOS_0.CH[21].CADR.R = 0;	/* Leading edge when channel counter bus= */
-	EMIOS_0.CH[21].CBDR.R = 0;	/* Trailing edge when channel counter bus= */
-	SIU.PCR[69].R = 0x0600;	/*[11:10]选择AFx 此处AF1 /* MPC56xxS: Assign EMIOS_0 ch 21 to pad */
+	EMIOS_0.CH[6].CCR.B.BSL = 0x1;	/* Use counter bus D (default) */
+	EMIOS_0.CH[6].CCR.B.MODE = 0x60;	/* Mode is OPWM Buffered */
+    EMIOS_0.CH[6].CCR.B.EDPOL = 1;	/* Polarity-leading edge sets output/trailing clears*/
+	EMIOS_0.CH[6].CADR.R = 0;	/* Leading edge when channel counter bus= */
+	EMIOS_0.CH[6].CBDR.R = 0;	/* Trailing edge when channel counter bus= */
+	SIU.PCR[30].R = 0x0600;	/*[11:10]选择AFx 此处AF1 /* MPC56xxS: Assign EMIOS_0 ch 21 to pad */
 	/* 前进输出 OPWMB PE6 输出0-2000 */
-	EMIOS_0.CH[22].CCR.B.BSL = 0x1;
-	EMIOS_0.CH[22].CCR.B.MODE = 0x60;
-    EMIOS_0.CH[22].CCR.B.EDPOL = 1;
-	EMIOS_0.CH[22].CADR.R = 0;
-	EMIOS_0.CH[22].CBDR.R = 0;
-	SIU.PCR[70].R = 0x0600;
+	EMIOS_0.CH[7].CCR.B.BSL = 0x1;
+	EMIOS_0.CH[7].CCR.B.MODE = 0x60;
+    EMIOS_0.CH[7].CCR.B.EDPOL = 1;
+	EMIOS_0.CH[7].CADR.R = 0;
+	EMIOS_0.CH[7].CBDR.R = 0;
+	SIU.PCR[31].R = 0x0600;
 	
     /* Modulus Up Counter 50HZ */
     EMIOS_0.CH[8].CCR.B.UCPRE=3;	/* Set channel prescaler to divide by 4 */
@@ -288,26 +288,26 @@ void init_all_and_POST(void)
 	
 	disable_watchdog();
 	init_modes_and_clock();
-//	initEMIOS_0MotorAndSteer();
-//	initEMIOS_0Image();/* 摄像头输入中断初始化 */
+	initEMIOS_0MotorAndSteer();
+	initEMIOS_0Image();/* 摄像头输入中断初始化 */
 	init_pit();
 	init_led();
 
 	//init_DIP();
-	//init_serial_port_0();
-	//init_serial_port_1();
+	init_serial_port_0();
+	init_serial_port_1();
 	//init_serial_port_2();
 	//init_ADC();
 	//init_serial_port_3();
-	//init_supersonic_receive_0();
-	//init_supersonic_receive_1();
-	//init_supersonic_receive_2();
-	//init_supersonic_receive_3();
-	init_supersonic_trigger_0_2();
-	//init_supersonic_trigger_1();
-	//init_supersonic_trigger_2();
-	//init_supersonic_trigger_3();
-	//init_optical_encoder();
+//	init_supersonic_receive_0();
+//	init_supersonic_receive_1();
+//	init_supersonic_receive_2();
+//	init_supersonic_receive_3();
+//	init_supersonic_trigger_0_2();
+//	init_supersonic_trigger_1();
+//	init_supersonic_trigger_2();
+//	init_supersonic_trigger_3();
+	init_optical_encoder();
 	//init_DSPI_2();
 	//init_I2C();
 	
@@ -327,7 +327,7 @@ void init_all_and_POST(void)
 	delay_ms(50);
 	LCD_Fill(0x00);	/* 黑屏 */
 	delay_ms(50);
-#if 0	
+#if 1	
 	/* 初始化TF卡 */
 
 	LCD_P8x16Str(0,0, (BYTE*)"TF..");
@@ -415,7 +415,7 @@ void init_all_and_POST(void)
 	LCD_Fill(0x00);
 
 	/* 速度闭环测试 */
-#if 0	
+#if 1	
 	g_f_enable_speed_control = 1;
 	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");
 	set_speed_target(0);

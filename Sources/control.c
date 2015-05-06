@@ -9,6 +9,7 @@ int speed = 0;
 int update_steer_helm_basement_to_steer_helm(void);
 int g_f_big_U=0;
 int g_f_big_U_2=0;
+int counter=0;
 
 
 /*-----------------------------------------------------------------------*/
@@ -21,7 +22,7 @@ int g_f_big_U_2=0;
 void PitISR(void)
 {
 	g_f_pit = 1;
-	D0=~D0;
+	//D0=~D0;
 	g_time_basis_PIT++;	/* 计时 */
 #if 1	
 
@@ -47,9 +48,8 @@ void PitISR(void)
 	}
 	if (g_f_enable_supersonic)
 	{
-		D5=~D5;
-		supersonic_trigger_0_2();
-		//LCD_PrintoutInt(48, 4, tmp_time.R);
+			supersonic_trigger_0_2();
+			D0=~D0;
 	}
 #if 0
 	/* 发送位置 */
@@ -60,7 +60,7 @@ void PitISR(void)
 		generate_remote_frame(WIFI_CMD_NET, data, sizeof(data));
 	}
 #endif
-	D3=~D3;
+	//D3=~D3;
 	EMIOS_0.CH[3].CSR.B.FLAG = 1;//清场中断标志位
 	PIT.CH[1].TFLG.B.TIF = 1;	// MPC56xxB/P/S: Clear PIT 1 flag by writing 1
 }

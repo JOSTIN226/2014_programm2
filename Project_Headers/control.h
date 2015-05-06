@@ -43,6 +43,8 @@ extern int find_mag_back_car1;
 
 extern int g_f_big_U;
 extern int g_f_big_U_2;
+extern int counter;
+
 
 /* 时间基准 */
 #ifdef __CONTROL_C_

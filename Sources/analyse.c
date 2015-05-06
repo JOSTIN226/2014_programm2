@@ -189,12 +189,14 @@ void FindBlackLine(void)
 	AnalyzeRoadType();				//分析赛道类型
 
 //	GetTurnPoint();					//再次判断赛道类型
-	DetectSlope();					//检测坡道
+//	DetectSlope();					//检测坡道
 //	LINFlex_TX(StartFlags);
-	
 //	ReBuildWeight();				//未用，修复直道入弯
 	TargetOffset();					//目标控制量
 }
+
+
+
 //*   *********************找线初始化*********************************    *
 void Line_Init(byte lr) //√（初始化找线变量）
 {

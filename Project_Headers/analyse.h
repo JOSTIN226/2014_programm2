@@ -72,6 +72,7 @@ extern byte flag_Rightangle_r;                          //l为左转 r为右转
 extern int RightAngleTime;					//检测到直角弯后直跑的时间
 extern byte flag_BlackRow;
 
+
 void FindBlackLine(void);
 void Line_Init(byte lr);
 void BlackLine_Init(byte lr,byte irowb,byte irowe);
@@ -99,6 +100,7 @@ void GetTurnPoint();
 void GetCenterLine();
 void DetectSlope();
 void DetectUpSlope();
+void DetectStopLine();
 void DetectDownSlope();
 void ReBuildWeight();
 
@@ -128,4 +130,5 @@ void NearOffset();
 void MidOffset();
 void FarOffset();
 
+//byte StopLine;
 #endif /* ANALYSE_H_ */

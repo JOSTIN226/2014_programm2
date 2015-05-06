@@ -60,7 +60,6 @@ void PitISR(void)
 		generate_remote_frame(WIFI_CMD_NET, data, sizeof(data));
 	}
 #endif
-	D3=~D3;
 	EMIOS_0.CH[3].CSR.B.FLAG = 1;//清场中断标志位
 	PIT.CH[1].TFLG.B.TIF = 1;	// MPC56xxB/P/S: Clear PIT 1 flag by writing 1
 }

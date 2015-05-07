@@ -307,7 +307,7 @@ void init_all_and_POST(void)
 //	init_supersonic_trigger_1();
 //	init_supersonic_trigger_2();
 //	init_supersonic_trigger_3();
-	init_optical_encoder();
+//	init_optical_encoder();
 
 	//init_DSPI_2();
 	//init_I2C();

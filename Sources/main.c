@@ -22,7 +22,7 @@ void main(void)
 	for (;;)
 	{
 
-#if 0
+#if 1
 		/* 执行远程命令 */
 		if (REMOTE_FRAME_STATE_OK == g_remote_frame_state)
 		{
@@ -35,7 +35,7 @@ void main(void)
 		//control_car_action();
 
 		/* 报告在线 */
-		report_online();
+		//report_online();
 #endif
 #if 1
 		if(fieldover)

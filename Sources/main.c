@@ -46,7 +46,7 @@ void main(void)
 			fieldover=0;
 			FindBlackLine();
 			Display_Video();
-			//serial_port_1_TX(RoadType);
+			serial_port_1_TX(RoadType);
 			if(target_offset<0)
 				LCD_write_english_string(96,1,"-");
 			else LCD_write_english_string(96,1,"+");

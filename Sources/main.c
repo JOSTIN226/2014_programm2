@@ -6,7 +6,8 @@
 void main(void)
 {
 	//int flag = 1;
-	
+	byte croadtype;
+	croadtype=0;
 	init_all_and_POST();
 	SetupCCD();	
 	g_f_enable_speed_control=0;
@@ -22,7 +23,7 @@ void main(void)
 	for (;;)
 	{
 
-#if 1
+#if 0
 		/* 执行远程命令 */
 		if (REMOTE_FRAME_STATE_OK == g_remote_frame_state)
 		{
@@ -46,13 +47,17 @@ void main(void)
 			fieldover=0;
 			FindBlackLine();
 			Display_Video();
-			serial_port_1_TX(RoadType);
+			if(RoadType!=croadtype)
+			{
+				serial_port_1_TX(RoadType);
+				croadtype=RoadType;
+			}
 			if(target_offset<0)
 				LCD_write_english_string(96,1,"-");
 			else LCD_write_english_string(96,1,"+");
 			LCD_Write_Num(105,1,ABS(target_offset),2);
-			LCD_Write_Num(105,1,RoadType,2);
-			//Send_CCD_Video();
+			LCD_Write_Num(105,6,RoadType,2);
+			Send_CCD_Video();
 			SteerControl();
 			//write_camera_data_to_TF();
 			EMIOS_0.CH[3].CSR.B.FLAG = 1;

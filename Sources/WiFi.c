@@ -191,6 +191,7 @@ int rev_remote_frame_2(BYTE rev)
 /*        cmd WiFi命令字                                                 */
 /*        length data长度                                                */
 /*        data发出的数据体，接在cmd后                                    */
+/*			校验位是BB之后的所有异或 长度包括命令字和数据   */
 /*-----------------------------------------------------------------------*/
 void generate_remote_frame_2(BYTE scr, BYTE des, WORD cmd, BYTE length, const BYTE data[])
 {

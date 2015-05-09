@@ -7,7 +7,7 @@ word crow = 0;           //行数计数器
 byte prow = 0;  	  	    //摄像头采样当前行
 byte pcolumn = 0;        //摄像头当前列
 
-byte RowSAIC_DelayTime=88;   //图像延时时间82//43
+byte RowSAIC_DelayTime=76;   //图像延时时间82//43
 
 //采样结束标志
 byte fieldover = 0;                //一场采样结束标志符 

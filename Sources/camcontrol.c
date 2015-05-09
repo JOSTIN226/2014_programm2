@@ -33,7 +33,7 @@ void SteerControl()
 	//*1***********出错图像角度控制,输出为前三次平均值**************
 	if(RoadType==NoLine||RoadType==Wrong) {
 		Steer_PWM[3]=(Steer_PWM[2]+Steer_PWM[1])/2;
-		set_steer_helm_basement(Steer_PWM[3]);
+		set_steer_helm(Steer_PWM[3]);
 		//存舵机值
 		Steer_PWM[0]=Steer_PWM[1];Steer_PWM[1]=Steer_PWM[2];Steer_PWM[2]=Steer_PWM[3];
 		return;
@@ -42,8 +42,8 @@ void SteerControl()
 //	if(Slope==1)					{Steer_kp=10;Steer_kd=5;}
 //	else if(Slope==2)				{Steer_kp=8;Steer_kd=5;}
 	
-	if(ABS(target_offset)<6) 	{Steer_kp=5;Steer_kd=5;}
-	else if(ABS(target_offset)<26)  {Steer_kp=15.2+target_offset*target_offset/100;Steer_kd=10;}
+	if(ABS(target_offset)<4) 	{Steer_kp=5;Steer_kd=5;}
+	else if(ABS(target_offset)<20)  {Steer_kp=15.2+target_offset*target_offset/100;Steer_kd=10;}
 	else {Steer_kp=15.8+target_offset*target_offset/500;Steer_kd=5;}
 
 

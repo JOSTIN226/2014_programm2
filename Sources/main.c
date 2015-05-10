@@ -10,7 +10,7 @@ void main(void)
 	init_all_and_POST();
 	SetupCCD();	
 	g_f_enable_speed_control=0;//关速度闭环
-	g_f_enable_supersonic=1;//开超声标志位
+	g_f_enable_supersonic=0;//关超声标志位
 	set_speed_pwm(150);
 
 	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断

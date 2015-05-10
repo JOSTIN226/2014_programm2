@@ -46,10 +46,10 @@ extern void init_supersonic_receive_2(void);
 extern void init_supersonic_receive_3(void);
 
 
-extern void intc_get_supersonic_time_0(void);
-extern void intc_get_supersonic_time_1(void);
-extern void intc_get_supersonic_time_2(void);
-extern void intc_get_supersonic_time_3(void);
+extern void get_supersonic_time_0(void);
+extern void get_supersonic_time_1(void);
+extern void get_supersonic_time_2(void);
+extern void get_supersonic_time_3(void);
 
 extern void init_supersonic_trigger_0_2(void);
 extern void supersonic_trigger_0_2(void);

@@ -10,6 +10,7 @@ int update_steer_helm_basement_to_steer_helm(void);
 int g_f_big_U=0;
 int g_f_big_U_2=0;
 int counter=0;
+DWORD tmp_a, tmp_b;
 
 
 /*-----------------------------------------------------------------------*/
@@ -24,6 +25,7 @@ void PitISR(void)
 	g_f_pit = 1;
 	//D0=~D0;
 	g_time_basis_PIT++;	/* 计时 */
+	counter++;
 #if 0	
 
 	/* start:encoder */
@@ -39,17 +41,23 @@ void PitISR(void)
 		data_encoder.speed_now = 0xffff - (data_encoder.cnt_old - data_encoder.cnt_new);
 	}
 	/* end:encoder */
-#endif
+
 	/* 开始执行速度控制算法 */
 	if (g_f_enable_speed_control)
 	{
 		//SpeedControl();//不同路段PID,尚未调,不可用
 		contorl_speed_encoder_pid();
 	}
-	if (g_f_enable_supersonic)
+#endif	
+	if(counter==3)
 	{
-			supersonic_trigger_0_2();
-			D0=~D0;
+		if (g_f_enable_supersonic)
+		{
+			trigger_supersonic_0();
+			get_supersonic_time_0();
+			LCD_Write_Num(96,6,ABS((WORD)(tmp_time.R)),5);
+		}
+		counter=0;
 	}
 #if 0
 	/* 发送位置 */

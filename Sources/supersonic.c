@@ -16,11 +16,10 @@ void init_supersonic_trigger_0(void)
 	EMIOS_0.CH[0].CADR.B;
 	SIU.PCR[0].R =0x0603;	//trigger A0 65us
 	
-	EMIOS_0.CH[0].CADR.B.CADR = 0x0000ff;
+	EMIOS_0.CH[0].CADR.B.CADR = 0x00ff;
 	
 	EMIOS_0.CH[0].CCR.B.MODE = 0x03;
-	//tmp_time.R = 0x00000000;
-	
+	tmp_time.R = 0x0000;
 }
 
 void init_supersonic_trigger_1(void)
@@ -36,7 +35,7 @@ void init_supersonic_trigger_1(void)
 	EMIOS_0.CH[2].CADR.B;
 	SIU.PCR[2].R =0x0603;	//trigger A2
 	
-	EMIOS_0.CH[2].CADR.B.CADR = 0x0000ff;
+	EMIOS_0.CH[2].CADR.B.CADR = 0x00ff;
 	
 	EMIOS_0.CH[2].CCR.B.MODE = 0x03;
 }
@@ -74,22 +73,22 @@ void init_supersonic_trigger_3(void)
 	EMIOS_0.CH[6].CADR.B;
 	SIU.PCR[6].R =0x0603;	//trigger A6
 	
-	EMIOS_0.CH[6].CADR.B.CADR = 0x0000ff;
+	EMIOS_0.CH[6].CADR.B.CADR = 0x00ff;
 	
 	EMIOS_0.CH[6].CCR.B.MODE = 0x03;
 }
 
-void init_supersonic_trigger_0_2(void)
-{
-	SIU.PCR[0].R =0x0203;	//GPIO
-}
-void supersonic_trigger_0_2(void)
-{
-	SIU.GPDO[0].B.PDO=1;
-	delay_us(50);
-	SIU.GPDO[0].B.PDO=0;
-	//tmp_time.R = 0x00000000;
-}
+//void init_supersonic_trigger_0_2(void)
+//{
+//	SIU.PCR[0].R =0x0203;	//GPIO
+//}
+//void supersonic_trigger_0_2(void)
+//{
+//	SIU.GPDO[0].B.PDO=1;
+//	delay_us(50);
+//	SIU.GPDO[0].B.PDO=0;
+//	//tmp_time.R = 0x00000000;
+//}
 void init_supersonic_receive_0(void)
 {
 	EMIOS_0.CH[1].CCR.B.MODE = 0x04; // Mode is Input Pulse Width Measurement 
@@ -98,11 +97,12 @@ void init_supersonic_receive_0(void)
 	EMIOS_0.CH[1].CCR.B.UCPEN = 1;	//Enable prescaler; uses default divide by 1
 	EMIOS_0.CH[1].CCR.B.FREN = 0;	//Freeze channel counting when in debug mode
 	EMIOS_0.CH[1].CCR.B.EDPOL=1; //Edge Select rising edge
-	EMIOS_0.CH[1].CCR.B.FEN=1;  //interupt enbale
+//	EMIOS_0.CH[1].CCR.B.FEN=1;  //interupt enbale
 
-	SIU.PCR[1].R = 0x0100;  //E PA1
-	INTC_InstallINTCInterruptHandler(intc_get_supersonic_time_0, 141, 4);
+	SIU.PCR[1].R = 0x0102;  //E PA1
+//	INTC_InstallINTCInterruptHandler(intc_get_supersonic_time_0, 141, 4);
 }
+
 
 void init_supersonic_receive_1(void)
 {
@@ -112,10 +112,10 @@ void init_supersonic_receive_1(void)
 	EMIOS_0.CH[3].CCR.B.UCPEN = 1;	//Enable prescaler; uses default divide by 1
 	EMIOS_0.CH[3].CCR.B.FREN = 0;	//Freeze channel counting when in debug mode
 	EMIOS_0.CH[3].CCR.B.EDPOL=1; //Edge Select rising edge
-	EMIOS_0.CH[3].CCR.B.FEN=1;  //interupt enbale
+//	EMIOS_0.CH[3].CCR.B.FEN=1;  //interupt enbale
 
-	SIU.PCR[3].R = 0x0100;  //E PA3
-	INTC_InstallINTCInterruptHandler(intc_get_supersonic_time_1, 142, 4);
+	SIU.PCR[3].R = 0x0102;  //E PA3
+//	INTC_InstallINTCInterruptHandler(intc_get_supersonic_time_1, 142, 4);
 }
 
 
@@ -127,10 +127,10 @@ void init_supersonic_receive_2(void)
 	EMIOS_0.CH[5].CCR.B.UCPEN = 1;	//Enable prescaler; uses default divide by 1
 	EMIOS_0.CH[5].CCR.B.FREN = 0;	//Freeze channel counting when in debug mode
 	EMIOS_0.CH[5].CCR.B.EDPOL=1; //Edge Select rising edge
-	EMIOS_0.CH[5].CCR.B.FEN=1;  //interupt enbale
+//	EMIOS_0.CH[5].CCR.B.FEN=1;  //interupt enbale
 
-	SIU.PCR[5].R = 0x0100;  //E PA5
-	INTC_InstallINTCInterruptHandler(intc_get_supersonic_time_2, 143, 4);
+	SIU.PCR[5].R = 0x0102;  //E PA5
+//	INTC_InstallINTCInterruptHandler(intc_get_supersonic_time_2, 143, 4);
 }
 
 
@@ -142,10 +142,10 @@ void init_supersonic_receive_3(void)
 	EMIOS_0.CH[7].CCR.B.UCPEN = 1;	//Enable prescaler; uses default divide by 1
 	EMIOS_0.CH[7].CCR.B.FREN = 0;	//Freeze channel counting when in debug mode
 	EMIOS_0.CH[7].CCR.B.EDPOL=1; //Edge Select rising edge
-	EMIOS_0.CH[7].CCR.B.FEN=1;  //interupt enbale
+//	EMIOS_0.CH[7].CCR.B.FEN=1;  //interupt enbale
 
-	SIU.PCR[7].R = 0x0100;  //E PA7
-	INTC_InstallINTCInterruptHandler(intc_get_supersonic_time_3, 144, 4);
+	SIU.PCR[7].R = 0x0102;  //E PA7
+//	INTC_InstallINTCInterruptHandler(intc_get_supersonic_time_3, 144, 4);
 }
 
 void trigger_supersonic_0(void)
@@ -153,6 +153,7 @@ void trigger_supersonic_0(void)
 	EMIOS_0.CH[0].CCR.B.MODE = 0x01;
 	EMIOS_0.CH[0].CCR.B.MODE = 0x03;
 }
+
 void trigger_supersonic_1(void)
 {
 	EMIOS_0.CH[2].CCR.B.MODE = 0x01;
@@ -174,147 +175,57 @@ void trigger_supersonic_3(void)
 }
 
 
-void intc_get_supersonic_time_0(void)
+void get_supersonic_time_0(void)
 {
-//	DWORD tmp_a, tmp_b;
-//	D5=~D5;
-//	a++;
-//	tmp_a = EMIOS_0.CH[1].CADR.R;
-//	tmp_b = EMIOS_0.CH[1].CBDR.R;
-//
-//	LCD_PrintoutInt(40, 2, EMIOS_0.CH[1].CADR.R);
-//	LCD_PrintoutInt(40, 4, EMIOS_0.CH[1].CBDR.R);
-//	LCD_PrintoutInt(40, 6, a);
+	DWORD tmp_a, tmp_b;
+	
+	tmp_a = EMIOS_0.CH[1].CADR.B.CADR;
+	tmp_b = EMIOS_0.CH[1].CBDR.B.CBDR;
+	
+	tmp_time.R = tmp_a - tmp_b;
 //	if(tmp_a >= tmp_b)
 //	{
 //		tmp_time.R = tmp_a - tmp_b;
 //	}
 //	else
 //	{
-//		tmp_time.R = 0x00ffffff - tmp_b + tmp_a;
+//		tmp_time.R = 0xffff - tmp_b + tmp_a;
 //	}
 //	
 //	EMIOS_0.CH[1].CSR.B.FLAG = 1;	//清除中断标志位
-	DWORD tmp_a, tmp_b;
-		union {
-			DWORD R;
-			struct {
-				BYTE byte_0;
-				BYTE byte_1;
-				BYTE byte_2;
-				BYTE byte_3;
-			} B;
-		} tmp_time;
-		//D3=~D3;
-		tmp_time.R = 0x00000000;	//躲过未初始化警告
-		tmp_a = EMIOS_0.CH[1].CADR.R;
-		tmp_b = EMIOS_0.CH[1].CBDR.R;
-		serial_port_1_TX(EMIOS_0.CH[1].CADR.R);
-		serial_port_1_TX(EMIOS_0.CH[1].CBDR.R);
-		if(tmp_a >= tmp_b)
-		{
-			tmp_time.R = tmp_a - tmp_b;
-		}
-		else
-		{
-			tmp_time.R = 0x00ffffff - tmp_b + tmp_a;
-		}
-		
-		EMIOS_0.CH[1].CSR.B.FLAG = 1;	//清除中断标志位
 
 }
 
-void intc_get_supersonic_time_1(void)
+void get_supersonic_time_1(void)
 {
 	DWORD tmp_a, tmp_b;
-	union {
-		DWORD R;
-		struct {
-			BYTE byte_0;
-			BYTE byte_1;
-			BYTE byte_2;
-			BYTE byte_3;
-		} B;
-	} tmp_time;
 	
-	tmp_time.R = 0x00000000;
-	tmp_a = EMIOS_0.CH[3].CADR.R;
-	tmp_b = EMIOS_0.CH[3].CBDR.R;
-	LCD_PrintoutInt(40, 2, EMIOS_0.CH[3].CADR.R);
-	LCD_PrintoutInt(40, 4, EMIOS_0.CH[3].CBDR.R);
+	tmp_a = EMIOS_0.CH[3].CADR.B.CADR;
+	tmp_b = EMIOS_0.CH[3].CBDR.B.CBDR;
 	
-	if(tmp_a >= tmp_b)
-	{
-		tmp_time.R = tmp_a - tmp_b;
-	}
-	else
-	{
-		tmp_time.R = 0x00ffffff - tmp_b + tmp_a;
-	}
-	
-	EMIOS_0.CH[3].CSR.B.FLAG = 1;
+	tmp_time.R = tmp_a - tmp_b;
 }
 
 
-void intc_get_supersonic_time_2(void)
+void get_supersonic_time_2(void)
 {
 	DWORD tmp_a, tmp_b;
-	union {
-		DWORD R;
-		struct {
-			BYTE byte_0;
-			BYTE byte_1;
-			BYTE byte_2;
-			BYTE byte_3;
-		} B;
-	} tmp_time;
-	
-	tmp_time.R = 0x00000000;
+
 	tmp_a = EMIOS_0.CH[5].CADR.R;
 	tmp_b = EMIOS_0.CH[5].CBDR.R;
-	LCD_PrintoutInt(40, 2, EMIOS_0.CH[5].CADR.R);
-	LCD_PrintoutInt(40, 4, EMIOS_0.CH[5].CBDR.R);
 	
-	if(tmp_a >= tmp_b)
-	{
-		tmp_time.R = tmp_a - tmp_b;
-	}
-	else
-	{
-		tmp_time.R = 0x00ffffff - tmp_b + tmp_a;
-	}
-	
-	EMIOS_0.CH[5].CSR.B.FLAG = 1;
+	tmp_time.R = tmp_a - tmp_b;
+
 }
 
 
-void intc_get_supersonic_time_3(void)
+void get_supersonic_time_3(void)
 {
 	DWORD tmp_a, tmp_b;
-	union {
-		DWORD R;
-		struct {
-			BYTE byte_0;
-			BYTE byte_1;
-			BYTE byte_2;
-			BYTE byte_3;
-		} B;
-	} tmp_time;
-	
-	tmp_time.R = 0x00000000;
+
 	tmp_a = EMIOS_0.CH[7].CADR.R;
 	tmp_b = EMIOS_0.CH[7].CBDR.R;
-	LCD_PrintoutInt(40, 2, EMIOS_0.CH[7].CADR.R);
-	LCD_PrintoutInt(40, 4, EMIOS_0.CH[7].CBDR.R);
-	
-	if(tmp_a >= tmp_b)
-	{
-		tmp_time.R = tmp_a - tmp_b;
-	}
-	else
-	{
-		tmp_time.R = 0x00ffffff - tmp_b + tmp_a;
-	}
-	
-	EMIOS_0.CH[7].CSR.B.FLAG = 1;
+
+	tmp_time.R = tmp_a - tmp_b;
+
 }

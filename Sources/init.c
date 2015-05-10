@@ -299,11 +299,11 @@ void init_all_and_POST(void)
 	//init_serial_port_2();
 	//init_ADC();
 	//init_serial_port_3();
-//	init_supersonic_receive_0();
+	init_supersonic_receive_0();
 //	init_supersonic_receive_1();
 //	init_supersonic_receive_2();
 //	init_supersonic_receive_3();
-//	init_supersonic_trigger_0_2();
+	init_supersonic_trigger_0();
 //	init_supersonic_trigger_1();
 //	init_supersonic_trigger_2();
 //	init_supersonic_trigger_3();

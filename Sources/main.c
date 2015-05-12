@@ -33,7 +33,7 @@ void main(void)
 		}
 
 		/* 整车动作控制 */
-		//control_car_action();
+		control_car_action();
 
 		/* 报告在线 */
 		//report_online();

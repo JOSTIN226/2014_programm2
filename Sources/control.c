@@ -3,6 +3,7 @@
 
 
 int g_f_pit = 0;
+int g_f_enable_mag_steer_control = 0;
 int g_f_enable_speed_control = 0;	/* 启用速度控制标志位 */
 int g_f_enable_supersonic=0;	/* 启用超声探测标志位 */
 int speed = 0;
@@ -351,3 +352,11 @@ int abs(int data)
 	return data;
 }
 #endif
+/*-----------------------------------------------------------------------*/
+/* 拨码开关模式选择                                                */
+/*                                                              */
+/*-----------------------------------------------------------------------*/
+//void ChooseMode(void)
+//{
+//	mode=15-(switch1*8+switch2*4+switch3*2+switch4);
+//}

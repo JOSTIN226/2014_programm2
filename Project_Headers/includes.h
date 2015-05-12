@@ -62,12 +62,19 @@ typedef unsigned short word;
 
 
 ///****************LED&LIGHT****************///
+#if 0
 #define D0 SIU.GPDO[40].B.PDO
 #define D1 SIU.GPDO[45].B.PDO
 #define D2 SIU.GPDO[44].B.PDO
 #define D3 SIU.GPDO[71].B.PDO
-#define D5 SIU.GPDO[12].B.PDO//old板子
-#define D6 SIU.GPDO[13].B.PDO
+#endif
+
+#if 1
+#define D0 SIU.GPDO[12].B.PDO//old板子
+#define D1 SIU.GPDO[13].B.PDO
+#define D2 SIU.GPDO[14].B.PDO
+#define D3 SIU.GPDO[15].B.PDO
+#endif
 
 
 

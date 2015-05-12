@@ -6,7 +6,7 @@
 void main(void)
 {
 	//int flag = 1;
-	byte croadtype;
+	byte croadtype;//此前前道路类型
 	croadtype=0;
 	init_all_and_POST();
 	//SetupCCD();	
@@ -17,6 +17,11 @@ void main(void)
 	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 	LCD_write_english_string(96,0,"T");
 	LCD_write_english_string(96,2,"R");
+	D0=0;
+	D1=0;
+	D2=0;
+	D3=0;
+
 
 	/* Loop forever */
 		
@@ -33,7 +38,7 @@ void main(void)
 		}
 
 		/* 整车动作控制 */
-		//control_car_action();
+		control_car_action();
 
 		/* 报告在线 */
 		//report_online();

@@ -7,7 +7,7 @@ int g_remote_frame_cnt = 0;
 int g_start_all=0;
 BYTE remote_frame_data[REMOTE_FRAME_LENGTH];
 BYTE remote_frame_data_send[REMOTE_FRAME_LENGTH];
-BYTE g_device_NO = WIFI_ADDRESS_CAR_1;	/* 设备号 即WiFi地址 */
+BYTE g_device_NO = WIFI_ADDRESS_CAR_2;	/* 设备号 即WiFi地址 */
 
 
 /*-----------------------------------------------------------------------*/

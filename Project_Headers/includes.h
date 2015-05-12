@@ -71,10 +71,10 @@ typedef unsigned short word;
 
 
 
-#define LeftL SIU.GPDO[26].B.PDO
-#define RightL SIU.GPDO[27].B.PDO
-#define RunL SIU.GPDO[30].B.PDO
-#define StopL SIU.GPDO[31].B.PDO
+#define LeftL SIU.GPDO[16].B.PDO
+#define RightL SIU.GPDO[17].B.PDO
+#define RunL SIU.GPDO[72].B.PDO
+#define StopL SIU.GPDO[73].B.PDO
 
 /***************DIP*****************/
 #define switch1 SIU.GPDI[56].R

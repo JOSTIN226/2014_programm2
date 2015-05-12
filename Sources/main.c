@@ -9,10 +9,10 @@ void main(void)
 	byte croadtype;
 	croadtype=0;
 	init_all_and_POST();
-	SetupCCD();	
-	g_f_enable_speed_control=0;//关速度闭环
+	//SetupCCD();	
+//	g_f_enable_speed_control=0;//关速度闭环
 	g_f_enable_supersonic=0;//关超声标志位
-	set_speed_pwm(150);
+	set_speed_target(30);
 
 	EMIOS_0.CH[3].CCR.B.FEN=1;//开场中断
 	LCD_write_english_string(96,0,"T");
@@ -23,7 +23,7 @@ void main(void)
 	for (;;)
 	{
 
-#if 0
+#if 1
 		/* 执行远程命令 */
 		if (REMOTE_FRAME_STATE_OK == g_remote_frame_state)
 		{
@@ -58,7 +58,7 @@ void main(void)
 			LCD_Write_Num(105,1,ABS(target_offset),2);
 			LCD_Write_Num(105,2,RoadType,2);
 			
-			Send_CCD_Video();
+			//Send_CCD_Video();
 			
 			SteerControl();
 			

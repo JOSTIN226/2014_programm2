@@ -25,8 +25,7 @@ void PitISR(void)
 	g_f_pit = 1;
 	//D0=~D0;
 	g_time_basis_PIT++;	/* 计时 */
-	counter++;
-#if 0	
+	counter++;	
 
 	/* start:encoder */
 	data_encoder.is_forward = SIU.GPDI[46].B.PDI;//PC14
@@ -48,7 +47,6 @@ void PitISR(void)
 		//SpeedControl();//不同路段PID,尚未调,不可用
 		contorl_speed_encoder_pid();
 	}
-#endif	
 	if(counter==3)
 	{
 		if (g_f_enable_supersonic)
@@ -85,8 +83,8 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 		{
 			speed_pwm = SPEED_PWM_MAX;
 		}
-		EMIOS_0.CH[17].CBDR.R = speed_pwm;
-		EMIOS_0.CH[18].CBDR.R = 1;
+		EMIOS_0.CH[21].CBDR.R = speed_pwm;
+		EMIOS_0.CH[22].CBDR.R = 1;
 		
 	}
 	else if (speed_pwm<0)	//backward
@@ -97,13 +95,13 @@ void set_speed_pwm(int16_t speed_pwm)	//speed_pwm正为向前，负为向后
 			speed_pwm = SPEED_PWM_MAX;
 		}
 
-		EMIOS_0.CH[17].CBDR.R = 1;
-		EMIOS_0.CH[18].CBDR.R = speed_pwm;	
+		EMIOS_0.CH[21].CBDR.R = 1;
+		EMIOS_0.CH[22].CBDR.R = speed_pwm;	
 	}
 	else
 	{
-		EMIOS_0.CH[17].CBDR.R = 1;
-		EMIOS_0.CH[18].CBDR.R = 1;	
+		EMIOS_0.CH[21].CBDR.R = 1;
+		EMIOS_0.CH[22].CBDR.R = 1;	
 	}
 }
 

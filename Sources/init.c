@@ -57,9 +57,8 @@ void init_led(void)
   	SIU.PCR[45].R = 0x0203; /* PC13 */
  	SIU.PCR[44].R = 0x0203; /* PC12 */
 	SIU.PCR[71].R = 0x0203;	/* PE7  */
-	SIU.PCR[12].R = 0x0203;	/* ban  */
 
-#if 0
+#if 1
 	//第二版车灯
  	SIU.PCR[16].R = 0x0203;	/* PB0  */
   	SIU.PCR[17].R = 0x0203; /* PB1 */
@@ -76,12 +75,12 @@ void init_led(void)
 	D1 = 1;
 	D2 = 1;
 	D3 = 1;
-	D5=1;
-
-//	LeftL = 0;	/* 0=熄灭 */
-//	RightL = 0;
-//	StopL = 0;
-//	RunL = 0;
+	D5 = 1;
+//车灯全亮
+	LeftL = 1;	/* 0=熄灭 */
+	RightL = 1;
+	StopL = 1;
+	RunL = 1;
 }
 
 
@@ -129,19 +128,19 @@ void initEMIOS_0MotorAndSteer(void)
 	EMIOS_0.CH[16].CCR.B.MODE = 0x50;	/* Modulus Counter Buffered (MCB) */
 	EMIOS_0.CH[16].CCR.B.BSL = 0x3;	/* Use internal counter */
     /* 前进输出 OPWMB PE5 输出0-2000 */
-	EMIOS_0.CH[17].CCR.B.BSL = 0x1;	/* Use counter bus D (default) */
-	EMIOS_0.CH[17].CCR.B.MODE = 0x60;	/* Mode is OPWM Buffered */
-    EMIOS_0.CH[17].CCR.B.EDPOL = 1;	/* Polarity-leading edge sets output/trailing clears*/
-	EMIOS_0.CH[17].CADR.R = 0;	/* Leading edge when channel counter bus= */
-	EMIOS_0.CH[17].CBDR.R = 0;	/* Trailing edge when channel counter bus= */
-	SIU.PCR[65].R = 0x0600;	/*[11:10]选择AFx 此处AF1 /* MPC56xxS: Assign EMIOS_0 ch 21 to pad */
+	EMIOS_0.CH[21].CCR.B.BSL = 0x1;	/* Use counter bus D (default) */
+	EMIOS_0.CH[21].CCR.B.MODE = 0x60;	/* Mode is OPWM Buffered */
+    EMIOS_0.CH[21].CCR.B.EDPOL = 1;	/* Polarity-leading edge sets output/trailing clears*/
+	EMIOS_0.CH[21].CADR.R = 0;	/* Leading edge when channel counter bus= */
+	EMIOS_0.CH[21].CBDR.R = 0;	/* Trailing edge when channel counter bus= */
+	SIU.PCR[69].R = 0x0600;	/*[11:10]选择AFx 此处AF1 /* MPC56xxS: Assign EMIOS_0 ch 21 to pad */
 	/* 前进输出 OPWMB PE6 输出0-2000 */
-	EMIOS_0.CH[18].CCR.B.BSL = 0x1;
-	EMIOS_0.CH[18].CCR.B.MODE = 0x60;
-    EMIOS_0.CH[18].CCR.B.EDPOL = 1;
-	EMIOS_0.CH[18].CADR.R = 0;
-	EMIOS_0.CH[18].CBDR.R = 0;
-	SIU.PCR[66].R = 0x0600;
+	EMIOS_0.CH[22].CCR.B.BSL = 0x1;
+	EMIOS_0.CH[22].CCR.B.MODE = 0x60;
+    EMIOS_0.CH[22].CCR.B.EDPOL = 1;
+	EMIOS_0.CH[22].CADR.R = 0;
+	EMIOS_0.CH[22].CBDR.R = 0;
+	SIU.PCR[70].R = 0x0600;
 	
     /* Modulus Up Counter 50HZ */
     EMIOS_0.CH[8].CCR.B.UCPRE=3;	/* Set channel prescaler to divide by 4 */
@@ -238,7 +237,7 @@ void init_optical_encoder(void)	//PD12模数计数器入口，上升沿
 	EMIOS_0.CH[24].CCR.B.EDPOL=1;	/* Edge Select rising edge */
 	EMIOS_0.CH[24].CADR.R=0xffff;
 	/* (WORD)EMIOS_0.CH[15].CCNTR.R 数据寄存器 */
-	SIU.PCR[47].R = 0x0500;	/* Initialize pad for eMIOS channel Initialize pad for input */
+	SIU.PCR[60].R = 0x0500;	/* Initialize pad for eMIOS channel Initialize pad for input */
 
 	
 	/* 方向部分 PC14 */
@@ -307,7 +306,7 @@ void init_all_and_POST(void)
 //	init_supersonic_trigger_1();
 //	init_supersonic_trigger_2();
 //	init_supersonic_trigger_3();
-//	init_optical_encoder();
+	init_optical_encoder();
 
 	//init_DSPI_2();
 	//init_I2C();

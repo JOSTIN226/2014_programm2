@@ -10,7 +10,7 @@
 #define COLUMN (82)
 #define COLUMNS (83)
 
-
+extern BYTE croadtype;
 
 extern void FieldInputCapture(void);
 extern void RowInputCapture(void);

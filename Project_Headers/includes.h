@@ -61,26 +61,27 @@ typedef unsigned short word;
 
 
 
-///****************LED&LIGHT****************///
+///****************第一版LED****************///
 #define D0 SIU.GPDO[40].B.PDO
 #define D1 SIU.GPDO[45].B.PDO
 #define D2 SIU.GPDO[44].B.PDO
 #define D3 SIU.GPDO[71].B.PDO
-#define D5 SIU.GPDO[12].B.PDO//old板子
+
+///****************第二版载LED&车灯****************///
+#define D5 SIU.GPDO[12].B.PDO
 #define D6 SIU.GPDO[13].B.PDO
-
-
-
+#define D7 SIU.GPDO[14].B.PDO
+#define D8 SIU.GPDO[15].B.PDO
 #define LeftL SIU.GPDO[16].B.PDO
 #define RightL SIU.GPDO[17].B.PDO
 #define RunL SIU.GPDO[72].B.PDO
 #define StopL SIU.GPDO[73].B.PDO
 
 /***************DIP*****************/
-#define switch1 SIU.GPDI[56].R
-#define switch2 SIU.GPDI[54].R
-#define switch3 SIU.GPDI[52].R
-#define switch4 SIU.GPDI[50].R
+#define switch1 SIU.GPDI[53].R//PD5左
+#define switch2 SIU.GPDI[54].R//PD6
+#define switch3 SIU.GPDI[55].R//PD7
+#define switch4 SIU.GPDI[56].R//PD8右
 
 
 #endif

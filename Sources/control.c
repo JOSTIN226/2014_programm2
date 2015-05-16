@@ -11,6 +11,7 @@ int update_steer_helm_basement_to_steer_helm(void);
 int g_f_big_U=0;
 int g_f_big_U_2=0;
 int counter=0;
+BYTE mode=0;
 DWORD tmp_a, tmp_b;
 
 
@@ -356,7 +357,7 @@ int abs(int data)
 /* 拨码开关模式选择                                                */
 /*                                                              */
 /*-----------------------------------------------------------------------*/
-//void ChooseMode(void)
-//{
-//	mode=15-(switch1*8+switch2*4+switch3*2+switch4);
-//}
+void ChooseMode(void)
+{
+	mode=switch1*2+switch4;
+}

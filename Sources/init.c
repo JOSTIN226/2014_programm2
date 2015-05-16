@@ -76,6 +76,9 @@ void init_led(void)
 	D2 = 1;
 	D3 = 1;
 	D5 = 1;
+	D6 = 1;
+	D7 = 1;
+	D8 = 1;
 //车灯全亮
 	LeftL = 1;	/* 0=熄灭 */
 	RightL = 1;
@@ -292,9 +295,10 @@ void init_all_and_POST(void)
 	init_pit();
 	init_led();
 
+	init_DIP();
 	init_serial_port_0();
 	init_serial_port_1();
-	//init_serial_port_2();
+	init_serial_port_2();
 	//init_ADC();
 	//init_serial_port_3();
 	init_supersonic_receive_0();
@@ -413,16 +417,14 @@ void init_all_and_POST(void)
 	/* 换屏 */
 	LCD_Fill(0x00);
 
-	/* 速度闭环测试 */
-#if 1	
+	/* 速度闭环测试 */	
 	g_f_enable_speed_control = 1;
 	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");
 	set_speed_target(0);
 	delay_ms(2000);
-
+	
 	/* 换屏 */
 	LCD_Fill(0x00);
-#endif
 #endif
 
 }

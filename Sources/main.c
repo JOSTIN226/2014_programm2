@@ -43,6 +43,7 @@ void Mode0_DebugCamera(void)
 				croadtype=RoadType;
 			}
 
+
 			if(target_offset<0)
 				LCD_write_english_string(96,1,"-");
 			else LCD_write_english_string(96,1,"+");

@@ -53,10 +53,12 @@ void disable_watchdog(void)
 void init_led(void)
 {
 	//2015第一版载LED
+#if 0	
  	SIU.PCR[40].R = 0x0203;	/* PC8  */
   	SIU.PCR[45].R = 0x0203; /* PC13 */
  	SIU.PCR[44].R = 0x0203; /* PC12 */
 	SIU.PCR[71].R = 0x0203;	/* PE7  */
+#endif
 
 #if 1
 	//第二版车灯
@@ -79,6 +81,7 @@ void init_led(void)
 	D6 = 1;
 	D7 = 1;
 	D8 = 1;
+
 //车灯全亮
 	LeftL = 1;	/* 0=熄灭 */
 	RightL = 1;
@@ -374,7 +377,7 @@ void init_all_and_POST(void)
 	{
 		suicide();
 	}
-#if 0
+#if 1
 	/* 开启RFID读卡器主动模式 */
 	if (!init_RFID_modul_type())
 	{

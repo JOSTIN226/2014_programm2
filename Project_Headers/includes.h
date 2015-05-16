@@ -61,11 +61,13 @@ typedef unsigned short word;
 
 
 
+
 ///****************第一版LED****************///
 #define D0 SIU.GPDO[40].B.PDO
 #define D1 SIU.GPDO[45].B.PDO
 #define D2 SIU.GPDO[44].B.PDO
 #define D3 SIU.GPDO[71].B.PDO
+
 
 ///****************第二版载LED&车灯****************///
 #define D5 SIU.GPDO[12].B.PDO

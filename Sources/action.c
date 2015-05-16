@@ -1,6 +1,7 @@
 ﻿#define __ACTION_C_
 #include "includes.h"
 
+
 /*-----------------------------------------------------------------------*/
 /* 整车动作控制                                                          */
 /* RFID                                                                  */
@@ -11,6 +12,7 @@ void RFID_control_car_1_action(DWORD site)
 	return;
 }
 
+
 /*-----------------------------------------------------------------------*/
 /* 整车动作控制                                                          */
 /* RFID                                                                  */
@@ -19,15 +21,12 @@ void RFID_control_car_1_action(DWORD site)
 void RFID_control_car_2_action(DWORD site)
 {
 	int i;
-	if (RFID_CARD_ID_2_2 == site)
+	if (RFID_CARD_ID_4_3== site)
 	{
-
-	}
-	else if (RFID_CARD_ID_3_1 == site)
-	{
-		//[implement][CAR_2]开始加速飞跃
+		D2=~D2;
 	}
 }
+
 /*-----------------------------------------------------------------------*/
 /* 整车动作控制                                                          */
 /* RFID                                                                  */
@@ -58,11 +57,13 @@ void WiFi_control_car_1_action(WORD cmd)
 }
 
 
+
 /*-----------------------------------------------------------------------*/
 /* 整车动作控制                                                          */
 /* WiFi                                                                  */
 /* 车2                                                                   */
 /*-----------------------------------------------------------------------*/
+
 void WiFi_control_car_2_action(WORD cmd)
 {
 	if (WIFI_CMD_NET_0_2 == cmd)
@@ -102,43 +103,15 @@ void WiFi_control_car_4_action(WORD cmd)
 {
 	return;
 }
+
 /*-----------------------------------------------------------------------*/
 /* 整车动作控制                                                          */
 /* 负责分配                                                              */
 /*-----------------------------------------------------------------------*/
 void control_car_action(void)
 {
-	if (WIFI_ADDRESS_CAR_4 == g_device_NO)
-	{
-		if (RFID_site_data.is_new_site)
-		{
-			RFID_site_data.is_new_site = 0;
-			
-			RFID_control_car_4_action(RFID_site_data.site);
-		}
-		if (g_net_control_data.is_new_cmd)
-		{
-			g_net_control_data.is_new_cmd = 0;
-			
-			WiFi_control_car_4_action(g_net_control_data.cmd);
-		}
-	}
-	else if (WIFI_ADDRESS_CAR_3 == g_device_NO)
-	{
-		if (RFID_site_data.is_new_site)
-		{
-			RFID_site_data.is_new_site = 0;
-			
-			RFID_control_car_3_action(RFID_site_data.site);
-		}
-		if (g_net_control_data.is_new_cmd)
-		{
-			g_net_control_data.is_new_cmd = 0;
-			
-			WiFi_control_car_3_action(g_net_control_data.cmd);
-		}
-	}
-	else if (WIFI_ADDRESS_CAR_2 == g_device_NO)
+	D1=0;
+	if (WIFI_ADDRESS_CAR_2 == g_device_NO)
 	{
 		if (RFID_site_data.is_new_site)
 		{
@@ -150,9 +123,10 @@ void control_car_action(void)
 		{
 			g_net_control_data.is_new_cmd = 0;
 			
-			WiFi_control_car_2_action(g_net_control_data.cmd);
+			//WiFi_control_car_2_action(g_net_control_data.cmd);
 		}
 	}
+
 	else if (WIFI_ADDRESS_CAR_1 == g_device_NO)
 	{
 		if (RFID_site_data.is_new_site)
@@ -168,4 +142,5 @@ void control_car_action(void)
 			WiFi_control_car_1_action(g_net_control_data.cmd);
 		}
 	}
+
 }

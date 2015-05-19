@@ -6,6 +6,8 @@
 #define STEER_HELM_DATA (EMIOS_0.CH[9].CBDR.R)
 
 extern FATFS fatfs1;
+extern int mode;
+
 
 /* 设备初始化状态 */
 #ifdef __INIT_C_
@@ -40,7 +42,8 @@ extern void init_pit(void);
 extern void init_encoder(void);
 extern void enable_irq(void);
 extern int is_big_endian();
-void init_DIP(void);
+extern void init_DIP(void);
+extern void init_choose_mode(void);
 
 
 

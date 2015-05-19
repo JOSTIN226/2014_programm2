@@ -40,7 +40,7 @@ byte FarCross[2];
 byte CrossFlags;
 
 //停车线识别参数
-byte StopLine=0;//停车线标志(1:表示检测到停车线)
+byte g_f_stopline=0;//停车线标志(1:表示检测到停车线)
 
 //坡道识别参数
 byte up_fnum=0;
@@ -2191,7 +2191,7 @@ void Out_Rightangle()                            //寻找直角 基于双边找�
 void DetectStopLine()
 {
 	byte irow,irow4,irowb,irowe,icolumn,count;
-	irowb=65;irowe=60;
+	irowb=55;irowe=50;//65 60
 		//if(RoadType!=Straight)	//直道上检测停车线
 		//return;
 		for(irow=irowb;irow>=irowe;irow--)
@@ -2207,10 +2207,11 @@ void DetectStopLine()
 			}
 			if(count>=30)
 			{
-			StopLine=1;
-			D3=~D3;
-			return;
+				g_f_stopline=1;
+				return;
 			}
+			else
+				g_f_stopline=0;
 
 		}
 		

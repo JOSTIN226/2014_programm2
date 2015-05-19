@@ -3,6 +3,7 @@
 
 
 FATFS fatfs1;	/* 会被文件系统引用，不得释放 */
+int mode=0;
 
 /*-----------------------------------------------------------------------*/
 /* 设置单片机的模式和时钟                                                */
@@ -110,7 +111,7 @@ void init_pit(void)
 	PIT.PITMCR.R = 0x00000001;	/* Enable PIT and configure timers to stop in debug modem */
 	PIT.CH[1].LDVAL.R = 800000;	/* 800000==10ms */
 	PIT.CH[1].TCTRL.R = 0x00000003;	/* Enable PIT1 interrupt and make PIT active to count */
-	INTC_InstallINTCInterruptHandler(PitISR,60,2);	/* PIT 1 interrupt vector with priority 1 */
+	INTC_InstallINTCInterruptHandler(PitISR,60,1);	/* PIT 1 interrupt vector with priority 1 */
 }
 
 
@@ -185,7 +186,7 @@ void initEMIOS_0Image(void)
 //	EMIOS_0.CH[3].CCR.B.EDPOL=1; //Edge Select falling edge
 //	EMIOS_0.CH[3].CCR.B.FEN=1;  //interupt enbale
 	SIU.PCR[3].R = 0x0102;  // Initialize pad for eMIOS channel Initialize pad for input 
-	INTC_InstallINTCInterruptHandler(FieldInputCapture,142,1);  
+	INTC_InstallINTCInterruptHandler(FieldInputCapture,142,2);  
 	
 	//PA7行中断捕捉上升沿
 	EMIOS_0.CH[7].CCR.B.MODE = 0x02; // Mode is SAIC, continuous 
@@ -198,6 +199,15 @@ void initEMIOS_0Image(void)
 	
 	//C10口二值化入口
 	SIU.PCR[42].R = 0x0102;  // C9口二值化入口
+}
+
+/*-----------------------------------------------------------------------*/
+/* 拨码开关模式选择                                                */
+/*                                                              */
+/*-----------------------------------------------------------------------*/
+void init_choose_mode(void)
+{
+	mode=switch1*2+switch4;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -316,7 +326,7 @@ void init_all_and_POST(void)
 
 	//init_DSPI_2();
 	//init_I2C();
-	
+	init_choose_mode();
 	
 	
 	/* 初始化SPI总线 */
@@ -377,7 +387,7 @@ void init_all_and_POST(void)
 	{
 		suicide();
 	}
-#if 1
+	
 	/* 开启RFID读卡器主动模式 */
 	if (!init_RFID_modul_type())
 	{
@@ -390,10 +400,10 @@ void init_all_and_POST(void)
 		LCD_P8x16Str(0, 6, (BYTE*)"RFID..NOK");
 		suicide();
 	}
-#endif	
 	delay_ms(1000);
 	/* 换屏 */
 	LCD_Fill(0x00);
+
 
 	/* 读取舵机参数 */
 	LCD_P8x16Str(0, 0, (BYTE*)"StH.L=");
@@ -413,7 +423,10 @@ void init_all_and_POST(void)
 	LCD_PrintoutInt(48, 4, data_steer_helm_basement.center);
 	set_steer_helm_basement(data_steer_helm_basement.center);
 
-	set_pos_target();
+	/* 读取mode号 */
+	LCD_P8x16Str(0, 6, (BYTE*)"MODE=");
+	LCD_PrintoutInt(40, 6, mode);
+	//set_pos_target();
 	delay_ms(1000);
 
 

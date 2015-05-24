@@ -9,7 +9,7 @@ word crow = 0;           //行数计数器
 byte prow = 0;  	  	    //摄像头采样当前行
 byte pcolumn = 0;        //摄像头当前列
 
-byte RowSAIC_DelayTime=76;   //图像延时时间82//43
+byte RowSAIC_DelayTime=88;   //图像延时时间82//43
 
 //采样结束标志
 byte fieldover = 0;                //一场采样结束标志符 
@@ -65,14 +65,14 @@ void FieldInputCapture(void)
 {	
 	EMIOS_0.CH[3].CCR.B.FEN=0;  //关闭场中断 
 	prow=0;crow=0;
-	D8=~D8;
 	EMIOS_0.CH[7].CSR.B.FLAG = 1;//清行中断
 	EMIOS_0.CH[7].CCR.B.FEN=1;	//开启行中断
 }
 
 
 void RowInputCapture(void) 
-{	
+{
+	D7=~D7;
 	EMIOS_0.CH[7].CSR.B.FLAG = 1;
 	++crow;
 	//采样开始
@@ -83,7 +83,7 @@ void RowInputCapture(void)
 	    /************************
 	    	延时消隐区*****************************/
 
-
+	    D8=0;
 	    g_pix[ROW-prow][82]=SIU.GPDI[42].R; asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");	//汇编，延时
 		g_pix[ROW-prow][81]=SIU.GPDI[42].R; asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
 		g_pix[ROW-prow][80]=SIU.GPDI[42].R; asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
@@ -174,13 +174,13 @@ void RowInputCapture(void)
 		g_pix[ROW-prow][2]=SIU.GPDI[42].R; asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
 		g_pix[ROW-prow][1]=SIU.GPDI[42].R; asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
 		g_pix[ROW-prow][0]=SIU.GPDI[42].R; asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");	
-	   	++prow;
+		D8=1;
+		++prow;
 		if(prow==ROWS)
 		{
 			EMIOS_0.CH[7].CCR.B.FEN=0; 	//关闭行中断
 			fieldover=1; 
 		}
-		D7=~D7;
 	}
 }
 

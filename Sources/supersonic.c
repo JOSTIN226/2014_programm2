@@ -5,20 +5,20 @@
 //**********************超声0***************************
 void init_supersonic_trigger_0(void)
 {
-	EMIOS_0.CH[0].CCR.B.BSL = 0x3;
-	EMIOS_0.CH[0].CCR.B.UCPRE=0;
-	EMIOS_0.CH[0].CCR.B.UCPEN = 1;
-	EMIOS_0.CH[0].CCR.B.FREN = 0;
-	EMIOS_0.CH[0].CCR.B.EDPOL=0;
-	EMIOS_0.CH[0].CCR.B.EDSEL = 0;
+	EMIOS_0.CH[0].CCR.B.BSL = 0x3;//bus selected as interal counter
+	EMIOS_0.CH[0].CCR.B.UCPRE=0;//internalprescaler clock divider=1
+	EMIOS_0.CH[0].CCR.B.UCPEN = 1;//prescaler enable
+	EMIOS_0.CH[0].CCR.B.FREN = 0;//freeze normal
+	EMIOS_0.CH[0].CCR.B.EDPOL=0;//A match on comparator A clears the output flip-flop, while a match on comparator B sets it 
+	EMIOS_0.CH[0].CCR.B.EDSEL = 0;//The EDPOL value is transferred to the output flip-flop
 	EMIOS_0.CH[0].CCR.B.FEN=0;
 	
 	EMIOS_0.CH[0].CADR.B;
-	SIU.PCR[0].R =0x0603;	//trigger A0 65us
+	SIU.PCR[0].R =0x0603;	
 	
-	EMIOS_0.CH[0].CADR.B.CADR = 0x00ff;
+	EMIOS_0.CH[0].CADR.B.CADR = 0x00ff;//trigger A0 65us
 	
-	EMIOS_0.CH[0].CCR.B.MODE = 0x03;
+	EMIOS_0.CH[0].CCR.B.MODE = 0x03;//single action output compare
 	tmp_time.R = 0x0000;
 }
 

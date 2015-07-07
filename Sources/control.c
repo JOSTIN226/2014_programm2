@@ -4,7 +4,8 @@
 
 int g_f_pit = 0;
 int g_f_enable_mag_steer_control = 0;
-int g_f_enable_speed_control = 0;	/* 启用速度控制标志位 */
+int g_f_enable_speed_control = 0;	/* 启用闭环速度控制标志位 */
+int g_f_enable_pwm_control = 0;	/* 启用开环速度控制标志位 */
 int g_f_enable_supersonic=0;	/* 启用超声探测标志位 */
 int speed = 0;
 int update_steer_helm_basement_to_steer_helm(void);
@@ -24,12 +25,56 @@ DWORD tmp_a, tmp_b;
 /*-----------------------------------------------------------------------*/
 void PitISR(void)
 {
-	g_f_pit = 1;
-	//D0=~D0;
-	g_time_basis_PIT++;	/* 计时 */
-	counter++;	
+//	g_f_pit = 1;
+//	D0=~D0;
+//	g_time_basis_PIT++;	/* 计时 */
+//	counter++;	
+	
+//	get_speed_now();//光编读值
 
-	/* start:encoder */
+	/* 开始执行速度控制算法 */
+//	if (g_f_enable_speed_control)
+//	{
+//		contorl_speed_encoder_pid();
+//	}
+//	if(g_f_enable_pwm_control)
+//	{
+//		set_speed_pwm(data_speed_settings.speed_pwm);
+//	}
+//	if(counter==3)
+//	{
+//		if (g_f_enable_supersonic)
+//		{
+//			trigger_supersonic_0();
+//			get_supersonic_time_0();
+//			LCD_Write_Num(96,4,(ABS((WORD)(tmp_time.R))),5);
+//			trigger_supersonic_1();
+//			get_supersonic_time_1();
+//			LCD_Write_Num(96,5,(ABS((WORD)(tmp_time.R))/100),5);
+//		}
+//		counter=0;
+//	}
+	
+#if 0
+	/* 发送位置 */
+	{
+		BYTE data[7];
+		
+		generate_remote_net_frame_to_send_site(WIFI_NET_CMD_CAR_REPORT_CURRENT_SITE, RFID_site_data.site, data);
+		generate_remote_frame(WIFI_CMD_NET, data, sizeof(data));
+	}
+#endif
+//	EMIOS_0.CH[3].CSR.B.FLAG = 1;//清场中断标志位
+	D5=~D5;
+	D7=~D7;
+	PIT.CH[1].TFLG.B.TIF = 1;	// MPC56xxB/P/S: Clear PIT 1 flag by writing 1
+}
+
+/*-----------------------------------------------------------------------*/
+/* 获得光编当前速度                                                                    */
+/*-----------------------------------------------------------------------*/
+void get_speed_now()
+{
 	data_encoder.is_forward = SIU.GPDI[46].B.PDI;//PC14
 	data_encoder.cnt_old = data_encoder.cnt_new;
 	data_encoder.cnt_new = (WORD)EMIOS_0.CH[24].CCNTR.R;//PD12
@@ -41,38 +86,7 @@ void PitISR(void)
 	{
 		data_encoder.speed_now = 0xffff - (data_encoder.cnt_old - data_encoder.cnt_new);
 	}
-	/* end:encoder */
-
-	/* 开始执行速度控制算法 */
-	if (g_f_enable_speed_control)
-	{
-		//SpeedControl();//不同路段PID,尚未调,不可用
-		contorl_speed_encoder_pid();
-	}
-//	if(counter==3)
-//	{
-//		if (g_f_enable_supersonic)
-//		{
-//			trigger_supersonic_0();
-//			get_supersonic_time_0();
-//			LCD_Write_Num(96,6,ABS((WORD)(tmp_time.R)),5);
-//		}
-//		counter=0;
-//	}
-#if 0
-	/* 发送位置 */
-	{
-		BYTE data[7];
-		
-		generate_remote_net_frame_to_send_site(WIFI_NET_CMD_CAR_REPORT_CURRENT_SITE, RFID_site_data.site, data);
-		generate_remote_frame(WIFI_CMD_NET, data, sizeof(data));
-	}
-#endif
-	EMIOS_0.CH[3].CSR.B.FLAG = 1;//清场中断标志位
-	PIT.CH[1].TFLG.B.TIF = 1;	// MPC56xxB/P/S: Clear PIT 1 flag by writing 1
 }
-
-
 /*-----------------------------------------------------------------------*/
 /* 设置速度PWM                                                                    */
 /*-----------------------------------------------------------------------*/
@@ -193,6 +207,13 @@ void contorl_speed_encoder_pid(void)
 void set_speed_target(SWORD speed_target)
 {
 	data_speed_settings.speed_target = speed_target;
+}
+/*-----------------------------------------------------------------------*/
+/* 设置目标占空比                                                                      */
+/*-----------------------------------------------------------------------*/
+void set_pwm_target(SWORD speed_pwm)
+{
+	data_speed_settings.speed_pwm = speed_pwm;
 }
 
 

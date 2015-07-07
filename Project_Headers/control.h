@@ -27,6 +27,8 @@
 extern int g_f_pit;
 extern int g_f_enable_mag_steer_control;
 extern int g_f_enable_speed_control;
+extern int g_f_enable_pwm_control;	/* 启用开环速度控制标志位 */
+
 extern int g_f_enable_rad_control_1;
 extern int g_f_enable_rad_control_2;
 extern int g_f_enable_speed_control_2;
@@ -146,8 +148,10 @@ WORD helm_data_record = STEER_HELM_CENTER;
 
 extern void PitISR(void);
 extern void set_speed_pwm(int16_t speed_pwm);
+extern void get_speed_now();
 extern void contorl_speed_encoder_bb(void);
 extern void set_speed_target(SWORD speed_target);
+extern void set_pwm_target(SWORD speed_pwm);
 extern void set_speed_KP(WORD kp);
 extern void set_speed_KI(WORD ki);
 extern void set_speed_KD(WORD kd);

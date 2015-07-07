@@ -23,6 +23,7 @@
 #define WIFI_CMD_GET_GYRO_INTEGRAL_DATA (0x0014)	/* 获取陀螺仪积分值 */
 #define WIFI_CMD_UNGET_GYRO_INTEGRAL_DATA (0x0015)	/* 停止获取陀螺仪积分值 */
 #define WIFI_CMD_STOP_SPEED (0x0016)	/* 车辆停止 */
+#define WIFI_CMD_SET_MOTOR_PWM_TARGET (0x0017)
 
 
 #define WIFI_CMD_NET (0x0100)	/* 封装网络数据 */
@@ -78,6 +79,7 @@ extern BYTE remote_frame_data[];
 extern int g_remote_frame_state;
 extern BYTE g_device_NO;
 extern int g_start_all;
+extern SWORD ans;
 
 /* 远程控制标志位 */
 #ifdef __WIFI_C_

@@ -58,6 +58,8 @@ typedef unsigned short word;
 #include "video.h"
 #include "camcontrol.h"
 #include "analyse.h"
+#include "stepmotor.h"
+
 
 
 
@@ -74,10 +76,7 @@ typedef unsigned short word;
 #define D6 SIU.GPDO[13].B.PDO
 #define D7 SIU.GPDO[14].B.PDO
 #define D8 SIU.GPDO[15].B.PDO
-#define LeftL SIU.GPDO[16].B.PDO
-#define RightL SIU.GPDO[17].B.PDO
-#define RunL SIU.GPDO[72].B.PDO
-#define StopL SIU.GPDO[73].B.PDO
+
 
 /***************DIP*****************/
 #define switch1 SIU.GPDI[53].R//PD5左

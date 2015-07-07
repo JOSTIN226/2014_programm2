@@ -8,6 +8,7 @@ int g_start_all=0;
 BYTE remote_frame_data[REMOTE_FRAME_LENGTH];
 BYTE remote_frame_data_send[REMOTE_FRAME_LENGTH];
 BYTE g_device_NO = WIFI_ADDRESS_CAR_2;	/* 设备号 即WiFi地址 */
+SWORD ans=0;
 
 
 /*-----------------------------------------------------------------------*/
@@ -43,13 +44,17 @@ void execute_remote_cmd(const BYTE *data)
 		if (!update_steer_helm_basement_to_steer_helm())
 		{
 //			SWORD tmp_read_rad_xyz = (SWORD)read_rad_xyz;	/* 暂存陀螺仪读取标志位 */
-//			
+			D5=~D5;
+			D8=~D8;
 //			read_rad_xyz = 0;	/* 暂存禁用陀螺仪读取，防止干扰TF卡读写 */
-//			write_steer_helm_data_to_TF();	/* 大约60ms */
+			ans=write_steer_helm_data_to_TF();	/* 大约60ms */
+			LCD_PrintoutInt(72, 4, ans);
 //			read_rad_xyz = tmp_read_rad_xyz;	/* 恢复陀螺仪读取标志位 */
 		}
 		else
 		{
+			D6=~D6;
+			D7=~D7;
 			//舵机数据不合理
 		}
 		break;
@@ -61,6 +66,9 @@ void execute_remote_cmd(const BYTE *data)
 		/* 电机调参 */
 		case WIFI_CMD_SET_MOTOR_TARGET :
 		set_speed_target(*((SWORD *)(&(data[2]))));
+		break;
+		case WIFI_CMD_SET_MOTOR_PWM_TARGET :
+		set_pwm_target(*((SWORD *)(&(data[2]))));
 		break;
 		case WIFI_CMD_STOP_SPEED :
 		set_speed_target((SWORD)0);

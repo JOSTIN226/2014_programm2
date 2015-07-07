@@ -213,7 +213,7 @@ void FindBlackLine(void)
 	
 	DetectStopLine();
 //	ReBuildWeight();				//未用，修复直道入弯
-	TargetOffset();					//目标控制量
+//	TargetOffset();					//目标控制量
 }
 //*   *********************找线初始化*********************************    *
 void Line_Init(byte lr) //√（初始化找线变量）

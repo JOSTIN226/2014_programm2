@@ -62,32 +62,22 @@ void init_led(void)
 #endif
 
 #if 1
-	//第二版车灯
- 	SIU.PCR[16].R = 0x0203;	/* PB0  */
-  	SIU.PCR[17].R = 0x0203; /* PB1 */
- 	SIU.PCR[72].R = 0x0203; /* PE8 */
-	SIU.PCR[73].R = 0x0203;	/* PE9  */	
-
 	//第二版板载LED
 	SIU.PCR[12].R = 0x0203;/* PA12  */
 	SIU.PCR[13].R = 0x0203;/* PA13  */
 	SIU.PCR[14].R = 0x0203;/* PA14  */
 	SIU.PCR[15].R = 0x0203;/* PA15  */
 #endif
-	D0 = 1;	/* 1=熄灭 */
-	D1 = 1;
-	D2 = 1;
-	D3 = 1;
+//	D0 = 1;	/* 1=熄灭 */
+//	D1 = 1;
+//	D2 = 1;
+//	D3 = 1;
 	D5 = 1;
 	D6 = 1;
 	D7 = 1;
 	D8 = 1;
 
-//车灯全亮
-	LeftL = 1;	/* 0=熄灭 */
-	RightL = 1;
-	StopL = 1;
-	RunL = 1;
+
 }
 
 
@@ -210,6 +200,120 @@ void init_choose_mode(void)
 	mode=switch1*2+switch4;
 }
 
+/*----------------------------------------------------------------------*/
+/*测试+初始化TF卡                                             	 */
+/*初始化状态OLED显示*/
+/*----------------------------------------------------------------------*/
+void test_init_TF()
+{
+	/* TF卡 */
+	TCHAR *path = "0:";
+	
+	LCD_P8x16Str(0,0, (BYTE*)"TF..");
+		if (!SD_init())
+		{
+			/* 挂载TF卡文件系统 */
+			if (FR_OK == f_mount(&fatfs1, path, 1))
+			{
+				/* 文件读写测试 */
+				if (!test_file_system())
+				{
+					g_devices_init_status.TFCard_is_OK = 1;
+				}
+			}
+		}
+		if (g_devices_init_status.TFCard_is_OK)
+		{
+			LCD_P8x16Str(0,0, (BYTE*)"TF..OK");
+		}
+		else
+		{
+			LCD_P8x16Str(0,0, (BYTE*)"TF..NOK");
+			suicide();
+		}
+}
+/*----------------------------------------------------------------------*/
+/*读取设备号                                             	 */
+/*设备号OLED显示				*/
+/*失败则自杀					*/
+/*----------------------------------------------------------------------*/
+void read_device_no()
+{
+	LCD_P8x16Str(0, 4, (BYTE*)"DeviceNo=");
+	if (!read_device_no_from_TF())
+	{
+		if (WIFI_ADDRESS_WITHOUT_INIT != g_device_NO)
+		{
+			LCD_PrintoutInt(72, 4, g_device_NO);
+		}
+		else
+		{
+			suicide();
+		}
+	}
+	else
+	{
+		suicide();
+	}
+
+}
+/*----------------------------------------------------------------------*/
+/*启动RFID主动读卡模式                                            	 */
+/*状态OLED显示				*/
+/*失败则自杀					*/
+/*----------------------------------------------------------------------*/
+void test_init_RFID()
+{
+	if (!init_RFID_modul_type())
+	{
+		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 1;
+		LCD_P8x16Str(0, 6, (BYTE*)"RFID..OK");
+	}
+	else
+	{
+		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 0;
+		LCD_P8x16Str(0, 6, (BYTE*)"RFID..NOK");
+		suicide();
+	}
+}
+/*----------------------------------------------------------------------*/
+/*读取舵机中左右参数                                            	 */
+/*状态OLED显示				*/
+/*----------------------------------------------------------------------*/
+void read_display_helm()
+{
+	LCD_P8x16Str(0, 0, (BYTE*)"StH.L=");
+	if (read_steer_helm_data_from_TF())
+	{
+		suicide();
+	}
+	update_steer_helm_basement_to_steer_helm();
+	LCD_PrintoutInt(48, 0, data_steer_helm_basement.left_limit);
+	set_steer_helm_basement(data_steer_helm_basement.left_limit);
+	delay_ms(500);
+	LCD_P8x16Str(0, 2, (BYTE*)"StH.R=");
+	LCD_PrintoutInt(48, 2, data_steer_helm_basement.right_limit);
+	set_steer_helm_basement(data_steer_helm_basement.right_limit);
+	delay_ms(500);
+	LCD_P8x16Str(0, 4, (BYTE*)"StH.C=");
+	LCD_PrintoutInt(48, 4, data_steer_helm_basement.center);
+	set_steer_helm_basement(data_steer_helm_basement.center);
+}
+/*----------------------------------------------------------------------*/
+/*读取拨码开关选择模式                                            	 */
+/*状态OLED显示				*/
+/*----------------------------------------------------------------------*/
+void read_DIP_mode()
+{
+	LCD_P8x16Str(0, 6, (BYTE*)"MODE=");
+	LCD_PrintoutInt(40, 6, mode);
+}
+void init_speed_control()
+{
+	g_f_enable_speed_control = 1;
+	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");
+	set_speed_target(0);
+}
 /*-----------------------------------------------------------------------*/
 /* 使能外部中断                                                          */
 /* 总开关                                                                */
@@ -298,31 +402,33 @@ void delay_ms(DWORD ms)
 void init_all_and_POST(void)
 {
 	int i = 0;
-	/* TF卡 */
-	TCHAR *path = "0:";
+
 	
 	disable_watchdog();
 	init_modes_and_clock();
 	initEMIOS_0MotorAndSteer();
-	initEMIOS_0Image();/* 摄像头输入中断初始化 */
+//	initEMIOS_0Image();/* 摄像头输入中断初始化 */
 	init_pit();
 	init_led();
-
 	init_DIP();
-	init_serial_port_0();
-	init_serial_port_1();
-	init_serial_port_2();
-	//init_ADC();
+	
+	init_motorpit();
+	init_Stepmotor();
+	
+//	init_serial_port_0();
+//	init_serial_port_1();
+//	init_serial_port_2();
+//	init_ADC();
 	//init_serial_port_3();
-	init_supersonic_receive_0();
+//	init_supersonic_receive_0();
 //	init_supersonic_receive_1();
 //	init_supersonic_receive_2();
 //	init_supersonic_receive_3();
-	init_supersonic_trigger_0();
+//	init_supersonic_trigger_0();
 //	init_supersonic_trigger_1();
 //	init_supersonic_trigger_2();
 //	init_supersonic_trigger_3();
-	init_optical_encoder();
+//	init_optical_encoder();
 
 	//init_DSPI_2();
 	//init_I2C();
@@ -330,118 +436,52 @@ void init_all_and_POST(void)
 	
 	
 	/* 初始化SPI总线 */
-	init_DSPI_1();
+//	init_DSPI_1();
 	
 	/* 开启外部总中断 */
 	enable_irq();
 	
 	/* 初始化显示屏 */
-	initLCD();
-
-	//LCD_DISPLAY();
-	LCD_Fill(0xFF);	/* 亮屏 */
-	delay_ms(50);
-	LCD_Fill(0x00);	/* 黑屏 */
-	delay_ms(50);
-#if 1	
+//	initLCD();
+//
+//	//LCD_DISPLAY();
+//	LCD_Fill(0xFF);	/* 亮屏 */
+//	delay_ms(50);
+//	LCD_Fill(0x00);	/* 黑屏 */
+//	delay_ms(50);
+#if 0	
 	/* 初始化TF卡 */
-
-	LCD_P8x16Str(0,0, (BYTE*)"TF..");
-	if (!SD_init())
-	{
-		/* 挂载TF卡文件系统 */
-		if (FR_OK == f_mount(&fatfs1, path, 1))
-		{
-			/* 文件读写测试 */
-			if (!test_file_system())
-			{
-				g_devices_init_status.TFCard_is_OK = 1;
-			}
-		}
-	}
-	if (g_devices_init_status.TFCard_is_OK)
-	{
-		LCD_P8x16Str(0,0, (BYTE*)"TF..OK");
-	}
-	else
-	{
-		LCD_P8x16Str(0,0, (BYTE*)"TF..NOK");
-		suicide();
-	}
+	test_init_TF();
 	
 	/* 读取设备号 */
-
-	LCD_P8x16Str(0, 4, (BYTE*)"DeviceNo=");
-	if (!read_device_no_from_TF())
-	{
-		if (WIFI_ADDRESS_WITHOUT_INIT != g_device_NO)
-		{
-			LCD_PrintoutInt(72, 4, g_device_NO);
-		}
-		else
-		{
-			suicide();
-		}
-	}
-	else
-	{
-		suicide();
-	}
+	read_device_no();
 	
 	/* 开启RFID读卡器主动模式 */
-	if (!init_RFID_modul_type())
-	{
-		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 1;
-		LCD_P8x16Str(0, 6, (BYTE*)"RFID..OK");
-	}
-	else
-	{
-		g_devices_init_status.RFIDCard_energetic_mode_enable_is_OK = 0;
-		LCD_P8x16Str(0, 6, (BYTE*)"RFID..NOK");
-		suicide();
-	}
+	test_init_RFID();
+	
 	delay_ms(1000);
 	/* 换屏 */
 	LCD_Fill(0x00);
 
 
 	/* 读取舵机参数 */
-	LCD_P8x16Str(0, 0, (BYTE*)"StH.L=");
-	if (read_steer_helm_data_from_TF())
-	{
-		suicide();
-	}
-	update_steer_helm_basement_to_steer_helm();
-	LCD_PrintoutInt(48, 0, data_steer_helm_basement.left_limit);
-	set_steer_helm_basement(data_steer_helm_basement.left_limit);
-	delay_ms(500);
-	LCD_P8x16Str(0, 2, (BYTE*)"StH.R=");
-	LCD_PrintoutInt(48, 2, data_steer_helm_basement.right_limit);
-	set_steer_helm_basement(data_steer_helm_basement.right_limit);
-	delay_ms(500);
-	LCD_P8x16Str(0, 4, (BYTE*)"StH.C=");
-	LCD_PrintoutInt(48, 4, data_steer_helm_basement.center);
-	set_steer_helm_basement(data_steer_helm_basement.center);
+	read_display_helm();
+#endif
+	
+	/* 读取拨码开关模式号 */
+	read_DIP_mode();
 
-	/* 读取mode号 */
-	LCD_P8x16Str(0, 6, (BYTE*)"MODE=");
-	LCD_PrintoutInt(40, 6, mode);
-	//set_pos_target();
 	delay_ms(1000);
-
-
 	/* 换屏 */
 	LCD_Fill(0x00);
 
-	/* 速度闭环测试 */	
-	g_f_enable_speed_control = 1;
-	LCD_P8x16Str(0, 4, (BYTE*)"S.T=0");
-	set_speed_target(0);
-	delay_ms(2000);
+	/* 速度闭环开启及测试 速度=0 */	
+//	init_speed_control();
+//	g_f_enable_supersonic=1;
+//	delay_ms(2000);
 	
 	/* 换屏 */
-	LCD_Fill(0x00);
-#endif
+//	LCD_Fill(0x00);
 
 }
 //

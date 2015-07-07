@@ -44,6 +44,18 @@ extern void enable_irq(void);
 extern int is_big_endian();
 extern void init_DIP(void);
 extern void init_choose_mode(void);
+void test_init_TF();
+void read_device_no();
+void test_init_RFID();
+void read_display_helm();
+void read_DIP_mode();
+void init_speed_control();
+
+
+
+
+
+
 
 
 

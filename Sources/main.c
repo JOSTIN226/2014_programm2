@@ -37,7 +37,14 @@ void Mode0_DebugCamera(void)
 			fieldover=0;
 			
 			FindBlackLine();
-			Display_Video();
+
+			//Display_Video();
+			
+			if(RoadType!=croadtype)
+			{
+				//serial_port_1_TX(RoadType);
+				croadtype=RoadType;
+			}
 
 
 			if(target_offset<0)
@@ -46,10 +53,16 @@ void Mode0_DebugCamera(void)
 			LCD_Write_Num(106,1,ABS(target_offset),2);
 			LCD_Write_Num(106,2,RoadType,2);
 			SteerControl();
-
+//
 			EMIOS_0.CH[3].CSR.B.FLAG = 1;
 			EMIOS_0.CH[3].CCR.B.FEN=1;
 		}
+//		if (REMOTE_FRAME_STATE_OK == g_remote_frame_state)   //遥控
+//				{
+//					g_remote_frame_state = REMOTE_FRAME_STATE_NOK;
+//					
+//					execute_remote_cmd(remote_frame_data+5);
+//				}
 	}
 }
 
